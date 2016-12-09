@@ -10,6 +10,8 @@ import com.webshell.oauth.OAuthCallback;
 import com.webshell.oauth.OAuthData;
 import com.webshell.oauth.OAuthException;
 
+import org.json.JSONObject;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         //TODO move key to config file
         oauth.initialize("_7jIv5Jjoi4hrfHtVwTiuTZULwQ");
 
+        JSONObject opts = new JSONObject();
+
 //        oauth.popup();
         try {
             oauth.popup("twitter", new OAuthCallback() {
@@ -42,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Log.i(TAG, "authentificationFinished: oAuthData" + oAuthData.toString());
                 }
-            },null,getApplicationContext());
+            },opts,this);
         } catch (OAuthException e) {
             Log.e(TAG, "login: "+  e.getMessage());
         }
