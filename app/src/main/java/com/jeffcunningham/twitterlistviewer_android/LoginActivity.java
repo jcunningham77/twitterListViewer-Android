@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.webshell.oauth.OAuth;
 import com.webshell.oauth.OAuthCallback;
 import com.webshell.oauth.OAuthData;
@@ -14,8 +16,13 @@ import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
+
+    // todo: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = BuildConfig.TWITTER_KEY;
+    private static final String TWITTER_SECRET = BuildConfig.TWITTER_SECRET;
 
     private static final String TAG = "LoginActivity";
 
@@ -23,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Log.i(TAG, "onCreate: TWITTER_KEY" + TWITTER_KEY);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         ButterKnife.bind(this);
     }
 
