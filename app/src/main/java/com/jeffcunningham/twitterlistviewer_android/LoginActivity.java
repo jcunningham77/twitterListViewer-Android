@@ -6,6 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
+import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
+import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model.List;
+import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model.ListMembershipDTO;
+import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -14,6 +19,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,6 +50,40 @@ public class LoginActivity extends AppCompatActivity {
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+
+
+
+                TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
+                ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
+
+                Call<ListMembershipDTO> listMembership= listOwnershipService.listOwnershipByScreenName(session.getUserName());
+
+                listMembership.enqueue(new Callback<ListMembershipDTO>(){
+
+
+                    @Override
+                    public void success(Result<ListMembershipDTO> result) {
+
+                        for (List list : result.data.getLists()){
+                            Log.i(TAG, "success: list = " + list.getFullName());
+                        }
+                    }
+
+                    @Override
+                    public void failure(TwitterException exception) {
+
+                        Log.e(TAG, "failure: " + exception.getMessage());
+                        Log.getStackTraceString(exception);
+
+                    }
+                });
+
+
+
+                Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
+//                listsIntent.putExtra("SESSION",session);
+                startActivity(listsIntent);
+
             }
             @Override
             public void failure(TwitterException exception) {
