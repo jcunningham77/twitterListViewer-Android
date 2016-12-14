@@ -1,5 +1,5 @@
 
-package com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model;
+package com.jeffcunningham.twitterlistviewer_android.model.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,7 +8,7 @@ public class List {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Long id;
     @SerializedName("id_str")
     @Expose
     private String idStr;
@@ -51,7 +51,7 @@ public class List {
      * @return
      *     The id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -60,7 +60,7 @@ public class List {
      * @param id
      *     The id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

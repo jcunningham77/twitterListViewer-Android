@@ -1,35 +1,14 @@
 
-package com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model;
+package com.jeffcunningham.twitterlistviewer_android.model.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Entities {
 
-    @SerializedName("url")
-    @Expose
-    private Url url;
     @SerializedName("description")
     @Expose
     private Description description;
-
-    /**
-     * 
-     * @return
-     *     The url
-     */
-    public Url getUrl() {
-        return url;
-    }
-
-    /**
-     * 
-     * @param url
-     *     The url
-     */
-    public void setUrl(Url url) {
-        this.url = url;
-    }
 
     /**
      * 

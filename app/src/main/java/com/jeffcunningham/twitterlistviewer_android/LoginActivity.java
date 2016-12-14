@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.jeffcunningham.twitterlistviewer_android.model.dto.List;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
-import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model.List;
-import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model.ListMembershipDTO;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -56,15 +55,15 @@ public class LoginActivity extends AppCompatActivity {
                 TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
                 ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
 
-                Call<ListMembershipDTO> listMembership= listOwnershipService.listOwnershipByScreenName(session.getUserName());
+                Call<java.util.List<List>> listMembership= listOwnershipService.listOwnershipByScreenName(session.getUserName());
 
-                listMembership.enqueue(new Callback<ListMembershipDTO>(){
+                listMembership.enqueue(new Callback<java.util.List<List>>(){
 
 
                     @Override
-                    public void success(Result<ListMembershipDTO> result) {
+                    public void success(Result<java.util.List<List>> result) {
 
-                        for (List list : result.data.getLists()){
+                        for (List list : result.data){
                             Log.i(TAG, "success: list = " + list.getFullName());
                         }
                     }

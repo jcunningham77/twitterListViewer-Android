@@ -1,5 +1,5 @@
 
-package com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.model;
+package com.jeffcunningham.twitterlistviewer_android.model.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,7 +26,7 @@ public class User {
     private String description;
     @SerializedName("url")
     @Expose
-    private String url;
+    private Object url;
     @SerializedName("entities")
     @Expose
     private Entities entities;
@@ -50,10 +50,10 @@ public class User {
     private Integer favouritesCount;
     @SerializedName("utc_offset")
     @Expose
-    private Integer utcOffset;
+    private Object utcOffset;
     @SerializedName("time_zone")
     @Expose
-    private String timeZone;
+    private Object timeZone;
     @SerializedName("geo_enabled")
     @Expose
     private Boolean geoEnabled;
@@ -72,6 +72,9 @@ public class User {
     @SerializedName("is_translator")
     @Expose
     private Boolean isTranslator;
+    @SerializedName("is_translation_enabled")
+    @Expose
+    private Boolean isTranslationEnabled;
     @SerializedName("profile_background_color")
     @Expose
     private String profileBackgroundColor;
@@ -90,9 +93,6 @@ public class User {
     @SerializedName("profile_image_url_https")
     @Expose
     private String profileImageUrlHttps;
-    @SerializedName("profile_banner_url")
-    @Expose
-    private String profileBannerUrl;
     @SerializedName("profile_link_color")
     @Expose
     private String profileLinkColor;
@@ -108,6 +108,9 @@ public class User {
     @SerializedName("profile_use_background_image")
     @Expose
     private Boolean profileUseBackgroundImage;
+    @SerializedName("has_extended_profile")
+    @Expose
+    private Boolean hasExtendedProfile;
     @SerializedName("default_profile")
     @Expose
     private Boolean defaultProfile;
@@ -123,6 +126,9 @@ public class User {
     @SerializedName("notifications")
     @Expose
     private Boolean notifications;
+    @SerializedName("translator_type")
+    @Expose
+    private String translatorType;
 
     /**
      * 
@@ -237,7 +243,7 @@ public class User {
      * @return
      *     The url
      */
-    public String getUrl() {
+    public Object getUrl() {
         return url;
     }
 
@@ -246,7 +252,7 @@ public class User {
      * @param url
      *     The url
      */
-    public void setUrl(String url) {
+    public void setUrl(Object url) {
         this.url = url;
     }
 
@@ -381,7 +387,7 @@ public class User {
      * @return
      *     The utcOffset
      */
-    public Integer getUtcOffset() {
+    public Object getUtcOffset() {
         return utcOffset;
     }
 
@@ -390,7 +396,7 @@ public class User {
      * @param utcOffset
      *     The utc_offset
      */
-    public void setUtcOffset(Integer utcOffset) {
+    public void setUtcOffset(Object utcOffset) {
         this.utcOffset = utcOffset;
     }
 
@@ -399,7 +405,7 @@ public class User {
      * @return
      *     The timeZone
      */
-    public String getTimeZone() {
+    public Object getTimeZone() {
         return timeZone;
     }
 
@@ -408,7 +414,7 @@ public class User {
      * @param timeZone
      *     The time_zone
      */
-    public void setTimeZone(String timeZone) {
+    public void setTimeZone(Object timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -523,6 +529,24 @@ public class User {
     /**
      * 
      * @return
+     *     The isTranslationEnabled
+     */
+    public Boolean getIsTranslationEnabled() {
+        return isTranslationEnabled;
+    }
+
+    /**
+     * 
+     * @param isTranslationEnabled
+     *     The is_translation_enabled
+     */
+    public void setIsTranslationEnabled(Boolean isTranslationEnabled) {
+        this.isTranslationEnabled = isTranslationEnabled;
+    }
+
+    /**
+     * 
+     * @return
      *     The profileBackgroundColor
      */
     public String getProfileBackgroundColor() {
@@ -631,24 +655,6 @@ public class User {
     /**
      * 
      * @return
-     *     The profileBannerUrl
-     */
-    public String getProfileBannerUrl() {
-        return profileBannerUrl;
-    }
-
-    /**
-     * 
-     * @param profileBannerUrl
-     *     The profile_banner_url
-     */
-    public void setProfileBannerUrl(String profileBannerUrl) {
-        this.profileBannerUrl = profileBannerUrl;
-    }
-
-    /**
-     * 
-     * @return
      *     The profileLinkColor
      */
     public String getProfileLinkColor() {
@@ -739,6 +745,24 @@ public class User {
     /**
      * 
      * @return
+     *     The hasExtendedProfile
+     */
+    public Boolean getHasExtendedProfile() {
+        return hasExtendedProfile;
+    }
+
+    /**
+     * 
+     * @param hasExtendedProfile
+     *     The has_extended_profile
+     */
+    public void setHasExtendedProfile(Boolean hasExtendedProfile) {
+        this.hasExtendedProfile = hasExtendedProfile;
+    }
+
+    /**
+     * 
+     * @return
      *     The defaultProfile
      */
     public Boolean getDefaultProfile() {
@@ -824,6 +848,24 @@ public class User {
      */
     public void setNotifications(Boolean notifications) {
         this.notifications = notifications;
+    }
+
+    /**
+     * 
+     * @return
+     *     The translatorType
+     */
+    public String getTranslatorType() {
+        return translatorType;
+    }
+
+    /**
+     * 
+     * @param translatorType
+     *     The translator_type
+     */
+    public void setTranslatorType(String translatorType) {
+        this.translatorType = translatorType;
     }
 
 }
