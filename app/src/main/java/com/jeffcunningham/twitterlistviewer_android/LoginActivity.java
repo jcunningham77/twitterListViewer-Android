@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
 //    @BindView(R.id.twitter_login_button)
-    TwitterLoginButton loginButton;
+    TwitterLoginButton twitterLoginButton;
 
 
     @Override
@@ -32,8 +32,10 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        loginButton = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
-        loginButton.setCallback(new Callback<TwitterSession>() {
+        twitterLoginButton = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
+        //dont activate until logged in w TLV
+        twitterLoginButton.setActivated(false);
+        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
 
@@ -41,11 +43,6 @@ public class LoginActivity extends AppCompatActivity {
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-
-
-
-
-
                 Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
                 startActivity(listsIntent);
 
@@ -55,33 +52,21 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
             }
         });
-
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Make sure that the loginButton hears the result from any
+        // Make sure that the twitterLoginButton hears the result from any
         // Activity that it triggered.
-        loginButton.onActivityResult(requestCode, resultCode, data);
+        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
-
-
 
     @OnClick(R.id.buttonSubmit)
     public void login(){
         //login against Backendless
         Log.i(TAG, "login: started");
-
         //login against BE succeeds - now Oauth:
-
-
-
     }
-
-
-
 
 }

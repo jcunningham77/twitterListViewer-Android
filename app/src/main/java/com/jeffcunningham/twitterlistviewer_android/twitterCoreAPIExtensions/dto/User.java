@@ -1,5 +1,5 @@
 
-package com.jeffcunningham.twitterlistviewer_android.model.dto;
+package com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

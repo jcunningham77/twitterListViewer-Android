@@ -1,6 +1,6 @@
 package com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions;
 
-import com.jeffcunningham.twitterlistviewer_android.model.dto.TwitterList;
+import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
 
 import java.util.List;
 
