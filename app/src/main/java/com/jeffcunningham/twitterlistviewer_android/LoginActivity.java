@@ -36,11 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                // The TwitterSession is also available through:
-                // Twitter.getInstance().core.getSessionManager().getActiveSession()
+
                 TwitterSession session = result.data;
-                // TODO: Remove toast and use the TwitterSession's userID
-                // with your app's user model
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
@@ -50,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
-//                listsIntent.putExtra("SESSION",session);
                 startActivity(listsIntent);
 
             }
@@ -80,28 +76,9 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(TAG, "login: started");
 
         //login against BE succeeds - now Oauth:
-//        final OAuth oauth = new OAuth();
-//        //TODO move key to config file
-//        oauth.initialize("_7jIv5Jjoi4hrfHtVwTiuTZULwQ");
-//
-//        JSONObject opts = new JSONObject();
-//
-////        oauth.popup();
-//        try {
-//            oauth.popup("twitter", new OAuthCallback() {
-//                @Override
-//                public void authentificationFinished(OAuthData oAuthData) {
-//
-//                    Log.i(TAG, "authentificationFinished: oAuthData" + oAuthData.toString());
-//                }
-//            },opts,this);
-//        } catch (OAuthException e) {
-//            Log.e(TAG, "login: "+  e.getMessage());
-//        }
 
 
-        Intent intent = new Intent();
-//        intent
+
     }
 
 
