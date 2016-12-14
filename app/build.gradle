@@ -1,11 +1,17 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.jeffcunningham.twitterlistviewer_android"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -15,6 +21,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+
+        buildTypes.each {
+            it.buildConfigField 'String', 'TWITTER_KEY', TWITTER_KEY
+            it.buildConfigField 'String', 'TWITTER_SECRET', TWITTER_SECRET
         }
     }
 }
@@ -29,5 +41,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile files('libs/OAuth.jar')
+    compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
+        transitive = true;
+    }
 }

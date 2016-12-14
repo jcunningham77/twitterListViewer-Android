@@ -1,0 +1,33 @@
+
+package com.jeffcunningham.twitterlistviewer_android.model.dto;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class Description {
+
+    @SerializedName("urls")
+    @Expose
+    private List<Object> urls = null;
+
+    /**
+     * 
+     * @return
+     *     The urls
+     */
+    public List<Object> getUrls() {
+        return urls;
+    }
+
+    /**
+     * 
+     * @param urls
+     *     The urls
+     */
+    public void setUrls(List<Object> urls) {
+        this.urls = urls;
+    }
+
+}
