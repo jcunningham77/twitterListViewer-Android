@@ -1,5 +1,7 @@
 package com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions;
 
+import com.jeffcunningham.twitterlistviewer_android.model.dto.TwitterList;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,5 +22,5 @@ public interface ListOwnershipService {
      * @param screenName (optional) The entities node will not be included when set to false.
      */
     @GET("/1.1/lists/list.json")
-    Call<List<com.jeffcunningham.twitterlistviewer_android.model.dto.List>> listOwnershipByScreenName(@Query("screen_name") String screenName);
+    Call<List<TwitterList>> listOwnershipByScreenName(@Query("screen_name") String screenName);
 }

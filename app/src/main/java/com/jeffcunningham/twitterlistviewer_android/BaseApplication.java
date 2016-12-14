@@ -25,6 +25,7 @@ public class BaseApplication extends Application {
 
         Log.i(TAG, "onCreate: TWITTER_KEY" + TWITTER_KEY);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+
         Fabric.with(this, new Twitter(authConfig));
     }
 }

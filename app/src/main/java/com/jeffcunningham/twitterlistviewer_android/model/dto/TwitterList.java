@@ -4,7 +4,7 @@ package com.jeffcunningham.twitterlistviewer_android.model.dto;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class List {
+public class TwitterList {
 
     @SerializedName("id")
     @Expose

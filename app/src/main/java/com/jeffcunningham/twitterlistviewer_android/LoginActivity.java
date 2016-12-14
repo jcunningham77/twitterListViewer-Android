@@ -6,10 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jeffcunningham.twitterlistviewer_android.model.dto.List;
-import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
-import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -18,7 +14,6 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,31 +46,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 
 
-
-                TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
-                ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
-
-                Call<java.util.List<List>> listMembership= listOwnershipService.listOwnershipByScreenName(session.getUserName());
-
-                listMembership.enqueue(new Callback<java.util.List<List>>(){
-
-
-                    @Override
-                    public void success(Result<java.util.List<List>> result) {
-
-                        for (List list : result.data){
-                            Log.i(TAG, "success: list = " + list.getFullName());
-                        }
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-
-                        Log.e(TAG, "failure: " + exception.getMessage());
-                        Log.getStackTraceString(exception);
-
-                    }
-                });
 
 
 
