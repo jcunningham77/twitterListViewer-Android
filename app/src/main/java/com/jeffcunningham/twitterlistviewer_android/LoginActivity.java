@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -26,15 +28,18 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private static final String TAG = "LoginActivity";
-    
+
 
 
     TwitterLoginButton twitterLoginButton;
 
     @BindView(R.id.editEmail)
-    EditText username;
+    EditText editTextUsername;
     @BindView(R.id.editPassword)
-    EditText password;
+    EditText editTextPassword;
+
+    @BindView(R.id.tvError)
+    TextView textViewError;
 
 
     @Override
@@ -44,9 +49,14 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        editTextUsername.requestFocus();
+
+
+
         twitterLoginButton = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
         //dont activate until logged in w TLV
-        twitterLoginButton.setActivated(false);
+        twitterLoginButton.setEnabled(false);
+
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -80,18 +90,22 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(TAG, "login: started");
         //login against BE succeeds - now Oauth:
 
-        Backendless.UserService.login(username.getText().toString(),password.getText().toString(),
+        Backendless.UserService.login(editTextUsername.getText().toString(), editTextPassword.getText().toString(),
             new AsyncCallback<BackendlessUser>() {
 
                 @Override
                 public void handleResponse(BackendlessUser response) {
-                    Toast.makeText(LoginActivity.this, "Login Successfull for " + response.getEmail(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Login Successful for " + response.getEmail(), Toast.LENGTH_LONG).show();
+                    twitterLoginButton.setEnabled(true);
 
                 }
 
                 @Override
                 public void handleFault(BackendlessFault fault) {
-                    Toast.makeText(LoginActivity.this, "Login failed due to " + fault.getMessage(), Toast.LENGTH_LONG).show();
+                    textViewError.setVisibility(View.VISIBLE);
+                    textViewError.setText("Login failed due to " + fault.getMessage());
+
+                    Log.e(TAG, "handleFault: " + fault.getMessage());
                 }
             } );
 
