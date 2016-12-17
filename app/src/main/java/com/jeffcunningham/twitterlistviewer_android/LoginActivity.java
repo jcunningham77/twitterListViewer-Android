@@ -39,8 +39,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText editTextPassword;
 
     @BindView(R.id.tvError)
-    TextView textViewError;
+    TextView textViewLoginError;
 
+    @BindView(R.id.tvTwitterError)
+    TextView textViewTwitterError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
+                textViewTwitterError.setVisibility(View.VISIBLE);
+                textViewTwitterError.setText("Twitter Login failed due to " + exception.getMessage());
             }
         });
     }
@@ -102,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void handleFault(BackendlessFault fault) {
-                    textViewError.setVisibility(View.VISIBLE);
-                    textViewError.setText("Login failed due to " + fault.getMessage());
+                    textViewLoginError.setVisibility(View.VISIBLE);
+                    textViewLoginError.setText("Login failed due to " + fault.getMessage());
 
                     Log.e(TAG, "handleFault: " + fault.getMessage());
                 }
