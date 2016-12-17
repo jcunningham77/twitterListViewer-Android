@@ -27,6 +27,9 @@ android {
         buildTypes.each {
             it.buildConfigField 'String', 'TWITTER_KEY', TWITTER_KEY
             it.buildConfigField 'String', 'TWITTER_SECRET', TWITTER_SECRET
+            it.buildConfigField 'String', 'BACKENDLESS_KEY', BACKENDLESS_KEY
+            it.buildConfigField 'String', 'BACKENDLESS_APP_ID', BACKENDLESS_APP_ID
+            it.buildConfigField 'String', 'BACKENDLESS_APP_VERSION', BACKENDLESS_APP_VERSION
         }
     }
 }
@@ -41,6 +44,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.backendless:backendless:3.0.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
         transitive = true;

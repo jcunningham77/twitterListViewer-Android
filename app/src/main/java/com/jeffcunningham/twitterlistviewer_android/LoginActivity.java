@@ -7,9 +7,10 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.jeffcunningham.twitterlistviewer_android.api.APIManager;
-import com.jeffcunningham.twitterlistviewer_android.api.dto.BELoginUserRequest;
-import com.jeffcunningham.twitterlistviewer_android.api.dto.BELoginUserResponse;
+import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -19,14 +20,13 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
 
 public class LoginActivity extends AppCompatActivity {
 
 
 
     private static final String TAG = "LoginActivity";
-    private static APIManager apiManager;
+    
 
 
     TwitterLoginButton twitterLoginButton;
@@ -80,24 +80,22 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(TAG, "login: started");
         //login against BE succeeds - now Oauth:
 
-        BELoginUserRequest beLoginUserRequest = new BELoginUserRequest();
-        beLoginUserRequest.setLogin(username.getText().toString());
-        beLoginUserRequest.setPassword(password.getText().toString());
+        Backendless.UserService.login(username.getText().toString(),password.getText().toString(),
+            new AsyncCallback<BackendlessUser>() {
 
-        Call<BELoginUserResponse> backEndlessUserCall = apiManager.getBackEndlessService().login(beLoginUserRequest);
+                @Override
+                public void handleResponse(BackendlessUser response) {
+                    Toast.makeText(LoginActivity.this, "Login Successfull for " + response.getEmail(), Toast.LENGTH_LONG).show();
 
-        backEndlessUserCall.enqueue(new Callback<BELoginUserResponse>() {
-            @Override
-            public void success(Result<BELoginUserResponse> result) {
-                Log.i(TAG, "success: result = " + result.data);
-                twitterLoginButton.setActivated(true);
-            }
+                }
 
-            @Override
-            public void failure(TwitterException exception) {
-                Log.i(TAG, "failure: exception" + exception.getMessage());
-            }
-        });
+                @Override
+                public void handleFault(BackendlessFault fault) {
+                    Toast.makeText(LoginActivity.this, "Login failed due to " + fault.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            } );
+
+
     }
 
 }
