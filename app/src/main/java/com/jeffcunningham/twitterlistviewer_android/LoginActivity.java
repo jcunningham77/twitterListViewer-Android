@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login Successful for " + response.getEmail(), Toast.LENGTH_LONG).show();
                     twitterLoginButton.setEnabled(true);
                     textViewLoginError.setVisibility(View.INVISIBLE);
-                    
+
                     editTextPassword.setEnabled(false);
                     editTextUsername.setEnabled(false);
                     InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

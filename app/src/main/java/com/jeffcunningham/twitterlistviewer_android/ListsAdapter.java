@@ -2,6 +2,7 @@ package com.jeffcunningham.twitterlistviewer_android;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,11 @@ import java.util.List;
 
 public class ListsAdapter extends Adapter {
 
+    private static final String TAG = "ListsAdapter";
+
     public void setTwitterLists(List<TwitterList> twitterLists) {
         this.twitterLists = twitterLists;
+        notifyDataSetChanged();
     }
 
     private List<TwitterList> twitterLists;
@@ -40,7 +44,8 @@ public class ListsAdapter extends Adapter {
 
     @Override
     public int getItemCount() {
-        return twitterLists.size();
+        Log.i(TAG, "getItemCount: = ");
+        return twitterLists==null? 0 : twitterLists.size();
     }
 
 
