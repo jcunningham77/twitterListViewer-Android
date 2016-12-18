@@ -1,10 +1,12 @@
 package com.jeffcunningham.twitterlistviewer_android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,6 +103,13 @@ public class LoginActivity extends AppCompatActivity {
                 public void handleResponse(BackendlessUser response) {
                     Toast.makeText(LoginActivity.this, "Login Successful for " + response.getEmail(), Toast.LENGTH_LONG).show();
                     twitterLoginButton.setEnabled(true);
+                    textViewLoginError.setVisibility(View.INVISIBLE);
+                    
+                    editTextPassword.setEnabled(false);
+                    editTextUsername.setEnabled(false);
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(editTextPassword.getWindowToken(), 0);
+                    mgr.hideSoftInputFromWindow(editTextUsername.getWindowToken(), 0);
 
                 }
 
@@ -108,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void handleFault(BackendlessFault fault) {
                     textViewLoginError.setVisibility(View.VISIBLE);
                     textViewLoginError.setText("Login failed due to " + fault.getMessage());
+
+                    editTextPassword.setText("");
+
 
                     Log.e(TAG, "handleFault: " + fault.getMessage());
                 }
