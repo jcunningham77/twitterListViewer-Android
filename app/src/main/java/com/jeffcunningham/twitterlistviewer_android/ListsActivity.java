@@ -2,6 +2,8 @@ package com.jeffcunningham.twitterlistviewer_android;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
@@ -15,6 +17,7 @@ import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.List;
 
+import butterknife.BindView;
 import retrofit2.Call;
 
 /**
@@ -25,12 +28,24 @@ public class ListsActivity extends Activity {
 
     private static final String TAG = "ListsActivity";
 
+    @BindView(R.id.listsRecyclerView)
+    RecyclerView listsRecyclerView;
+
+    private ListsAdapter listsAdapter;
+    private RecyclerView.LayoutManager listsLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists);
 
+        listsRecyclerView = new RecyclerView(this);
 
+        listsRecyclerView.setHasFixedSize(true);
+        listsLayoutManager = new LinearLayoutManager(this);
+        listsRecyclerView.setLayoutManager(listsLayoutManager);
+        listsAdapter = new ListsAdapter();
+        listsRecyclerView.setAdapter(listsAdapter);
 
         TwitterSession twitterSession = Twitter.getSessionManager().getActiveSession();
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
@@ -47,6 +62,9 @@ public class ListsActivity extends Activity {
                 for (TwitterList twitterList : result.data){
                     Log.i(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
+                listsAdapter.setTwitterLists(result.data);
+
+
             }
 
             @Override
