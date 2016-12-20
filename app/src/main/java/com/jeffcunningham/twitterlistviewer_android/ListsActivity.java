@@ -46,11 +46,13 @@ public class ListsActivity extends Activity {
         listsAdapter = new ListsAdapter();
         listsRecyclerView.setAdapter(listsAdapter);
 
-        TwitterSession twitterSession = Twitter.getSessionManager().getActiveSession();
+        final TwitterSession twitterSession = Twitter.getSessionManager().getActiveSession();
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
         ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
 
         Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
+
+
 
         listMembership.enqueue(new Callback<List<TwitterList>>(){
 
@@ -61,9 +63,8 @@ public class ListsActivity extends Activity {
                 for (TwitterList twitterList : result.data){
                     Log.i(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
+                listsAdapter.setTwitterUserId(twitterSession.getUserId());
                 listsAdapter.setTwitterLists(result.data);
-
-
 
             }
 
