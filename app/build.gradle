@@ -27,10 +27,7 @@ android {
         buildTypes.each {
             it.buildConfigField 'String', 'TWITTER_KEY', TWITTER_KEY
             it.buildConfigField 'String', 'TWITTER_SECRET', TWITTER_SECRET
-            it.buildConfigField 'String', 'BACKENDLESS_KEY', BACKENDLESS_KEY
-            it.buildConfigField 'String', 'BACKENDLESS_APP_ID', BACKENDLESS_APP_ID
-            it.buildConfigField 'String', 'BACKENDLESS_APP_VERSION', BACKENDLESS_APP_VERSION
-            it.buildConfigField 'String', 'MLAB_CONNECTION_STRING', MLAB_CONNECTION_STRING
+
         }
     }
 }

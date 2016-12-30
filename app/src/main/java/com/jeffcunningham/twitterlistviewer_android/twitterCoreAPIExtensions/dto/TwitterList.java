@@ -46,6 +46,17 @@ public class TwitterList {
     @Expose
     private User user;
 
+    //private boolean to indicate default list
+    private boolean defaultList;
+
+    public boolean isDefaultList() {
+        return defaultList;
+    }
+
+    public void setDefaultList(boolean defaultList) {
+        this.defaultList = defaultList;
+    }
+
     /**
      * 
      * @return

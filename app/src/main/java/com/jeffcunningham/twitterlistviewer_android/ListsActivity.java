@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
@@ -33,6 +35,9 @@ public class ListsActivity extends Activity {
     private ListsAdapter listsAdapter;
     private RecyclerView.LayoutManager listsLayoutManager;
 
+    private APIManager apiManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +57,6 @@ public class ListsActivity extends Activity {
 
         Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
 
-
-
         listMembership.enqueue(new Callback<List<TwitterList>>(){
 
 
@@ -63,8 +66,11 @@ public class ListsActivity extends Activity {
                 for (TwitterList twitterList : result.data){
                     Log.i(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
+
+
                 listsAdapter.setTwitterUserId(twitterSession.getUserId());
                 listsAdapter.setTwitterLists(result.data);
+                getDefaultListId(twitterSession.getUserName());
 
             }
 
@@ -77,5 +83,38 @@ public class ListsActivity extends Activity {
             }
         });
 
+
+
+
+
+    }
+
+    private void getDefaultListId(String username) {
+
+        Call<DefaultList> defaultListCall = apiManager.apiTransactions.getDefaultList(username);
+
+        defaultListCall.enqueue(new Callback<DefaultList>() {
+            @Override
+            public void success(Result<DefaultList> result) {
+                Log.i(TAG, "success: Retrofit call to Node default list API succeeded, default list id = " + result.data.getListId());
+                for (TwitterList twitterList: listsAdapter.getTwitterLists()){
+                    Log.i(TAG, "default list id =   " + result.data.getListId() +  ", this list id = " + twitterList.getId());
+                    if (result.data.getListId().longValue()==twitterList.getId().longValue()){
+                        twitterList.setDefaultList(true);
+                        Log.i(TAG, "setting this twitterList to default = true ");
+                    }
+
+                    listsAdapter.notifyDataSetChanged();
+
+                };
+
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.i(TAG, "failure: " + exception.getMessage());
+
+            }
+        });
     }
 }
