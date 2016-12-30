@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.twitter.sdk.android.Twitter;
 
 import java.util.List;
 
@@ -22,10 +23,20 @@ public class ListsAdapter extends Adapter {
     private static final int TYPE_LIST_SELECTOR =1;
 
 
+    public void setTwitterUserId(long twitterUserId) {
+        this.twitterUserId = twitterUserId;
+    }
+
+    private long twitterUserId;
+
 
     public void setTwitterLists(List<TwitterList> twitterLists) {
         this.twitterLists = twitterLists;
         notifyDataSetChanged();
+    }
+
+    public List<TwitterList> getTwitterLists() {
+        return twitterLists;
     }
 
     private List<TwitterList> twitterLists;
@@ -52,6 +63,11 @@ public class ListsAdapter extends Adapter {
 
         if (position>0){
             ((ListSelectorViewHolder)holder).setTvListName(twitterLists.get(position-1).getName());
+            ((ListSelectorViewHolder)holder).setListId(twitterLists.get(position-1).getId());
+            ((ListSelectorViewHolder)holder).setUserId(Twitter.getSessionManager().getActiveSession().getUserId());
+            Log.i(TAG, "onBindViewHolder: setting default = " + twitterLists.get(position-1).isDefaultList());
+            ((ListSelectorViewHolder)holder).setDefault(twitterLists.get(position-1).isDefaultList());
+
         }
 
 
