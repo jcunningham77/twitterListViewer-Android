@@ -7,6 +7,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,11 +24,10 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
     @BindView(R.id.cbMakeDefaultList)
     CheckBox cbMakeDefaultList;
 
-
-
     private long userId;
     private long listId;
     private boolean isDefault;
+    private int itemCount;
 
     public void setUserId(long userId) {
         this.userId = userId;
@@ -42,6 +43,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
     public void onClick(View v) {
         Log.i(TAG, "onClick: view Id = " + v.getId());
 
+
         if (v.getId() == cbMakeDefaultList.getId()){
             Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition())+ " List Name = " + tvListName.getText().toString() + " List ID = " + listId, Toast.LENGTH_LONG).show();
             Log.i(TAG, "onClick: ITEM PRESSED = " + String.valueOf(getAdapterPosition()));
@@ -49,6 +51,11 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
             Log.i(TAG, "onClick: List ID = " + listId);
             Log.i(TAG, "onClick: User Id = " + userId);
         }
+
+        EventBus.getDefault().post(new SetDefaultListEvent(getAdapterPosition(),listId,tvListName.getText().toString()));
+
+
+
     }
 
     public boolean isDefault() {
@@ -61,11 +68,12 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         cbMakeDefaultList.setChecked(isDefault);
     }
 
-    public ListSelectorViewHolder(View v) {
+    public ListSelectorViewHolder(View v, int itemCount) {
         super(v);
         ButterKnife.bind(this,v);
         cbMakeDefaultList.setOnClickListener(this);
         cbMakeDefaultList.setChecked(isDefault);
+//        EventBus.getDefault().register(this);
 
     }
 

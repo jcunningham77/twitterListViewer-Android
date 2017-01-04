@@ -16,7 +16,7 @@ import java.util.List;
  * Created by jeffcunningham on 12/17/16.
  */
 
-public class ListsAdapter extends Adapter {
+public class ListsAdapter extends Adapter{
 
     private static final String TAG = "ListsAdapter";
     private static final int TYPE_LIST_HEADER=0;
@@ -30,6 +30,8 @@ public class ListsAdapter extends Adapter {
     private long twitterUserId;
 
 
+
+
     public void setTwitterLists(List<TwitterList> twitterLists) {
         this.twitterLists = twitterLists;
         notifyDataSetChanged();
@@ -38,6 +40,8 @@ public class ListsAdapter extends Adapter {
     public List<TwitterList> getTwitterLists() {
         return twitterLists;
     }
+
+
 
     private List<TwitterList> twitterLists;
     @Override
@@ -52,7 +56,7 @@ public class ListsAdapter extends Adapter {
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_selector_view, parent, false);
             // set the view's size, margins, paddings and layout parameters
-            viewHolder = new ListSelectorViewHolder(view);
+            viewHolder = new ListSelectorViewHolder(view, getItemCount());
         }
 
         return viewHolder;

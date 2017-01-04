@@ -17,6 +17,10 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,6 +41,9 @@ public class ListsActivity extends Activity {
 
     private APIManager apiManager;
 
+    TwitterSession twitterSession;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +58,13 @@ public class ListsActivity extends Activity {
         listsAdapter = new ListsAdapter();
         listsRecyclerView.setAdapter(listsAdapter);
 
-        final TwitterSession twitterSession = Twitter.getSessionManager().getActiveSession();
+        this.twitterSession = Twitter.getSessionManager().getActiveSession();
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
         ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
 
         Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
+
+        EventBus.getDefault().register(this);
 
         listMembership.enqueue(new Callback<List<TwitterList>>(){
 
@@ -87,6 +96,15 @@ public class ListsActivity extends Activity {
 
 
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SetDefaultListEvent event) {
+
+        Log.i(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.position));
+        Log.i(TAG, "onClick: List Name = " + event.slug);
+        Log.i(TAG, "onClick: List ID = " + event.listId);
+        Log.i(TAG, "onClick: User alias = " + twitterSession.getUserName() );
     }
 
     private void getDefaultListId(String username) {
