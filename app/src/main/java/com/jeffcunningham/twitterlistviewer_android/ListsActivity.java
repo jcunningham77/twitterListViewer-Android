@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by jeffcunningham on 12/10/16.
@@ -76,7 +77,6 @@ public class ListsActivity extends Activity {
                     Log.i(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
 
-
                 listsAdapter.setTwitterUserId(twitterSession.getUserId());
                 listsAdapter.setTwitterLists(result.data);
                 getDefaultListId(twitterSession.getUserName());
@@ -91,48 +91,79 @@ public class ListsActivity extends Activity {
 
             }
         });
-
-
-
-
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SetDefaultListEvent event) {
-
         Log.i(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.position));
         Log.i(TAG, "onClick: List Name = " + event.slug);
         Log.i(TAG, "onClick: List ID = " + event.listId);
         Log.i(TAG, "onClick: User alias = " + twitterSession.getUserName() );
+        persistDefaultListId(twitterSession.getUserName(),event.listId,event.slug);
+
     }
 
-    private void getDefaultListId(String username) {
+    private void persistDefaultListId(String alias, long listId, String slug){
+        DefaultList defaultListBody = new DefaultList();
+        defaultListBody.setAlias(alias);
+        defaultListBody.setListId(listId);
+        defaultListBody.setSlug(slug);
+        Log.i(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
+        Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
 
-        Call<DefaultList> defaultListCall = apiManager.apiTransactions.getDefaultList(username);
-
-        defaultListCall.enqueue(new Callback<DefaultList>() {
+        postDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
-            public void success(Result<DefaultList> result) {
-                Log.i(TAG, "success: Retrofit call to Node default list API succeeded, default list id = " + result.data.getListId());
-                for (TwitterList twitterList: listsAdapter.getTwitterLists()){
-                    Log.i(TAG, "default list id =   " + result.data.getListId() +  ", this list id = " + twitterList.getId());
-                    if (result.data.getListId().longValue()==twitterList.getId().longValue()){
-                        twitterList.setDefaultList(true);
-                        Log.i(TAG, "setting this twitterList to default = true ");
-                    }
+            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list id = " + response.body().getListId());
+                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list slug = " + response.body().getSlug());
+                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list alias = " + response.body().getAlias());
 
-                    listsAdapter.notifyDataSetChanged();
-
-                };
-
+                setDefaultListIdForAdapterLists(response.body());
             }
 
             @Override
-            public void failure(TwitterException exception) {
-                Log.i(TAG, "failure: " + exception.getMessage());
+            public void onFailure(Call<DefaultList> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage(), t);
 
             }
         });
+
+    }
+
+
+    private void getDefaultListId(String username) {
+
+        Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(username);
+
+
+        getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
+            @Override
+            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+                Log.i(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
+
+                setDefaultListIdForAdapterLists(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DefaultList> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage(), t);
+
+            }
+        });
+
+
+    }
+
+    private void setDefaultListIdForAdapterLists(DefaultList defaultList){
+        for (TwitterList twitterList: listsAdapter.getTwitterLists()){
+            Log.i(TAG, "setDefaultListIdForAdapterLists: default list id =   " + defaultList.getListId() +  ", this list id = " + twitterList.getId());
+            if (defaultList.getListId().longValue()==twitterList.getId().longValue()){
+                twitterList.setDefaultList(true);
+                Log.i(TAG, "setting this twitterList to default = true ");
+            } else {
+                twitterList.setDefaultList(false);
+            }
+            listsAdapter.notifyDataSetChanged();
+        };
     }
 }

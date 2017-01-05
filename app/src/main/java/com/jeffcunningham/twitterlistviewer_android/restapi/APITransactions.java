@@ -5,6 +5,7 @@ import com.jeffcunningham.twitterlistviewer_android.restapi.dto.DefaultList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -15,8 +16,10 @@ import retrofit2.http.Path;
 public interface APITransactions {
 
     @GET("api/default-list/{alias}")
+
     Call<DefaultList> getDefaultList(@Path("alias")String alias);
 
     @POST("api/default-list")
+    @Headers("Content-Type: application/json")
     Call<DefaultList> postDefaultList(@Body DefaultList defaultList);
 }
