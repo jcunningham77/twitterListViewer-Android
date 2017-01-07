@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.DefaultList;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.Data;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
@@ -104,10 +106,13 @@ public class ListsActivity extends Activity {
     }
 
     private void persistDefaultListId(String alias, long listId, String slug){
-        DefaultList defaultListBody = new DefaultList();
-        defaultListBody.setAlias(alias);
-        defaultListBody.setListId(listId);
-        defaultListBody.setSlug(slug);
+        PostDefaultList defaultListBody = new PostDefaultList();
+        Data defaultListBodyData = new Data();
+
+        defaultListBodyData.setAlias(alias);
+        defaultListBodyData.setListId(listId);
+        defaultListBodyData.setSlug(slug);
+        defaultListBody.setData(defaultListBodyData);
         Log.i(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
         Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
 

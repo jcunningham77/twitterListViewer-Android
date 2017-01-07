@@ -1,6 +1,7 @@
 package com.jeffcunningham.twitterlistviewer_android.restapi;
 
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.DefaultList;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,6 +21,6 @@ public interface APITransactions {
     Call<DefaultList> getDefaultList(@Path("alias")String alias);
 
     @POST("api/default-list")
-    @Headers("Content-Type: application/json")
-    Call<DefaultList> postDefaultList(@Body DefaultList defaultList);
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    Call<DefaultList> postDefaultList(@Body PostDefaultList defaultList);
 }

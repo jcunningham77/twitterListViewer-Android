@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -20,11 +21,19 @@ public class APIManager {
     private static final ConnectionPool CONNECTION_POOL = new ConnectionPool();
 
     static {
+
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(TIMEOUT_CONNECT, TimeUnit.MILLISECONDS)
                 .readTimeout(TIMEOUT_READ,TimeUnit.MILLISECONDS)
                 .connectionPool(CONNECTION_POOL)
+                .addInterceptor(logging)
                 .build();
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://twitterlistviewer-215api.rhcloud.com/" )

@@ -42,6 +42,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'com.backendless:backendless:3.0.8.1'
     compile 'org.mongodb:mongodb-driver-async:3.2.2'
     compile 'org.greenrobot:eventbus:3.0.0'
