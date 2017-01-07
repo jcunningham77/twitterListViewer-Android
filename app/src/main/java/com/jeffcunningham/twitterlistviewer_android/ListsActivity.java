@@ -105,7 +105,7 @@ public class ListsActivity extends Activity {
 
     }
 
-    private void persistDefaultListId(String alias, long listId, String slug){
+    private void persistDefaultListId(String alias, String listId, String slug){
         PostDefaultList defaultListBody = new PostDefaultList();
         Data defaultListBodyData = new Data();
 
@@ -162,7 +162,7 @@ public class ListsActivity extends Activity {
     private void setDefaultListIdForAdapterLists(DefaultList defaultList){
         for (TwitterList twitterList: listsAdapter.getTwitterLists()){
             Log.i(TAG, "setDefaultListIdForAdapterLists: default list id =   " + defaultList.getListId() +  ", this list id = " + twitterList.getId());
-            if (defaultList.getListId().longValue()==twitterList.getId().longValue()){
+            if (defaultList.getListId().equalsIgnoreCase(twitterList.getIdStr())){
                 twitterList.setDefaultList(true);
                 Log.i(TAG, "setting this twitterList to default = true ");
             } else {

@@ -25,7 +25,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
     CheckBox cbMakeDefaultList;
 
     private long userId;
-    private long listId;
+    private String listId;
     private boolean isDefault;
     private int itemCount;
 
@@ -33,7 +33,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         this.userId = userId;
     }
 
-    public void setListId(long listId) {
+    public void setListId(String listId) {
         this.listId = listId;
     }
 

@@ -11,7 +11,7 @@ public class Data {
     private String alias;
     @SerializedName("listId")
     @Expose
-    private long listId;
+    private String listId;
     @SerializedName("slug")
     @Expose
     private String slug;
@@ -25,11 +25,11 @@ public class Data {
     }
 
 
-    public long getListId() {
+    public String getListId() {
         return listId;
     }
 
-    public void setListId(long listId) {
+    public void setListId(String listId) {
         this.listId = listId;
     }
 

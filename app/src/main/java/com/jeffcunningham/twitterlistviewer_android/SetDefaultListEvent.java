@@ -6,10 +6,10 @@ package com.jeffcunningham.twitterlistviewer_android;
 
 public class SetDefaultListEvent {
     int position;
-    long listId;
+    String listId;
     String slug;
 
-    public SetDefaultListEvent(int position, long listId, String slug){
+    public SetDefaultListEvent(int position, String listId, String slug){
         this.position = position;
         this.listId = listId;
         this.slug = slug;

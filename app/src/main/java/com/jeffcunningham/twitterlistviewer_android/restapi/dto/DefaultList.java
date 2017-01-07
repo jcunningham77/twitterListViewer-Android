@@ -14,7 +14,7 @@ public class DefaultList {
     private String alias;
     @SerializedName("listId")
     @Expose
-    private Long listId;
+    private String listId;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -38,11 +38,11 @@ public class DefaultList {
         this.alias = alias;
     }
 
-    public Long getListId() {
+    public String getListId() {
         return listId;
     }
 
-    public void setListId(Long listId) {
+    public void setListId(String listId) {
         this.listId = listId;
     }
 
