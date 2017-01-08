@@ -7,6 +7,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
+import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
@@ -50,10 +53,16 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
             Log.i(TAG, "onClick: List Name = " + tvListName.getText().toString());
             Log.i(TAG, "onClick: List ID = " + listId);
             Log.i(TAG, "onClick: User Id = " + userId);
+
+            EventBus.getDefault().post(new SetDefaultListEvent(getAdapterPosition(),listId,tvListName.getText().toString()));
         }
 
-        EventBus.getDefault().post(new SetDefaultListEvent(getAdapterPosition(),listId,tvListName.getText().toString()));
+        if (v.getId() == tvListName.getId()){
+            Log.i(TAG, "onClick: ITEM PRESSED = " + String.valueOf(getAdapterPosition()));
+            Log.i(TAG, "onClick: List Name = " + tvListName.getText().toString());
+            EventBus.getDefault().post(new ViewListEvent(tvListName.getText().toString()));
 
+        }
 
 
     }
@@ -73,7 +82,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         ButterKnife.bind(this,v);
         cbMakeDefaultList.setOnClickListener(this);
         cbMakeDefaultList.setChecked(isDefault);
-//        EventBus.getDefault().register(this);
+        tvListName.setOnClickListener(this);
 
     }
 

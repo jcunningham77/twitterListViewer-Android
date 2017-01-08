@@ -8,16 +8,16 @@
 
     <TextView
         android:text="List Name"
-        android:layout_width="176dp"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="12dp"
-        tools:layout_editor_absoluteX="0dp"
+        android:layout_width="254dp"
+        android:layout_height="21dp"
+        tools:layout_editor_absoluteY="10dp"
         android:id="@+id/tvListName"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:text="Make Default?"
-        android:layout_width="wrap_content"
+        android:text="Default"
         android:layout_height="wrap_content"
         android:id="@+id/tvDefault"
         android:layout_marginTop="8dp"
@@ -25,18 +25,10 @@
         android:layout_marginStart="8dp"
         app:layout_constraintLeft_toRightOf="@+id/tvListName"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvListName"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="70dp" />
 
 
-    <TextView
-        android:text="Show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/tvDefault"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvDefault"
-        android:id="@+id/tvShowLIst"
-        android:layout_marginStart="8dp"
-        android:textSize="18sp" />
 </android.support.constraint.ConstraintLayout>
