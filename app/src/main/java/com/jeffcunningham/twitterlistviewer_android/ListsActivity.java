@@ -126,6 +126,7 @@ public class ListsActivity extends Activity {
     public void onMessageEvent(ViewListEvent event){
         Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
         listIntent.putExtra("slug",event.getSlug());
+        listIntent.putExtra("listName",event.getListName());
         startActivity(listIntent);
     }
 

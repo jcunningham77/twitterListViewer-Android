@@ -7,12 +7,18 @@ package com.jeffcunningham.twitterlistviewer_android.events;
 public class ViewListEvent {
 
     String slug;
+    String listName;
 
-    public ViewListEvent(String slug) {
+    public ViewListEvent(String slug, String listName) {
         this.slug = slug;
+        this.listName = listName;
     }
 
     public String getSlug() {
         return slug;
+    }
+
+    public String getListName() {
+        return listName;
     }
 }

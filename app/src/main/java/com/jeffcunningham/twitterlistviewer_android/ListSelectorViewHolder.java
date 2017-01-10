@@ -63,7 +63,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         if (v.getId() == tvListName.getId()){
             Log.i(TAG, "onClick: ITEM PRESSED = " + String.valueOf(getAdapterPosition()));
             Log.i(TAG, "onClick: List Name = " + tvListName.getText().toString());
-            EventBus.getDefault().post(new ViewListEvent(this.getSlug()));
+            EventBus.getDefault().post(new ViewListEvent(this.getSlug(),this.tvListName.getText().toString()));
 
         }
 
