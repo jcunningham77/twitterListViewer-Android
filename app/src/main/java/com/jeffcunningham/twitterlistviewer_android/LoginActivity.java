@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -35,17 +36,23 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        TwitterSession session = Twitter.getSessionManager().getActiveSession();
+
+        if (session!=null){
+            Log.i(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
+            Log.i(TAG, "onCreate: forwarding direct to Lists page");
+            //forward direct to Lists page
+            Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
+            startActivity(listsIntent);
+        }
+
         setContentView(R.layout.activity_login);
-
         ButterKnife.bind(this);
-
-
-
 
         twitterLoginButton = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
         //dont activate until logged in w TLV
         twitterLoginButton.setEnabled(true);
-
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
