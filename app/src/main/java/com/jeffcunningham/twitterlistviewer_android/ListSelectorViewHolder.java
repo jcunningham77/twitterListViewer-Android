@@ -32,6 +32,9 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
     private boolean isDefault;
     private int itemCount;
 
+    //this is the string identifier of the list
+    private String slug;
+
     public void setUserId(long userId) {
         this.userId = userId;
     }
@@ -60,7 +63,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         if (v.getId() == tvListName.getId()){
             Log.i(TAG, "onClick: ITEM PRESSED = " + String.valueOf(getAdapterPosition()));
             Log.i(TAG, "onClick: List Name = " + tvListName.getText().toString());
-            EventBus.getDefault().post(new ViewListEvent(tvListName.getText().toString()));
+            EventBus.getDefault().post(new ViewListEvent(this.getSlug()));
 
         }
 
@@ -91,6 +94,13 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
 
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
 }
 
 
