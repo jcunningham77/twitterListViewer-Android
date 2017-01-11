@@ -15,6 +15,9 @@ public class Data {
     @SerializedName("slug")
     @Expose
     private String slug;
+    @SerializedName("listName")
+    @Expose
+    private String listName;
 
     public String getAlias() {
         return alias;
@@ -41,4 +44,11 @@ public class Data {
         this.slug = slug;
     }
 
+    public String getListName() {
+        return listName;
+    }
+
+    public void setListName(String listName) {
+        this.listName = listName;
+    }
 }

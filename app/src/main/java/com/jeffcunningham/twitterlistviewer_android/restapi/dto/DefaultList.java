@@ -21,6 +21,10 @@ public class DefaultList {
     @SerializedName("slug")
     @Expose
     private String slug;
+    @SerializedName("listName")
+    @Expose
+    private String listName;
+
 
     public String getId() {
         return id;
@@ -62,4 +66,11 @@ public class DefaultList {
         this.slug = slug;
     }
 
+    public String getListName() {
+        return listName;
+    }
+
+    public void setListName(String listName) {
+        this.listName = listName;
+    }
 }

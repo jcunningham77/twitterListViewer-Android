@@ -59,10 +59,12 @@ public class ListsActivity extends Activity {
         //check if there is a default list set, and show that list's tweets via the TwitterListActivity
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         String persistedDefaultSlug = preferences.getString("slug","");
+        String persistedDefaultListName = preferences.getString("listName","");
         if ((null!=persistedDefaultSlug)&&(!persistedDefaultSlug.equalsIgnoreCase(""))){
             Log.i(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to that TwitterListActivity.");
             Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
             listIntent.putExtra("slug",persistedDefaultSlug);
+            listIntent.putExtra("listName",persistedDefaultListName);
             startActivity(listIntent);
             
         }
@@ -118,7 +120,7 @@ public class ListsActivity extends Activity {
         Log.i(TAG, "onClick: List Name = " + event.getSlug());
         Log.i(TAG, "onClick: List ID = " + event.getListId());
         Log.i(TAG, "onClick: User alias = " + twitterSession.getUserName() );
-        persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug());
+        persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug(),event.getListName());
 
     }
 
@@ -131,13 +133,14 @@ public class ListsActivity extends Activity {
     }
 
 
-    private void persistDefaultListId(String alias, String listId, String slug){
+    private void persistDefaultListId(String alias, String listId, String slug, String listName){
         PostDefaultList defaultListBody = new PostDefaultList();
         Data defaultListBodyData = new Data();
 
         defaultListBodyData.setAlias(alias);
         defaultListBodyData.setListId(listId);
         defaultListBodyData.setSlug(slug);
+        defaultListBodyData.setListName(listName);
         defaultListBody.setData(defaultListBodyData);
         Log.i(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
         Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
@@ -149,7 +152,7 @@ public class ListsActivity extends Activity {
                 Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list slug = " + response.body().getSlug());
                 Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list alias = " + response.body().getAlias());
 
-                persistDefaultListSlugToSharedPreferences(response.body().getSlug());
+                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
                 setDefaultListIdForAdapterLists(response.body());
             }
 
@@ -162,11 +165,12 @@ public class ListsActivity extends Activity {
 
     }
 
-    private void persistDefaultListSlugToSharedPreferences(String slug){
-        Log.i(TAG, "persistDefaultListSlugToSharedPreferences: slug = " + slug);
+    private void persistDefaultListDataToSharedPreferences(String slug, String listName){
+        Log.i(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("slug",slug);
+        editor.putString("listName",listName);
         editor.commit();
 
     }
@@ -182,6 +186,7 @@ public class ListsActivity extends Activity {
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
                 Log.i(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
 
+                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
                 setDefaultListIdForAdapterLists(response.body());
             }
 

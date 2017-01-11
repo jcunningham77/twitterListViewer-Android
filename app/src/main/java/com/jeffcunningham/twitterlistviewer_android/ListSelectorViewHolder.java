@@ -57,7 +57,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
             Log.i(TAG, "onClick: List ID = " + listId);
             Log.i(TAG, "onClick: User Id = " + userId);
 
-            EventBus.getDefault().post(new SetDefaultListEvent(getAdapterPosition(),listId,tvListName.getText().toString()));
+            EventBus.getDefault().post(new SetDefaultListEvent(getAdapterPosition(),listId,slug,tvListName.getText().toString()));
         }
 
         if (v.getId() == tvListName.getId()){

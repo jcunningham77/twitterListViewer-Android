@@ -8,13 +8,14 @@ public class SetDefaultListEvent {
     int position;
     String listId;
     String slug;
+    String listName;
 
 
-
-    public SetDefaultListEvent(int position, String listId, String slug){
+    public SetDefaultListEvent(int position, String listId, String slug, String listName) {
         this.position = position;
         this.listId = listId;
         this.slug = slug;
+        this.listName = listName;
     }
 
     public int getPosition() {
@@ -27,5 +28,9 @@ public class SetDefaultListEvent {
 
     public String getSlug() {
         return slug;
+    }
+
+    public String getListName() {
+        return listName;
     }
 }
