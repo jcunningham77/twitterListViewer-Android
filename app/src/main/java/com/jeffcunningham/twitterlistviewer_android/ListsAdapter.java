@@ -69,6 +69,8 @@ public class ListsAdapter extends Adapter{
             ((ListSelectorViewHolder)holder).setTvListName(twitterLists.get(position-1).getName());
             ((ListSelectorViewHolder)holder).setSlug(twitterLists.get(position-1).getSlug());
             ((ListSelectorViewHolder)holder).setListId(twitterLists.get(position-1).getIdStr());
+            String membersLabel = new String("" + twitterLists.get(position-1).getMemberCount() + " Members");
+            ((ListSelectorViewHolder)holder).setTvMembers(membersLabel);
             ((ListSelectorViewHolder)holder).setUserId(Twitter.getSessionManager().getActiveSession().getUserId());
             Log.i(TAG, "onBindViewHolder: setting default = " + twitterLists.get(position-1).isDefaultList());
             ((ListSelectorViewHolder)holder).setDefault(twitterLists.get(position-1).isDefaultList());

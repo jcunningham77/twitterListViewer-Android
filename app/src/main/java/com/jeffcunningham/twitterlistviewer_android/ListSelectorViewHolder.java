@@ -23,14 +23,17 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
 
     @BindView(R.id.tvListName)
     TextView tvListName;
+    @BindView(R.id.tvMembers)
+    TextView tvMembers;
 
     @BindView(R.id.cbMakeDefaultList)
     CheckBox cbMakeDefaultList;
 
+
     private long userId;
     private String listId;
     private boolean isDefault;
-    private int itemCount;
+
 
     //this is the string identifier of the list
     private String slug;
@@ -100,6 +103,12 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+
+
+    public void setTvMembers(String members){
+        tvMembers.setText(members);
     }
 }
 

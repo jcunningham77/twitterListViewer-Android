@@ -84,6 +84,8 @@ public class ListsActivity extends Activity {
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
         ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
 
+
+
         Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
 
         EventBus.getDefault().register(this);
