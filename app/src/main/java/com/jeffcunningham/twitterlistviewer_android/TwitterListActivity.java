@@ -34,10 +34,12 @@ public class TwitterListActivity extends android.app.ListActivity {
         setContentView(R.layout.activity_twitter_list);
         ButterKnife.bind(this);
         this.slug = getIntent().getStringExtra("slug");
-        tvListName.setText(getIntent().getStringExtra("listName"));
+
 
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
         this.alias = twitterSession.getUserName();
+
+        tvListName.setText("@"+this.alias+"/"+ getIntent().getStringExtra("listName"));
 
         Log.i(TAG, "onCreate: slug = " + slug + ", alias = " + alias);
 
