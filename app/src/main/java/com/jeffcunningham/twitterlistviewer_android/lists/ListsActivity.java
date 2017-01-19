@@ -1,4 +1,4 @@
-package com.jeffcunningham.twitterlistviewer_android;
+package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,10 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
-import com.jeffcunningham.twitterlistviewer_android.restapi.dto.DefaultList;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.Data;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;

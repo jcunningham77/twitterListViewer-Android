@@ -15,11 +15,9 @@ import retrofit2.http.Query;
 public interface ListOwnershipService {
 
     /**
-     * Returns an HTTP 200 OK response code and a representation of the requesting user if
-     * authentication was successful; returns a 401 status code and an error message if not. Use
-     * this method to test if supplied user credentials are valid.
+     * Returns an HTTP 200 OK response code and a List of TwitterLists that the given screen name is an owner of
      *
-     * @param screenName (optional) The entities node will not be included when set to false.
+     * @param screenName (required) The twitter username to retrive lists owned
      */
     @GET("/1.1/lists/list.json")
     Call<List<TwitterList>> listOwnershipByScreenName(@Query("screen_name") String screenName);

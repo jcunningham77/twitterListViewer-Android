@@ -1,4 +1,4 @@
-package com.jeffcunningham.twitterlistviewer_android;
+package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 

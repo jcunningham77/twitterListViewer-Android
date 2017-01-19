@@ -5,7 +5,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jeffcunningham.twitterlistviewer_android.LoginActivity">
+    tools:context="com.jeffcunningham.twitterlistviewer_android.login.LoginActivity">
 
     <TextView
         android:id="@+id/tvBanner"

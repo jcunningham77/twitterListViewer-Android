@@ -12,15 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".BaseApplication">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jeffcunningham.twitterlistviewer_android.ListsActivity"></activity>
-        <activity android:name="com.jeffcunningham.twitterlistviewer_android.TwitterListActivity"></activity>
+        <activity android:name="com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity"></activity>
+        <activity android:name="com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity"></activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4a50f82908491f822b89af419e412c6f77887924"

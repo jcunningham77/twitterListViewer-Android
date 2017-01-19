@@ -1,4 +1,4 @@
-package com.jeffcunningham.twitterlistviewer_android;
+package com.jeffcunningham.twitterlistviewer_android.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;

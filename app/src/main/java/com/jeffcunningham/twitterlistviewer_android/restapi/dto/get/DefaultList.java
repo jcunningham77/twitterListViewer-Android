@@ -1,5 +1,5 @@
 
-package com.jeffcunningham.twitterlistviewer_android.restapi.dto;
+package com.jeffcunningham.twitterlistviewer_android.restapi.dto.get;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

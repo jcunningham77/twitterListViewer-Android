@@ -16,7 +16,8 @@ public class TwitterApiClientExtension extends TwitterApiClient {
 
 
     /**
-     * @return {@link com.twitter.sdk.android.core.services.FavoriteService} to access TwitterApi
+     * Returns a ListOwnershipService that can query the TwitterAPI for lists owned by a given Twitter account
+     * @return {@link com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions} to access TwitterApi
      */
     public ListOwnershipService getListOwnershipService() {
         return getService(ListOwnershipService.class);

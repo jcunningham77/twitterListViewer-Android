@@ -1,6 +1,6 @@
 package com.jeffcunningham.twitterlistviewer_android.restapi;
 
-import com.jeffcunningham.twitterlistviewer_android.restapi.dto.DefaultList;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 
 import retrofit2.Call;

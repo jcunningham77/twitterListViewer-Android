@@ -1,9 +1,10 @@
-package com.jeffcunningham.twitterlistviewer_android;
+package com.jeffcunningham.twitterlistviewer_android.list;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.jeffcunningham.twitterlistviewer_android.R;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
