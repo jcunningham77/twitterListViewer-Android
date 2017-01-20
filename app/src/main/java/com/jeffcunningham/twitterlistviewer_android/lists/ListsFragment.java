@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
@@ -112,8 +113,14 @@ public class ListsFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GetDefaultListSuccessEvent event){
+        setDefaultListIdForAdapterLists(event.getDefaultList());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
         listsAdapter.setTwitterLists(event.getTwitterLists());
+        listsPresenter.getDefaultListId();
 
     }
 
@@ -179,29 +186,29 @@ public class ListsFragment extends Fragment {
     }
 
 
-    private void getDefaultListId(String username) {
-
-        Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(username);
-
-
-        getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
-            @Override
-            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
-                Log.i(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
-
-                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
-                setDefaultListIdForAdapterLists(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<DefaultList> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage(), t);
-
-            }
-        });
-
-
-    }
+//    private void getDefaultListId(String username) {
+//
+//        Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(username);
+//
+//
+//        getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
+//            @Override
+//            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+//                Log.i(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
+//
+//                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
+//                setDefaultListIdForAdapterLists(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DefaultList> call, Throwable t) {
+//                Log.e(TAG, "onFailure: " + t.getMessage(), t);
+//
+//            }
+//        });
+//
+//
+//    }
 
     private void setDefaultListIdForAdapterLists(DefaultList defaultList){
         for (TwitterList twitterList: listsAdapter.getTwitterLists()){

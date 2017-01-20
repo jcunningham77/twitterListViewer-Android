@@ -2,11 +2,14 @@ package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -17,13 +20,19 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by jeffcunningham on 1/19/17.
  */
 
 public class ListsPresenterImpl {
+
+    @Inject
+    SharedPreferencesRepository sharedPreferencesRepository;
 
     public ListsPresenterImpl() {
 
@@ -73,6 +82,40 @@ public class ListsPresenterImpl {
 
             }
         });
+
+    }
+
+    public void getDefaultListId(){
+        String userName = twitterSession.getUserName();
+        Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(userName);
+
+
+        getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
+            @Override
+            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+                Log.i(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
+
+                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
+                EventBus.getDefault().post(new GetDefaultListSuccessEvent(response.body()));
+//                setDefaultListIdForAdapterLists(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DefaultList> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage(), t);
+
+            }
+        });
+    }
+
+    private void persistDefaultListDataToSharedPreferences(String slug, String listName){
+        Log.i(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
+        sharedPreferencesRepository.persistDefaultListData(slug,listName);
+//        SharedPreferences settings = getActivity().getPreferences(MODE_PRIVATE);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putString("slug",slug);
+//        editor.putString("listName",listName);
+//        editor.commit();
 
     }
 
