@@ -1,5 +1,6 @@
 package com.jeffcunningham.twitterlistviewer_android.lists;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
@@ -9,7 +10,6 @@ import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
-import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -20,8 +20,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -31,11 +29,16 @@ import retrofit2.Response;
 
 public class ListsPresenterImpl {
 
-    @Inject
-    SharedPreferencesRepository sharedPreferencesRepository;
+//    @Inject
+//    SharedPreferencesRepository sharedPreferencesRepository;
 
-    public ListsPresenterImpl() {
+    private SharedPreferences sharedPreferences;
+//    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository) {
+    public ListsPresenterImpl(SharedPreferences sharedPreferences) {
 
+
+//        this.sharedPreferencesRepository = sharedPreferencesRepository;
+        this.sharedPreferences = sharedPreferences;
     }
 
     private APIManager apiManager;
@@ -110,7 +113,12 @@ public class ListsPresenterImpl {
 
     private void persistDefaultListDataToSharedPreferences(String slug, String listName){
         Log.i(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
-        sharedPreferencesRepository.persistDefaultListData(slug,listName);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("slug",slug);
+        editor.putString("listName",listName);
+        editor.commit();
+//        sharedPreferencesRepository.persistDefaultListData(slug,listName);
 //        SharedPreferences settings = getActivity().getPreferences(MODE_PRIVATE);
 //        SharedPreferences.Editor editor = settings.edit();
 //        editor.putString("slug",slug);

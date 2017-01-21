@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
@@ -23,11 +24,14 @@ import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.Data;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,11 +58,18 @@ public class ListsFragment extends Fragment {
 
     private static final String TAG = "ListsFragment";
 
+//    @Inject
+//    SharedPreferencesRepository sharedPreferencesRepository;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
+
+        ((BaseApplication) getActivity().getApplication()).getPreferencesComponent().inject(this);
         ButterKnife.bind(this,view);
         return view;
     }
@@ -73,7 +84,7 @@ public class ListsFragment extends Fragment {
         listsAdapter = new ListsAdapter();
         listsRecyclerView.setAdapter(listsAdapter);
         //--todo inject via Dagger
-        listsPresenter = new ListsPresenterImpl();
+        listsPresenter = new ListsPresenterImpl(this.sharedPreferences);
 
         EventBus.getDefault().register(this);
 
@@ -126,10 +137,13 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SetDefaultListEvent event) {
+
+        this.twitterSession = Twitter.getSessionManager().getActiveSession();
         Log.i(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.getPosition()));
         Log.i(TAG, "onClick: List Name = " + event.getSlug());
         Log.i(TAG, "onClick: List ID = " + event.getListId());
         Log.i(TAG, "onClick: User alias = " + twitterSession.getUserName() );
+
         persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug(),event.getListName());
 
     }

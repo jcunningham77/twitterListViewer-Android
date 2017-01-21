@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
-import com.jeffcunningham.twitterlistviewer_android.di.SharedPreferencesComponent;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 
 /**
@@ -24,8 +23,10 @@ public class ListsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferencesComponent component = DaggerSharedPreferencesComponent.builder
+//        SharedPreferencesComponent component = DaggerSharedPreferencesComponent.builder().sharedPreferencesModule(this.getApplicationContext());
 
+
+//        AppComponent appComponent = AppComponent;
 
         //check if there is a default list set, and show that list's tweets via the TwitterListActivity
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
