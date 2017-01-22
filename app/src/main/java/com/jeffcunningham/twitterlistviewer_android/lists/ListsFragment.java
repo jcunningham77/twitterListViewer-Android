@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
@@ -50,6 +49,8 @@ public class ListsFragment extends Fragment {
     RecyclerView listsRecyclerView;
     ListsAdapter listsAdapter;
     private RecyclerView.LayoutManager listsLayoutManager;
+
+    @Inject
     ListsPresenterImpl listsPresenter;
 
     private APIManager apiManager;
@@ -64,12 +65,16 @@ public class ListsFragment extends Fragment {
     @Inject
     SharedPreferences sharedPreferences;
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
 
-        ((BaseApplication) getActivity().getApplication()).getPreferencesComponent().inject(this);
+//        ((BaseApplication) getActivity().getApplication()).getPreferencesComponent().inject(this);
+        ((ListsActivity) getActivity()).component().inject(this);
+
         ButterKnife.bind(this,view);
         return view;
     }
@@ -84,7 +89,7 @@ public class ListsFragment extends Fragment {
         listsAdapter = new ListsAdapter();
         listsRecyclerView.setAdapter(listsAdapter);
         //--todo inject via Dagger
-        listsPresenter = new ListsPresenterImpl(this.sharedPreferences);
+//        listsPresenter = new ListsPresenterImpl();
 
         EventBus.getDefault().register(this);
 

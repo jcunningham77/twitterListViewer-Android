@@ -3,10 +3,9 @@ package com.jeffcunningham.twitterlistviewer_android;
 import android.app.Application;
 import android.util.Log;
 
-import com.jeffcunningham.twitterlistviewer_android.di.AppModule;
-import com.jeffcunningham.twitterlistviewer_android.di.DaggerSharedPreferencesComponent;
-import com.jeffcunningham.twitterlistviewer_android.di.SharedPreferencesComponent;
-import com.jeffcunningham.twitterlistviewer_android.di.SharedPreferencesModule;
+import com.jeffcunningham.twitterlistviewer_android.di.ApplicationComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.ApplicationModule;
+import com.jeffcunningham.twitterlistviewer_android.di.DaggerApplicationComponent;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -25,7 +24,9 @@ public class BaseApplication extends Application {
 //    private static final String BACKENDLESS_APP_VERSION = BuildConfig.BACKENDLESS_APP_VERSION;
 
 
-    protected static SharedPreferencesComponent preferencesComponent;
+//    protected static SharedPreferencesComponent preferencesComponent;
+
+    private ApplicationComponent applicationComponent;
 
 
     private static final String TAG = "BaseApplication";
@@ -38,10 +39,14 @@ public class BaseApplication extends Application {
 
         Fabric.with(this, new Twitter(authConfig));
 
-        preferencesComponent = DaggerSharedPreferencesComponent.builder()
-                    .appModule(new AppModule(this))
-                    .sharedPreferencesModule(new SharedPreferencesModule())
-                    .build();
+//        preferencesComponent = DaggerSharedPreferencesComponent.builder()
+//                    .appModule(new AppModule(this))
+//                    .sharedPreferencesModule(new SharedPreferencesModule())
+//                    .build();
+
+        applicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
 
 //        SharedPreferencesComponent.Builder builder = (SharedPreferencesComponent.Builder)((SubcomponentBuilderProvider)getApplicationContext()).getSubcomponentBuilder(SharedPreferencesComponent.Builder.class);
 //
@@ -53,7 +58,7 @@ public class BaseApplication extends Application {
 
     }
 
-    public static SharedPreferencesComponent getPreferencesComponent() {
-        return preferencesComponent;
+    public ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
     }
 }

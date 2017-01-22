@@ -20,6 +20,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -27,13 +29,17 @@ import retrofit2.Response;
  * Created by jeffcunningham on 1/19/17.
  */
 
-public class ListsPresenterImpl {
+public class ListsPresenterImpl implements ListsPresenter {
 
 //    @Inject
 //    SharedPreferencesRepository sharedPreferencesRepository;
 
-    private SharedPreferences sharedPreferences;
+
+    SharedPreferences sharedPreferences;
+
+
 //    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository) {
+    @Inject
     public ListsPresenterImpl(SharedPreferences sharedPreferences) {
 
 

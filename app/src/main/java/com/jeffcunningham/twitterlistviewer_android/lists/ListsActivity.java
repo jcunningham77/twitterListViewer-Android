@@ -8,7 +8,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.di.DaggerListsComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.ListsComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.ListsModule;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 
 /**
@@ -19,12 +23,25 @@ public class ListsActivity extends Activity {
 
     private static final String TAG = "ListsActivity";
 
+    private ListsComponent component;
+
+    ListsComponent component() {
+        if (component == null) {
+            component = DaggerListsComponent.builder()
+                    .applicationComponent(((BaseApplication) getApplication()).getApplicationComponent())
+                    .listsModule(new ListsModule())
+                    .build();
+        }
+        return component;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 //        SharedPreferencesComponent component = DaggerSharedPreferencesComponent.builder().sharedPreferencesModule(this.getApplicationContext());
 
+        component().inject(this);
 
 //        AppComponent appComponent = AppComponent;
 
