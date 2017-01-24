@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -45,6 +45,8 @@ public class ListsFragment extends Fragment {
 
     @Inject
     ListsPresenterImpl listsPresenter;
+    @Inject
+    Logger logger;
 
     private APIManager apiManager;
 
@@ -95,10 +97,10 @@ public class ListsFragment extends Fragment {
     public void onMessageEvent(SetDefaultListEvent event) {
 
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
-        Log.i(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.getPosition()));
-        Log.i(TAG, "onClick: List Name = " + event.getSlug());
-        Log.i(TAG, "onClick: List ID = " + event.getListId());
-        Log.i(TAG, "onClick: User alias = " + twitterSession.getUserName() );
+        logger.info(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.getPosition()));
+        logger.info(TAG, "onClick: List Name = " + event.getSlug());
+        logger.info(TAG, "onClick: List ID = " + event.getListId());
+        logger.info(TAG, "onClick: User alias = " + twitterSession.getUserName() );
 
         listsPresenter.persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug(),event.getListName());
 
@@ -116,10 +118,10 @@ public class ListsFragment extends Fragment {
 
     private void setDefaultListIdForAdapterLists(DefaultList defaultList){
         for (TwitterList twitterList: listsAdapter.getTwitterLists()){
-            Log.i(TAG, "setDefaultListIdForAdapterLists: default list id =   " + defaultList.getListId() +  ", this list id = " + twitterList.getId());
+            logger.info(TAG, "setDefaultListIdForAdapterLists: default list id =   " + defaultList.getListId() +  ", this list id = " + twitterList.getId());
             if (defaultList.getListId().equalsIgnoreCase(twitterList.getIdStr())){
                 twitterList.setDefaultList(true);
-                Log.i(TAG, "setting this twitterList to default = true ");
+                logger.info(TAG, "setting this twitterList to default = true ");
             } else {
                 twitterList.setDefaultList(false);
             }

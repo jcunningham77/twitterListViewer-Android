@@ -23,4 +23,6 @@ public interface Logger {
     void warning(String tag, String msg);
 
     void warning(String tag, String msg, Throwable tr);
+
+    String getStackTraceString(Exception e);
 }

@@ -13,6 +13,7 @@ import com.jeffcunningham.twitterlistviewer_android.di.DaggerListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsModule;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
+import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 
 import javax.inject.Inject;
@@ -29,6 +30,8 @@ public class ListsActivity extends Activity {
 
     @Inject
     SharedPreferencesRepository sharedPreferencesRepository;
+    @Inject
+    Logger logger;
 
     ListsComponent component() {
         if (component == null) {
@@ -49,7 +52,7 @@ public class ListsActivity extends Activity {
         String persistedDefaultSlug = sharedPreferencesRepository.getDefaultListSlug();
         String persistedDefaultListName = sharedPreferencesRepository.getDefaultListName();
         if ((null != persistedDefaultSlug) && (!persistedDefaultSlug.equalsIgnoreCase(""))) {
-            Log.i(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to that TwitterListActivity.");
+            logger.info(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to that TwitterListActivity.");
             Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
             listIntent.putExtra("slug", persistedDefaultSlug);
             listIntent.putExtra("listName", persistedDefaultListName);

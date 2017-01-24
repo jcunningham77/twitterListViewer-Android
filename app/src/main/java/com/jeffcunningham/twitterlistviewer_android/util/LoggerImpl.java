@@ -67,5 +67,12 @@ public class LoggerImpl implements Logger {
     public void warning(String tag, String msg, Throwable tr) {
         Log.w(tag, msg, tr);
     }
+
+    @Override
+    public String getStackTraceString(Exception e) {
+        return Log.getStackTraceString(e);
+    }
+
+
 }
 
