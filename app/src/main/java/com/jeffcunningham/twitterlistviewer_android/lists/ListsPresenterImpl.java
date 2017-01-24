@@ -6,6 +6,8 @@ import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccess
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.Data;
+import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
@@ -47,6 +49,7 @@ public class ListsPresenterImpl implements ListsPresenter {
     private static final String TAG = "ListsPresenterImpl";
 
 
+    @Override
     public void getListMembershipByTwitterUser(){
 
         // get current Twitter user's list membership
@@ -78,6 +81,41 @@ public class ListsPresenterImpl implements ListsPresenter {
 
                 Log.e(TAG, "failure: " + exception.getMessage());
                 Log.getStackTraceString(exception);
+
+            }
+        });
+
+    }
+
+    public void persistDefaultListId(String alias, String listId, String slug, String listName){
+
+
+        PostDefaultList defaultListBody = new PostDefaultList();
+        Data defaultListBodyData = new Data();
+
+        defaultListBodyData.setAlias(alias);
+        defaultListBodyData.setListId(listId);
+        defaultListBodyData.setSlug(slug);
+        defaultListBodyData.setListName(listName);
+        defaultListBody.setData(defaultListBodyData);
+        Log.i(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
+        Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
+
+        postDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
+            @Override
+            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list id = " + response.body().getListId());
+                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list slug = " + response.body().getSlug());
+                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list alias = " + response.body().getAlias());
+
+                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
+//                setDefaultListIdForAdapterLists(response.body());
+                EventBus.getDefault().post(new GetDefaultListSuccessEvent(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<DefaultList> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage(), t);
 
             }
         });

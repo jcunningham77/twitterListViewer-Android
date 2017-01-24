@@ -20,8 +20,6 @@ import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
-import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.Data;
-import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -34,8 +32,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -149,7 +145,7 @@ public class ListsFragment extends Fragment {
         Log.i(TAG, "onClick: List ID = " + event.getListId());
         Log.i(TAG, "onClick: User alias = " + twitterSession.getUserName() );
 
-        persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug(),event.getListName());
+        listsPresenter.persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug(),event.getListName());
 
     }
 
@@ -162,37 +158,37 @@ public class ListsFragment extends Fragment {
     }
 
 
-    private void persistDefaultListId(String alias, String listId, String slug, String listName){
-        PostDefaultList defaultListBody = new PostDefaultList();
-        Data defaultListBodyData = new Data();
-
-        defaultListBodyData.setAlias(alias);
-        defaultListBodyData.setListId(listId);
-        defaultListBodyData.setSlug(slug);
-        defaultListBodyData.setListName(listName);
-        defaultListBody.setData(defaultListBodyData);
-        Log.i(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
-        Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
-
-        postDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
-            @Override
-            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
-                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list id = " + response.body().getListId());
-                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list slug = " + response.body().getSlug());
-                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list alias = " + response.body().getAlias());
-
-                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
-                setDefaultListIdForAdapterLists(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<DefaultList> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage(), t);
-
-            }
-        });
-
-    }
+//    private void persistDefaultListId(String alias, String listId, String slug, String listName){
+//        PostDefaultList defaultListBody = new PostDefaultList();
+//        Data defaultListBodyData = new Data();
+//
+//        defaultListBodyData.setAlias(alias);
+//        defaultListBodyData.setListId(listId);
+//        defaultListBodyData.setSlug(slug);
+//        defaultListBodyData.setListName(listName);
+//        defaultListBody.setData(defaultListBodyData);
+//        Log.i(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
+//        Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
+//
+//        postDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
+//            @Override
+//            public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+//                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list id = " + response.body().getListId());
+//                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list slug = " + response.body().getSlug());
+//                Log.i(TAG, "onResponse: Retrofit call to Node post default list succeeded, default list alias = " + response.body().getAlias());
+//
+//                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
+//                setDefaultListIdForAdapterLists(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DefaultList> call, Throwable t) {
+//                Log.e(TAG, "onFailure: " + t.getMessage(), t);
+//
+//            }
+//        });
+//
+//    }
 
     private void persistDefaultListDataToSharedPreferences(String slug, String listName){
         Log.i(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
