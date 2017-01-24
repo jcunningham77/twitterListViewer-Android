@@ -39,21 +39,11 @@ public class BaseApplication extends Application {
 
         Fabric.with(this, new Twitter(authConfig));
 
-//        preferencesComponent = DaggerSharedPreferencesComponent.builder()
-//                    .appModule(new AppModule(this))
-//                    .sharedPreferencesModule(new SharedPreferencesModule())
-//                    .build();
 
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
 
-//        SharedPreferencesComponent.Builder builder = (SharedPreferencesComponent.Builder)((SubcomponentBuilderProvider)getApplicationContext()).getSubcomponentBuilder(SharedPreferencesComponent.Builder.class);
-//
-//        builder.sharedPreferencesModule(new SharedPreferencesModule(this.getBaseContext()));
-//        SharedPreferencesComponent preferencesComponent =
-
-//        Backendless.initApp( this, BACKENDLESS_APP_ID, BACKENDLESS_KEY, BACKENDLESS_APP_VERSION);
 
 
     }

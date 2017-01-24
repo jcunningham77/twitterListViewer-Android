@@ -35,6 +35,8 @@ public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
 
+    TwitterSession twitterSession;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,8 +57,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void success(Result<TwitterSession> result) {
 
-                TwitterSession session = result.data;
-                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
+                twitterSession = result.data;
+                String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
                 Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
