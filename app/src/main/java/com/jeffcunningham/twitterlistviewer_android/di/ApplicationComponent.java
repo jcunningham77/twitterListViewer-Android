@@ -15,7 +15,7 @@ public interface ApplicationComponent {
     void inject(BaseApplication baseApplication);
     Application application();
 
-//    SharedPreferences sharedPreferences();
+
 
     SharedPreferencesRepository sharedPreferencesRepository();
 

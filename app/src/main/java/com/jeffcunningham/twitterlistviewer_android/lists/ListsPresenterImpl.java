@@ -38,8 +38,6 @@ public class ListsPresenterImpl implements ListsPresenter {
     @Inject
     public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository) {
 
-
-
         this.sharedPreferencesRepository = sharedPreferencesRepository;
     }
 
@@ -111,14 +109,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
     private void persistDefaultListDataToSharedPreferences(String slug, String listName){
         Log.i(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
-
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("slug",slug);
-//        editor.putString("listName",listName);
-//        editor.commit();
         sharedPreferencesRepository.persistDefaultListData(slug,listName);
-
-
     }
 
 }

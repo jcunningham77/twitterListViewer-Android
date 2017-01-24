@@ -37,4 +37,18 @@ public class SharedPreferencesRepositoryImpl implements SharedPreferencesReposit
         editor.commit();
 
     }
+
+    @Override
+    public String getDefaultListSlug() {
+        logger.info(TAG, ": getDefaultListSlug(): ");
+        return prefs.getString("slug", "");
+    }
+
+    @Override
+    public String getDefaultListName() {
+        logger.info(TAG, ": getDefaultListName(): ");
+        return prefs.getString("listName", "");
+    }
+
+
 }
