@@ -1,6 +1,5 @@
 package com.jeffcunningham.twitterlistviewer_android.lists;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
@@ -10,6 +9,7 @@ import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -31,20 +31,16 @@ import retrofit2.Response;
 
 public class ListsPresenterImpl implements ListsPresenter {
 
-//    @Inject
-//    SharedPreferencesRepository sharedPreferencesRepository;
+    SharedPreferencesRepository sharedPreferencesRepository;
 
 
-    SharedPreferences sharedPreferences;
 
-
-//    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository) {
     @Inject
-    public ListsPresenterImpl(SharedPreferences sharedPreferences) {
+    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository) {
 
 
-//        this.sharedPreferencesRepository = sharedPreferencesRepository;
-        this.sharedPreferences = sharedPreferences;
+
+        this.sharedPreferencesRepository = sharedPreferencesRepository;
     }
 
     private APIManager apiManager;
@@ -73,10 +69,6 @@ public class ListsPresenterImpl implements ListsPresenter {
                 }
 
                 EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
-
-
-                //listsAdapter.setTwitterUserId(twitterSession.getUserId());
-                //listsAdapter.setTwitterLists(result.data);
 
                 //todo-- execute from ListsFragment
                 //getDefaultListId(twitterSession.getUserName());
@@ -120,16 +112,12 @@ public class ListsPresenterImpl implements ListsPresenter {
     private void persistDefaultListDataToSharedPreferences(String slug, String listName){
         Log.i(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("slug",slug);
-        editor.putString("listName",listName);
-        editor.commit();
-//        sharedPreferencesRepository.persistDefaultListData(slug,listName);
-//        SharedPreferences settings = getActivity().getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor editor = settings.edit();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
 //        editor.putString("slug",slug);
 //        editor.putString("listName",listName);
 //        editor.commit();
+        sharedPreferencesRepository.persistDefaultListData(slug,listName);
+
 
     }
 

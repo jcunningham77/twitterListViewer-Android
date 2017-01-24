@@ -1,8 +1,13 @@
 package com.jeffcunningham.twitterlistviewer_android.di;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Context;
+
+import com.jeffcunningham.twitterlistviewer_android.di.annotations.ApplicationContext;
+import com.jeffcunningham.twitterlistviewer_android.util.Logger;
+import com.jeffcunningham.twitterlistviewer_android.util.LoggerImpl;
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepositoryImpl;
 
 import javax.inject.Singleton;
 
@@ -16,9 +21,11 @@ import dagger.Provides;
 public class ApplicationModule {
 
     private final Application application;
+    private Context context;
 
     public ApplicationModule(Application application) {
         this.application = application;
+        this.context = application.getApplicationContext();
     }
 
     /**
@@ -31,10 +38,21 @@ public class ApplicationModule {
     }
 
     @Provides
+    @ApplicationContext
+    public Context provideApplicationContext(){
+        return context;
+    }
+
+
+    @Provides
     @Singleton
-        // Application reference must come from AppModule.class
-    SharedPreferences providesSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(application);
+    SharedPreferencesRepository providesSharedPreferencesRepository(SharedPreferencesRepositoryImpl impl){
+        return impl;
+    }
+
+    @Provides
+    Logger provideLogger(LoggerImpl impl){
+        return impl;
     }
 
 }

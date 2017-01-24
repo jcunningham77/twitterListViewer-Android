@@ -62,8 +62,8 @@ public class ListsFragment extends Fragment {
 //    @Inject
 //    SharedPreferencesRepository sharedPreferencesRepository;
 
-    @Inject
-    SharedPreferences sharedPreferences;
+//    @Inject
+//    SharedPreferences sharedPreferences;
 
 
 

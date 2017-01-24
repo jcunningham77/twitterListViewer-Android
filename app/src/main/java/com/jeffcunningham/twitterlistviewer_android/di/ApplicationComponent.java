@@ -1,9 +1,9 @@
 package com.jeffcunningham.twitterlistviewer_android.di;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 
 import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 
 import javax.inject.Singleton;
 
@@ -15,6 +15,8 @@ public interface ApplicationComponent {
     void inject(BaseApplication baseApplication);
     Application application();
 
-    SharedPreferences sharedPreferences();
+//    SharedPreferences sharedPreferences();
+
+    SharedPreferencesRepository sharedPreferencesRepository();
 
 }

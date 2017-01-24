@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.jeffcunningham.twitterlistviewer_android.di.annotations.ApplicationContext;
+
 import javax.inject.Inject;
 
 /**
@@ -13,16 +15,21 @@ import javax.inject.Inject;
 public class SharedPreferencesRepositoryImpl implements SharedPreferencesRepository {
 
     private SharedPreferences prefs;
+    private Logger logger;
+
+    private static final String TAG = "SharedPrefRepImpl";
 
     @Inject
-    public SharedPreferencesRepositoryImpl(Context context) {
+    public SharedPreferencesRepositoryImpl(@ApplicationContext Context context, Logger logger) {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.logger = logger;
     }
 
     @Override
     public void persistDefaultListData(String slug, String listName) {
 
+        logger.info(TAG, "persistDefaultListData: for slug = " + slug + ", listName = " + listName);
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("slug",slug);
