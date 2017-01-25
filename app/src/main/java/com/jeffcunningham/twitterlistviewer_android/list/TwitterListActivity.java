@@ -21,6 +21,7 @@ public class TwitterListActivity extends android.app.Activity {
 
     private static final String TAG = "TwitterListActivity";
     private ListComponent component;
+
     @Inject
     Logger logger;
 

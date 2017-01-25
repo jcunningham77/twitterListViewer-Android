@@ -27,7 +27,7 @@ public class TwitterListFragment extends ListFragment {
     String slug;
     String alias;
     String listName;
-    
+
     @BindView(R.id.tvListName)
     TextView tvListName;
 

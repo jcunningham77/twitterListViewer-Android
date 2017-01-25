@@ -53,6 +53,7 @@ public class ListsPresenterImpl implements ListsPresenter {
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
         ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
+        logger.info(TAG,"getListMembershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
 
         Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
 
