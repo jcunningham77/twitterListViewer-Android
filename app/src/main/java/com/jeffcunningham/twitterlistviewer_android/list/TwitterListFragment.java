@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TwitterListTimeline;
 
@@ -29,9 +27,7 @@ public class TwitterListFragment extends ListFragment {
     String slug;
     String alias;
     String listName;
-
-    TwitterSession twitterSession;
-
+    
     @BindView(R.id.tvListName)
     TextView tvListName;
 
@@ -40,16 +36,17 @@ public class TwitterListFragment extends ListFragment {
     @Inject
     Logger logger;
 
+    @Inject
+    TwitterListPresenter twitterListPresenter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_twitter_list, container, false);
         ((TwitterListActivity) getActivity()).component().inject(this);
-        logger.info(TAG, "onCreateView: getArguments().getString(\"slug\",\"\") = " + getArguments().getString("slug",""));
+
         this.slug = getArguments().getString("slug","");
         this.listName = getArguments().getString("listName","");
-
-
 
         ButterKnife.bind(this,view);
         return view;
@@ -59,13 +56,12 @@ public class TwitterListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.twitterSession = Twitter.getSessionManager().getActiveSession();
-        this.alias = twitterSession.getUserName();
+        this.alias = twitterListPresenter.getTwitterUserName();
 
         tvListName.setText("@"+this.alias+"/"+ this.listName);
 
-        logger.info(TAG, "onCreate: slug = " + slug + ", alias = " + alias);
-        logger.info(TAG, "onViewCreated: this.slug = " + this.slug);
+
+        logger.info(TAG, "onViewCreated: this.slug = " + this.slug + ", this.alias = " + this.alias);
 
         final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
                 .slugWithOwnerScreenName(slug,alias)

@@ -12,7 +12,6 @@ import com.jeffcunningham.twitterlistviewer_android.di.DaggerListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsModule;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
-import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsFragment;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 
