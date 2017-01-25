@@ -1,7 +1,7 @@
 package com.jeffcunningham.twitterlistviewer_android.di;
 
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
-import com.jeffcunningham.twitterlistviewer_android.lists.ListsFragment;
+import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsFragment;
 
 import dagger.Component;
 

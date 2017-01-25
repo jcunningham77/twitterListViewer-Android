@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
@@ -13,6 +12,7 @@ import com.jeffcunningham.twitterlistviewer_android.di.DaggerListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsModule;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
+import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsFragment;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 
