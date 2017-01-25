@@ -8,6 +8,8 @@ public interface SharedPreferencesRepository {
 
     public void persistDefaultListData(String slug, String listName);
 
+    public void clearDefaultListData();
+
     public String getDefaultListSlug();
 
     public String getDefaultListName();

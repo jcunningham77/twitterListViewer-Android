@@ -39,6 +39,13 @@ public class SharedPreferencesRepositoryImpl implements SharedPreferencesReposit
     }
 
     @Override
+    public void clearDefaultListData() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    @Override
     public String getDefaultListSlug() {
         logger.info(TAG, ": getDefaultListSlug(): ");
         return prefs.getString("slug", "");

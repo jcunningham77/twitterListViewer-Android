@@ -19,6 +19,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,6 +39,9 @@ public class LoginFragment extends Fragment {
 
     TwitterSession twitterSession;
 
+    @Inject
+    LoginPresenter loginPresenter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +55,8 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((LoginActivity)this.getActivity()).component().inject(this);
+
         twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
         //don't activate until logged in w TLV
         twitterLoginButton.setEnabled(true);
@@ -60,6 +67,7 @@ public class LoginFragment extends Fragment {
                 twitterSession = result.data;
                 String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
+                loginPresenter.clearSharedPreferencesData();
                 Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
                 startActivity(listsIntent);
@@ -68,6 +76,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
+                loginPresenter.clearSharedPreferencesData();
                 textViewTwitterError.setVisibility(View.VISIBLE);
                 textViewTwitterError.setText("Twitter Login failed due to " + exception.getMessage());
             }
