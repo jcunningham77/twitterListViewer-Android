@@ -133,7 +133,7 @@ public class ListsFragment extends Fragment {
 
     private void setDefaultListIdForAdapterLists(DefaultList defaultList){
         for (TwitterList twitterList: listsAdapter.getTwitterLists()){
-            logger.info(TAG, "setDefaultListIdForAdapterLists: default list id =   " + defaultList.getListId() +  ", this list id = " + twitterList.getId());
+            logger.info(TAG, "setDefaultListIdForAdapterLists: default list id =   " + defaultList.getListId() +  ", this list id = " + twitterList.getIdStr());
             if (defaultList.getListId().equalsIgnoreCase(twitterList.getIdStr())){
                 twitterList.setDefaultList(true);
                 logger.info(TAG, "setting this twitterList to default = true ");
