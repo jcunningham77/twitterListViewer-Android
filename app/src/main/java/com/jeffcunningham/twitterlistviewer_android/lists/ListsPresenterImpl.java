@@ -1,6 +1,7 @@
 package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
+import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
@@ -79,6 +80,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
                 logger.error(TAG, "failure: " + exception.getMessage());
                 logger.getStackTraceString(exception);
+                EventBus.getDefault().post(new GetListOwnershipByTwitterUserFailureEvent());
 
             }
         });

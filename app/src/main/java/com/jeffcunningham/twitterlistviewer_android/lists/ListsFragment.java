@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
+import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
@@ -41,6 +43,10 @@ public class ListsFragment extends Fragment {
 
     @BindView(R.id.listsRecyclerView)
     RecyclerView listsRecyclerView;
+    @BindView(R.id.error)
+    TextView tvError;
+
+
     ListsAdapter listsAdapter;
     private RecyclerView.LayoutManager listsLayoutManager;
 
@@ -69,7 +75,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        tvError.setVisibility(View.GONE);
         listsRecyclerView.setHasFixedSize(true);
         listsLayoutManager = new LinearLayoutManager(getActivity());
         listsRecyclerView.setLayoutManager(listsLayoutManager);
@@ -91,6 +97,14 @@ public class ListsFragment extends Fragment {
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
         listsAdapter.setTwitterLists(event.getTwitterLists());
         listsPresenter.getDefaultListId();
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GetListOwnershipByTwitterUserFailureEvent event){
+        tvError.setText(getContext().getString(R.string.retrieveListsError));
+        tvError.setVisibility(View.VISIBLE);
+
 
     }
 
