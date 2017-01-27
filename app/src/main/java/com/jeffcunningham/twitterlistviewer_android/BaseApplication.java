@@ -3,6 +3,9 @@ package com.jeffcunningham.twitterlistviewer_android;
 import android.app.Application;
 import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.di.ApplicationComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.ApplicationModule;
+import com.jeffcunningham.twitterlistviewer_android.di.DaggerApplicationComponent;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -21,7 +24,9 @@ public class BaseApplication extends Application {
 //    private static final String BACKENDLESS_APP_VERSION = BuildConfig.BACKENDLESS_APP_VERSION;
 
 
+//    protected static SharedPreferencesComponent preferencesComponent;
 
+    private ApplicationComponent applicationComponent;
 
 
     private static final String TAG = "BaseApplication";
@@ -34,8 +39,16 @@ public class BaseApplication extends Application {
 
         Fabric.with(this, new Twitter(authConfig));
 
-//        Backendless.initApp( this, BACKENDLESS_APP_ID, BACKENDLESS_KEY, BACKENDLESS_APP_VERSION);
+
+        applicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
 
 
+
+    }
+
+    public ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
     }
 }

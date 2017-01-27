@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.di.DaggerListsComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.ListsComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.ListsModule;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
+import com.jeffcunningham.twitterlistviewer_android.util.Logger;
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
+
+import javax.inject.Inject;
 
 /**
  * Created by jeffcunningham on 12/10/16.
@@ -19,16 +25,33 @@ public class ListsActivity extends Activity {
 
     private static final String TAG = "ListsActivity";
 
+    private ListsComponent component;
+
+    @Inject
+    SharedPreferencesRepository sharedPreferencesRepository;
+    @Inject
+    Logger logger;
+
+    ListsComponent component() {
+        if (component == null) {
+            component = DaggerListsComponent.builder()
+                    .applicationComponent(((BaseApplication) getApplication()).getApplicationComponent())
+                    .listsModule(new ListsModule())
+                    .build();
+        }
+        return component;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //check if there is a default list set, and show that list's tweets via the TwitterListActivity
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        String persistedDefaultSlug = preferences.getString("slug", "");
-        String persistedDefaultListName = preferences.getString("listName", "");
+        component().inject(this);
+
+        String persistedDefaultSlug = sharedPreferencesRepository.getDefaultListSlug();
+        String persistedDefaultListName = sharedPreferencesRepository.getDefaultListName();
         if ((null != persistedDefaultSlug) && (!persistedDefaultSlug.equalsIgnoreCase(""))) {
-            Log.i(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to that TwitterListActivity.");
+            logger.info(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to that TwitterListActivity.");
             Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
             listIntent.putExtra("slug", persistedDefaultSlug);
             listIntent.putExtra("listName", persistedDefaultListName);
@@ -44,7 +67,5 @@ public class ListsActivity extends Activity {
         ft.add(R.id.fragment_container, listsFragment);
         ft.commit();
 
-
     }
-
 }

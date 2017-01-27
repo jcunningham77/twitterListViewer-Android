@@ -5,10 +5,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TwitterList {
-
-    @SerializedName("id")
-    @Expose
-    private Long id;
+//
+//    @SerializedName("id")
+//    @Expose
+//    private Long id;
     @SerializedName("id_str")
     @Expose
     private String idStr;
@@ -57,23 +57,23 @@ public class TwitterList {
         this.defaultList = defaultList;
     }
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    /**
+//     *
+//     * @return
+//     *     The id
+//     */
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    /**
+//     *
+//     * @param id
+//     *     The id
+//     */
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     /**
      * 

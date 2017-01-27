@@ -6,12 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
+import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.di.DaggerLoginComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.LoginComponent;
+import com.jeffcunningham.twitterlistviewer_android.di.LoginModule;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
+import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
@@ -19,17 +25,40 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
+    private LoginComponent component;
+
+    TwitterSession session;
+
+    @Inject
+    Logger logger;
+
+    LoginComponent component() {
+        if (component == null) {
+            component = DaggerLoginComponent.builder()
+                    .applicationComponent(((BaseApplication) getApplication()).getApplicationComponent())
+                    .loginModule(new LoginModule())
+                    .build();
+
+
+        }
+        return component;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        component().inject(this);
+
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        TwitterSession session = Twitter.getSessionManager().getActiveSession();
+        session = Twitter.getSessionManager().getActiveSession();
 
         if (session!=null){
-            Log.i(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
-            Log.i(TAG, "onCreate: forwarding direct to Lists page");
+            logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
+            logger.info(TAG, "onCreate: forwarding direct to Lists page");
             //forward direct to Lists page
             Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
             startActivity(listsIntent);
@@ -53,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         if (fm != null) {
             fm.findFragmentByTag("LoginFragment").onActivityResult(requestCode, resultCode, data);
         }
-        else Log.d("Twitter", "fragment is null");
+        else logger.debug("Twitter", "fragment is null");
     }
 
 }

@@ -6,9 +6,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+    //these returning values from twitter are greater than the upper bounds of a Java int.
+    //if we decide we need these, can always use longs
+//    @SerializedName("id")
+//    @Expose
+//    private Integer id;
     @SerializedName("id_str")
     @Expose
     private String idStr;
@@ -130,23 +132,26 @@ public class User {
     @Expose
     private String translatorType;
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
-    public Integer getId() {
-        return id;
-    }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    //these returning values from twitter are greater than the upper bounds of a Java int.
+    //if we decide we need these, can always use longs
+//    /**
+//     *
+//     * @return
+//     *     The id
+//     */
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    /**
+//     *
+//     * @param id
+//     *     The id
+//     */
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 
     /**
      * 

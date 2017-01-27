@@ -1,4 +1,4 @@
-package com.jeffcunningham.twitterlistviewer_android.lists;
+package com.jeffcunningham.twitterlistviewer_android.lists.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
