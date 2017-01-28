@@ -56,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
 
         session = Twitter.getSessionManager().getActiveSession();
 
+        //the below code block could conceivably be pushed to a presenter layer, but since it is performing business logic,
+        //and is not referencing any UI, it could likely stay here
         if (session!=null){
             logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
             logger.info(TAG, "onCreate: forwarding direct to Lists page");

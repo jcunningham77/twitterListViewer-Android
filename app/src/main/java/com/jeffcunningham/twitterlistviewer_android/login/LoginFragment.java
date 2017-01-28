@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
@@ -30,12 +29,14 @@ import butterknife.ButterKnife;
 
 public class LoginFragment extends Fragment {
 
+    private static final String TAG = "LoginFragment";
+
     TwitterLoginButton twitterLoginButton;
 
     @BindView(R.id.tvTwitterError)
     TextView textViewTwitterError;
 
-    private static final String TAG = "LoginFragment";
+
 
     TwitterSession twitterSession;
 
@@ -58,7 +59,6 @@ public class LoginFragment extends Fragment {
         ((LoginActivity)this.getActivity()).component().inject(this);
 
         twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
-        //don't activate until logged in w TLV
         twitterLoginButton.setEnabled(true);
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
@@ -68,7 +68,6 @@ public class LoginFragment extends Fragment {
                 String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
                 loginPresenter.clearSharedPreferencesData();
-                Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
                 startActivity(listsIntent);
 

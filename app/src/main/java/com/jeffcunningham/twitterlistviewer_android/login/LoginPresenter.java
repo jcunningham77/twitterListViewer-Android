@@ -6,5 +6,5 @@ package com.jeffcunningham.twitterlistviewer_android.login;
 
 public interface LoginPresenter {
 
-    public void clearSharedPreferencesData();
+    void clearSharedPreferencesData();
 }
