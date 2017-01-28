@@ -7,4 +7,6 @@ package com.jeffcunningham.twitterlistviewer_android.login;
 public interface LoginPresenter {
 
     void clearSharedPreferencesData();
+
+    void logoutOfTwitter();
 }
