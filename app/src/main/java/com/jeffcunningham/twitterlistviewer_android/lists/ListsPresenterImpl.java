@@ -33,11 +33,16 @@ import retrofit2.Response;
 
 public class ListsPresenterImpl implements ListsPresenter {
 
+    private static final String TAG = "ListsPresenterImpl";
+
+    //dependencies injected by Dagger via constructor
     private SharedPreferencesRepository sharedPreferencesRepository;
     private Logger logger;
+
+    //these dependencies are not injected by Dagger
     private APIManager apiManager;
-    TwitterSession twitterSession;
-    private static final String TAG = "ListsPresenterImpl";
+    private TwitterSession twitterSession;
+
 
 
     @Inject
@@ -60,7 +65,6 @@ public class ListsPresenterImpl implements ListsPresenter {
 
         listMembership.enqueue(new Callback<List<TwitterList>>(){
 
-
             @Override
             public void success(Result<List<TwitterList>> result) {
 
@@ -69,9 +73,6 @@ public class ListsPresenterImpl implements ListsPresenter {
                 }
 
                 EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
-
-                //todo-- execute from ListsFragment
-                //getDefaultListId(twitterSession.getUserName());
 
             }
 
@@ -127,8 +128,7 @@ public class ListsPresenterImpl implements ListsPresenter {
     public void getDefaultListId(){
         String userName = twitterSession.getUserName();
         Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(userName);
-
-
+        
         getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
