@@ -5,7 +5,6 @@ import android.app.Application;
 import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import javax.inject.Singleton;
 
@@ -21,7 +20,12 @@ public interface ApplicationComponent {
     SharedPreferencesRepository sharedPreferencesRepository();
     Logger logger();
 
+
+    //will not be supplying TwitterSession via Dagger-injected constructors
+    //Probably easier to get current session from presenter methods in case user
+    //switches Twitter accounts
+
     //this also seems to be necessary, and it's not using the @Inject annotation
-    TwitterSession twitterSession();
+//    TwitterSession twitterSession();
 
 }

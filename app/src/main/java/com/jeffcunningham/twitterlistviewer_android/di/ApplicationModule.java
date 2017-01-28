@@ -8,8 +8,6 @@ import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.LoggerImpl;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepositoryImpl;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import javax.inject.Singleton;
 
@@ -57,9 +55,12 @@ public class ApplicationModule {
         return impl;
     }
 
-    @Provides
-    TwitterSession provideTwitterSession(){
-        return Twitter.getSessionManager().getActiveSession();
-    };
+    //will not be supplying TwitterSession via Dagger-injected constructors
+    //Probably easier to get current session from presenter methods in case user
+    //switches Twitter accounts
+//    @Provides
+//    TwitterSession provideTwitterSession(){
+//        return Twitter.getSessionManager().getActiveSession();
+//    };
 
 }

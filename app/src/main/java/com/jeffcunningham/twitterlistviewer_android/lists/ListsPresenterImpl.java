@@ -126,9 +126,12 @@ public class ListsPresenterImpl implements ListsPresenter {
     }
 
     public void getDefaultListId(){
+
+
         String userName = twitterSession.getUserName();
+        logger.info(TAG, "getDefaultListId: for " + userName);
         Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(userName);
-        
+
         getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
