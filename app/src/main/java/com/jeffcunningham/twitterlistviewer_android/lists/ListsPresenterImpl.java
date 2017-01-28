@@ -72,6 +72,8 @@ public class ListsPresenterImpl implements ListsPresenter {
                     logger.info(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
 
+
+
                 EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
 
             }

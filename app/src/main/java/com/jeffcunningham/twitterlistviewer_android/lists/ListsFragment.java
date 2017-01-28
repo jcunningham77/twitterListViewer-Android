@@ -2,12 +2,14 @@ package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
@@ -21,6 +23,7 @@ import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsAdapter;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,6 +46,11 @@ public class ListsFragment extends Fragment {
     RecyclerView listsRecyclerView;
     @BindView(R.id.error)
     TextView tvError;
+    @BindView(R.id.twitterAlias)
+    TextView tvTwitterAlias;
+    @BindView(R.id.twitterAvater)
+    ImageView imgTwitterAvatar;
+
 
 
     ListsAdapter listsAdapter;
@@ -87,13 +95,25 @@ public class ListsFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
         listsAdapter.setTwitterLists(event.getTwitterLists());
+        if (event.getTwitterLists().get(0)!=null){
+            Uri uri = new Uri.Builder().appendPath(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).build();
+
+//            imgTwitterAvatar.setImageURI(uri);
+
+            //Picasso.with(getContext()).load(uri).into(imgTwitterAvatar);
+
+            Picasso.with(getContext()).load(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).into(imgTwitterAvatar);
+            tvTwitterAlias.setText("@" + event.getTwitterLists().get(0).getUser().getScreenName());
+
+        }
         listsPresenter.getDefaultListId();
+
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetListOwnershipByTwitterUserFailureEvent event){
-        tvError.setText(getContext().getString(R.string.retrieveListsError));
+        tvError.setText(getActivity().getApplicationContext().getString(R.string.retrieveListsError));
         tvError.setVisibility(View.VISIBLE);
     }
 
