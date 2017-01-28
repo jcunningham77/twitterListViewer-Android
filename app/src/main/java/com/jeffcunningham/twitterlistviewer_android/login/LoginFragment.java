@@ -47,14 +47,42 @@ public class LoginFragment extends Fragment {
     @Inject
     Logger logger;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        ((LoginActivity)this.getActivity()).component().inject(this);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this,view);
+        logger.info(TAG,"onCreateView: ");
         return view;
 
     }
+
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        twitterSession = Twitter.getSessionManager().getActiveSession();
+
+
+
+        if (twitterSession!=null){
+            logger.info(TAG,"onViewCreated: there is an active twitter session");
+            showLogoutButton();
+        } else {
+            logger.info(TAG,"onViewCreated: there is not an active twitter session");
+            showLoginButton();
+        }
+
+    }
+
 
     @Override
     public void onResume(){
@@ -72,28 +100,14 @@ public class LoginFragment extends Fragment {
 
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        twitterSession = Twitter.getSessionManager().getActiveSession();
-
-        ((LoginActivity)this.getActivity()).component().inject(this);
-
-        if (twitterSession!=null){
-            logger.info(TAG,"onViewCreated: there is an active twitter session");
-            showLogoutButton();
-        } else {
-            logger.info(TAG,"onViewCreated: there is not an active twitter session");
-            showLoginButton();
-        }
-
-    }
-
     private void showLoginButton(){
 
         btnTwitterLogout.setVisibility(View.GONE);
 
-        twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
+        if (twitterLoginButton==null){
+            twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
+        }
+
         twitterLoginButton.setEnabled(true);
         twitterLoginButton.setVisibility(View.VISIBLE);
         twitterLoginButton.setCallback(new Callback<TwitterSession>() {
@@ -108,6 +122,7 @@ public class LoginFragment extends Fragment {
                 startActivity(listsIntent);
 
             }
+
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
@@ -117,25 +132,30 @@ public class LoginFragment extends Fragment {
             }
         });
 
-
-
     }
 
     private void showLogoutButton(){
 
-        logger.info(TAG," onResume: there is an active twitter session");
-        twitterLoginButton.setEnabled(false);
-        twitterLoginButton.setVisibility(View.GONE);
-        btnTwitterLogout.setVisibility(View.VISIBLE);
-        btnTwitterLogout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    logger.info(TAG, "onClick: logging user " + twitterSession.getUserName() + "out of Twitter");
-                    loginPresenter.logoutOfTwitter();
-                    showLoginButton();
-                }
-            }
-        );
+
+
+        logger.info(TAG," showLogoutButton: there is an active twitter session");
+        if (twitterLoginButton!=null) {
+            twitterLoginButton.setEnabled(false);
+            twitterLoginButton.setVisibility(View.GONE);
+        }
+        if (btnTwitterLogout!=null) {
+            btnTwitterLogout.setVisibility(View.VISIBLE);
+            btnTwitterLogout.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        logger.info(TAG, "onClick: logging user " + twitterSession.getUserName() + "out of Twitter");
+                                                        loginPresenter.logoutOfTwitter();
+                                                        showLoginButton();
+                                                    }
+                                                }
+            );
+        }
+
 
 
     }

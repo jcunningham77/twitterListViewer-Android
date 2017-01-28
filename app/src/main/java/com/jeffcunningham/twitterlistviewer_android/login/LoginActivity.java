@@ -48,13 +48,24 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        component().inject(this);
 
+
+        component().inject(this);
+        logger.info(TAG,"onCreate: ");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
         session = Twitter.getSessionManager().getActiveSession();
+
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        LoginFragment loginFragment = new LoginFragment();
+        ft.add(R.id.fragment_container, loginFragment, "LoginFragment");
+        ft.commit();
 
         //the below code block could conceivably be pushed to a presenter layer, but since it is performing business logic,
         //and is not referencing any UI, it could likely stay here
@@ -64,19 +75,11 @@ public class LoginActivity extends AppCompatActivity {
             //forward direct to Lists page
             Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
             startActivity(listsIntent);
-        } else {
 
-            setContentView(R.layout.activity_login);
-            ButterKnife.bind(this);
-
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            LoginFragment loginFragment = new LoginFragment();
-            ft.add(R.id.fragment_container, loginFragment, "LoginFragment");
-            ft.commit();
         }
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
