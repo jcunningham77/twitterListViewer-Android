@@ -64,16 +64,17 @@ public class LoginActivity extends AppCompatActivity {
             //forward direct to Lists page
             Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
             startActivity(listsIntent);
+        } else {
+
+            setContentView(R.layout.activity_login);
+            ButterKnife.bind(this);
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            LoginFragment loginFragment = new LoginFragment();
+            ft.add(R.id.fragment_container, loginFragment, "LoginFragment");
+            ft.commit();
         }
-
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        LoginFragment loginFragment = new LoginFragment();
-        ft.add(R.id.fragment_container, loginFragment, "LoginFragment");
-        ft.commit();
 
     }
 
