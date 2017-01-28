@@ -87,8 +87,11 @@ public class ListsPresenterImpl implements ListsPresenter {
 
     }
 
-    public void persistDefaultListId(String alias, String listId, String slug, String listName){
+    public void persistDefaultListId(String listId, String slug, String listName){
 
+        String alias = "";
+        this.twitterSession = Twitter.getSessionManager().getActiveSession();
+        alias = twitterSession.getUserName();
 
         PostDefaultList defaultListBody = new PostDefaultList();
         Data defaultListBodyData = new Data();

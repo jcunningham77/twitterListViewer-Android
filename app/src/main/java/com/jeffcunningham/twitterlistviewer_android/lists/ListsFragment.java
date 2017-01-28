@@ -19,12 +19,9 @@ import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsAdapter;
-import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +38,8 @@ import butterknife.ButterKnife;
 
 public class ListsFragment extends Fragment {
 
+    private static final String TAG = "ListsFragment";
+
     @BindView(R.id.listsRecyclerView)
     RecyclerView listsRecyclerView;
     @BindView(R.id.error)
@@ -55,11 +54,6 @@ public class ListsFragment extends Fragment {
     @Inject
     Logger logger;
 
-    private APIManager apiManager;
-
-    TwitterSession twitterSession;
-
-    private static final String TAG = "ListsFragment";
 
     @Nullable
     @Override
@@ -111,13 +105,13 @@ public class ListsFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SetDefaultListEvent event) {
 
-        this.twitterSession = Twitter.getSessionManager().getActiveSession();
+
         logger.info(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.getPosition()));
         logger.info(TAG, "onClick: List Name = " + event.getSlug());
         logger.info(TAG, "onClick: List ID = " + event.getListId());
-        logger.info(TAG, "onClick: User alias = " + twitterSession.getUserName() );
+        
 
-        listsPresenter.persistDefaultListId(twitterSession.getUserName(),event.getListId(),event.getSlug(),event.getListName());
+        listsPresenter.persistDefaultListId(event.getListId(),event.getSlug(),event.getListName());
 
     }
 

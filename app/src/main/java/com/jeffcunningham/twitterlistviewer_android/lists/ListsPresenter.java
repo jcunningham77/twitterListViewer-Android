@@ -7,7 +7,7 @@ public interface ListsPresenter {
 
     public void getListMembershipByTwitterUser();
 
-    public void persistDefaultListId(String alias, String listId, String slug, String listName);
+    public void persistDefaultListId(String listId, String slug, String listName);
 
 
 }

@@ -51,7 +51,7 @@ public class ListsActivity extends Activity {
         String persistedDefaultSlug = sharedPreferencesRepository.getDefaultListSlug();
         String persistedDefaultListName = sharedPreferencesRepository.getDefaultListName();
         if ((null != persistedDefaultSlug) && (!persistedDefaultSlug.equalsIgnoreCase(""))) {
-            logger.info(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to that TwitterListActivity.");
+            logger.info(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to the TwitterListActivity.");
             Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
             listIntent.putExtra("slug", persistedDefaultSlug);
             listIntent.putExtra("listName", persistedDefaultListName);
