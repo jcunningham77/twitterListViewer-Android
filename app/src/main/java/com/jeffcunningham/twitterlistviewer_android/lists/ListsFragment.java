@@ -61,6 +61,8 @@ public class ListsFragment extends Fragment {
     @Inject
     Logger logger;
 
+    private String selectedConfiguration;
+
 
 
     @Override
@@ -69,6 +71,8 @@ public class ListsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
         ((ListsActivity) getActivity()).component().inject(this);
         ButterKnife.bind(this,view);
+        this.selectedConfiguration = getString(R.string.selected_configuration);
+        logger.info(TAG, "onCreateView: selectedConfiguration =" + selectedConfiguration);
         return view;
     }
 
@@ -127,11 +131,19 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event){
-        Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
-        listIntent.putExtra("slug",event.getSlug());
-        listIntent.putExtra("listName",event.getListName());
-        listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
-        startActivity(listIntent);
+
+        //only launch TwitterListActivity if we are in layout (phone) configuration
+        //in tablet config (layout-large), TwitterListFragment is also listening to this event and
+        //can refresh itself
+        if (this.selectedConfiguration.equalsIgnoreCase("layout")){
+            Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
+            listIntent.putExtra("slug",event.getSlug());
+            listIntent.putExtra("listName",event.getListName());
+            listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
+            startActivity(listIntent);
+        }
+
+
     }
 
 
@@ -147,5 +159,11 @@ public class ListsFragment extends Fragment {
             }
             listsAdapter.notifyDataSetChanged();
         };
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        listsRecyclerView = null;
     }
 }

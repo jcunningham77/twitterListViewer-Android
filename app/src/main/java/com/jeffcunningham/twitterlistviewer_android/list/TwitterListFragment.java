@@ -10,11 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TwitterListTimeline;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -45,11 +50,14 @@ public class TwitterListFragment extends ListFragment {
     TwitterListPresenter twitterListPresenter;
 
     private String avatarImgUrl;
+    private String selectedConfiguration;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_twitter_list, container, false);
+
+        this.selectedConfiguration = getString(R.string.selected_configuration);
 
         //for tablet, this Fragment will belong to ListsActivity
         if (getActivity().getClass().equals(TwitterListActivity.class)){
@@ -77,7 +85,7 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         String selectedConfiguration = getString(R.string.selected_configuration);
 
@@ -118,13 +126,30 @@ public class TwitterListFragment extends ListFragment {
 
     }
 
-    //probably don't want this - since we aren't going to want to display avatar and handle in tablet mode,
-    //since you can already see that on the Lists Fragment
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
-//
-//        if (event.getTwitterLists().get(0)!=null){
-//            Picasso.with(getContext()).load(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).into(imgTwitterAvatar);
-//        }
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ViewListEvent event) {
+
+        //Only execute the below logic if we are in layout-large (tablet) configurations -
+        //in regular configuration, the ListsFragment will launch an activity for this fragment
+        if (selectedConfiguration.equalsIgnoreCase("layout-large")){
+            tvListName.setText("@"+this.alias + "/" + event.getListName());
+            tvListName.setVisibility(View.VISIBLE);
+            final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
+                    .slugWithOwnerScreenName(event.getSlug(), this.alias)
+                    .build();
+            final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
+                    .setTimeline(userTimeline)
+                    .build();
+            setListAdapter(adapter);
+        }
+
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        setListAdapter(null);
+    }
+
+
 }
