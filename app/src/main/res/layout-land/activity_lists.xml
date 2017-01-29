@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight=".40"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/lists_fragment_container">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight=".60"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/twitter_list_fragment_container">
+
+    </LinearLayout>
+
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="0dip"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight=".20"-->
+        <!--tools:ignore="Suspicious0dp">-->
+        <!--<fragment-->
+            <!--class="com.jeffcunningham.twitterlistviewer_android.lists.ListsFragment"-->
+            <!--android:id="@+id/lists_fragment_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:layout="@layout/fragment_lists">-->
+        <!--</fragment>-->
+    <!--</RelativeLayout>-->
+    <!--<RelativeLayout-->
+        <!--android:layout_width="0dip"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight=".80"-->
+        <!--tools:ignore="Suspicious0dp">-->
+        <!--<fragment-->
+            <!--class="com.jeffcunningham.twitterlistviewer_android.list.TwitterListFragment"-->
+            <!--android:id="@+id/twitter_list_fragment_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:layout="@layout/fragment_twitter_list">-->
+        <!--</fragment>
+    </RelativeLayout>-->
+
+
+</LinearLayout>

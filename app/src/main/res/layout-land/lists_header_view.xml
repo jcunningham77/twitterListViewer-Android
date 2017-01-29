@@ -9,10 +9,10 @@
 
     <TextView
         android:text="@string/list_name_label"
-        android:layout_width="254dp"
-        android:layout_height="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tvListName"
-        android:textSize="18sp"
+        android:textSize="10sp"
         android:layout_marginStart="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textStyle="normal|bold"
@@ -31,7 +31,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintLeft_toRightOf="@+id/tvListName"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvListName"
-        android:textSize="18sp"
+        android:textSize="10sp"
         android:layout_marginEnd="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="wrap_content"

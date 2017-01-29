@@ -129,9 +129,9 @@ public class TwitterListFragment extends ListFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event) {
 
-        //Only execute the below logic if we are in layout-large (tablet) configurations -
+        //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
         //in regular configuration, the ListsFragment will launch an activity for this fragment
-        if (selectedConfiguration.equalsIgnoreCase("layout-large")){
+        if (selectedConfiguration.equalsIgnoreCase("layout-large")||selectedConfiguration.equalsIgnoreCase("layout-land")){
             loadListTimeline(event.getSlug(),event.getListName());
         }
 
@@ -139,7 +139,9 @@ public class TwitterListFragment extends ListFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetDefaultListSuccessEvent event){
-        if (selectedConfiguration.equalsIgnoreCase("layout-large")) {
+        //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
+        //in regular configuration, the ListsFragment will launch an activity for this fragment
+        if (selectedConfiguration.equalsIgnoreCase("layout-large")||selectedConfiguration.equalsIgnoreCase("layout-land")) {
             loadListTimeline(event.getDefaultList().getSlug(),event.getDefaultList().getListName());
         }
     }

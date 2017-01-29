@@ -7,4 +7,8 @@
     <string name="retrieveListsError">Sorry, there was a problem retrieving the lists for this Twitter user. Please try again later.</string>
 
     <string name="selected_configuration">layout</string>
+
+    <!-- list_header_view-->
+    <string name="list_name_label">List Name</string>
+    <string name="default_label">Default List?</string>
 </resources>
