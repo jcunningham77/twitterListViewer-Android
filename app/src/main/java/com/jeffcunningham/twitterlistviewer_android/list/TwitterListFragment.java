@@ -100,7 +100,7 @@ public class TwitterListFragment extends ListFragment {
 
             logger.info(TAG, "onViewCreated: this.slug = " + this.slug + ", this.listName = " + this.listName);
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
-            tvListName.setText("@"+this.alias+"/"+ this.listName);
+
             if (this.avatarImgUrl!=null && !this.avatarImgUrl.equalsIgnoreCase("")){
 
                 imageLoader.loadImageByUrlWithRoundedCorners(this.avatarImgUrl,imgTwitterAvatar);
@@ -109,13 +109,7 @@ public class TwitterListFragment extends ListFragment {
                 logger.info(TAG, "onViewCreated: this.avatarImgUrl is null or empty");
             }
 
-            final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
-                    .slugWithOwnerScreenName(slug,alias)
-                    .build();
-            final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
-                    .setTimeline(userTimeline)
-                    .build();
-            setListAdapter(adapter);
+            loadListTimeline(this.slug,this.listName);
 
         } else {
             //slug and listname are not present from TwitterListActivity (table width)
@@ -137,16 +131,22 @@ public class TwitterListFragment extends ListFragment {
         //Only execute the below logic if we are in layout-large (tablet) configurations -
         //in regular configuration, the ListsFragment will launch an activity for this fragment
         if (selectedConfiguration.equalsIgnoreCase("layout-large")){
-            tvListName.setText("@"+this.alias + "/" + event.getListName());
-            tvListName.setVisibility(View.VISIBLE);
-            final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
-                    .slugWithOwnerScreenName(event.getSlug(), this.alias)
-                    .build();
-            final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
-                    .setTimeline(userTimeline)
-                    .build();
-            setListAdapter(adapter);
+            loadListTimeline(event.getSlug(),event.getListName());
         }
+
+    }
+
+    private void loadListTimeline(String slug, String listName){
+
+        tvListName.setText("@"+this.alias + "/" + listName);
+        tvListName.setVisibility(View.VISIBLE);
+        final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
+                .slugWithOwnerScreenName(slug, this.alias)
+                .build();
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
+                .setTimeline(userTimeline)
+                .build();
+        setListAdapter(adapter);
 
     }
 
