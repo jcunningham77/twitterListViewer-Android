@@ -7,4 +7,6 @@ package com.jeffcunningham.twitterlistviewer_android.list;
 public interface TwitterListPresenter {
 
     public String getTwitterUserName();
+
+    public String getTwitterAvatarImgUrl();
 }

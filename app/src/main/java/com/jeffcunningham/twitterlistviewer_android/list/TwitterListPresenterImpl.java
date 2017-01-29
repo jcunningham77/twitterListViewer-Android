@@ -1,5 +1,6 @@
 package com.jeffcunningham.twitterlistviewer_android.list;
 
+import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -12,9 +13,11 @@ import javax.inject.Inject;
 public class TwitterListPresenterImpl implements TwitterListPresenter {
 
     private TwitterSession twitterSession;
+    private SharedPreferencesRepository sharedPreferencesRepository;
 
     @Inject
-    public TwitterListPresenterImpl() {
+    public TwitterListPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository) {
+        this.sharedPreferencesRepository = sharedPreferencesRepository;
 
     }
 
@@ -22,5 +25,10 @@ public class TwitterListPresenterImpl implements TwitterListPresenter {
     public String getTwitterUserName() {
         twitterSession = Twitter.getSessionManager().getActiveSession();
         return twitterSession.getUserName();
+    }
+
+    @Override
+    public String getTwitterAvatarImgUrl() {
+        return sharedPreferencesRepository.getTwitterAvatarImgUrl();
     }
 }

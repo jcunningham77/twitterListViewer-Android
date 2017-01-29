@@ -54,6 +54,7 @@ public class ListsFragment extends Fragment {
 
     ListsAdapter listsAdapter;
     private RecyclerView.LayoutManager listsLayoutManager;
+    private String avatarImgUrl;
 
     @Inject
     ListsPresenterImpl listsPresenter;
@@ -96,6 +97,7 @@ public class ListsFragment extends Fragment {
         listsAdapter.setTwitterLists(event.getTwitterLists());
         if (event.getTwitterLists().get(0)!=null){
             Picasso.with(getContext()).load(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).into(imgTwitterAvatar);
+            this.avatarImgUrl = event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps();
             tvTwitterAlias.setText("@" + event.getTwitterLists().get(0).getUser().getScreenName());
 
         }
@@ -128,6 +130,7 @@ public class ListsFragment extends Fragment {
         Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
         listIntent.putExtra("slug",event.getSlug());
         listIntent.putExtra("listName",event.getListName());
+        listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
         startActivity(listIntent);
     }
 

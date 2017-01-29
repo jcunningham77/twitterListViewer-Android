@@ -72,9 +72,10 @@ public class ListsPresenterImpl implements ListsPresenter {
                     logger.info(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
 
-
-
+                String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
+                sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
                 EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
+
 
             }
 

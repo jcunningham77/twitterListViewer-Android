@@ -13,4 +13,10 @@ public interface SharedPreferencesRepository {
     public String getDefaultListSlug();
 
     public String getDefaultListName();
+
+    public void persistTwitterAvatarImgUrl(String twitterAvatarImgUrl);
+
+    public String getTwitterAvatarImgUrl();
+
+    public void clearTwitterAvatarImgUrl();
 }
