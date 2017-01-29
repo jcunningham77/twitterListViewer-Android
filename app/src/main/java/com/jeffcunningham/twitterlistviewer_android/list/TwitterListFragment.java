@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
+import com.jeffcunningham.twitterlistviewer_android.util.ImageLoader;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
-import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TwitterListTimeline;
 
@@ -48,6 +48,9 @@ public class TwitterListFragment extends ListFragment {
 
     @Inject
     TwitterListPresenter twitterListPresenter;
+
+    @Inject
+    ImageLoader imageLoader;
 
     private String avatarImgUrl;
     private String selectedConfiguration;
@@ -99,7 +102,9 @@ public class TwitterListFragment extends ListFragment {
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
             tvListName.setText("@"+this.alias+"/"+ this.listName);
             if (this.avatarImgUrl!=null && !this.avatarImgUrl.equalsIgnoreCase("")){
-                Picasso.with(getContext()).load(this.avatarImgUrl).into(imgTwitterAvatar);
+
+                imageLoader.loadImageByUrlWithRoundedCorners(this.avatarImgUrl,imgTwitterAvatar);
+
             } else {
                 logger.info(TAG, "onViewCreated: this.avatarImgUrl is null or empty");
             }

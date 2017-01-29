@@ -21,8 +21,8 @@ import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsAdapter;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.twitterlistviewer_android.util.ImageLoader;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +60,8 @@ public class ListsFragment extends Fragment {
     ListsPresenterImpl listsPresenter;
     @Inject
     Logger logger;
+    @Inject
+    ImageLoader imageLoader;
 
     private String selectedConfiguration;
 
@@ -100,8 +102,9 @@ public class ListsFragment extends Fragment {
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
         listsAdapter.setTwitterLists(event.getTwitterLists());
         if (event.getTwitterLists().get(0)!=null){
-            Picasso.with(getContext()).load(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).into(imgTwitterAvatar);
+
             this.avatarImgUrl = event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps();
+            imageLoader.loadImageByUrlWithRoundedCorners(this.avatarImgUrl,imgTwitterAvatar);
             tvTwitterAlias.setText("@" + event.getTwitterLists().get(0).getUser().getScreenName());
 
         }

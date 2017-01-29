@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jeffcunningham.twitterlistviewer_android.di.annotations.ApplicationContext;
+import com.jeffcunningham.twitterlistviewer_android.util.ImageLoader;
+import com.jeffcunningham.twitterlistviewer_android.util.ImageLoaderImpl;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.LoggerImpl;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
@@ -54,6 +56,13 @@ public class ApplicationModule {
     Logger provideLogger(LoggerImpl impl){
         return impl;
     }
+
+    @Provides
+    ImageLoader provideImageLoader(ImageLoaderImpl impl){
+        return impl;
+    }
+
+
 
     //will not be supplying TwitterSession via Dagger-injected constructors
     //Probably easier to get current session from presenter methods in case user
