@@ -2,7 +2,6 @@ package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -96,12 +95,6 @@ public class ListsFragment extends Fragment {
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
         listsAdapter.setTwitterLists(event.getTwitterLists());
         if (event.getTwitterLists().get(0)!=null){
-            Uri uri = new Uri.Builder().appendPath(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).build();
-
-//            imgTwitterAvatar.setImageURI(uri);
-
-            //Picasso.with(getContext()).load(uri).into(imgTwitterAvatar);
-
             Picasso.with(getContext()).load(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).into(imgTwitterAvatar);
             tvTwitterAlias.setText("@" + event.getTwitterLists().get(0).getUser().getScreenName());
 
