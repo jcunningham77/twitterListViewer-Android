@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
+import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.jeffcunningham.twitterlistviewer_android.util.ImageLoader;
@@ -134,6 +135,13 @@ public class TwitterListFragment extends ListFragment {
             loadListTimeline(event.getSlug(),event.getListName());
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GetDefaultListSuccessEvent event){
+        if (selectedConfiguration.equalsIgnoreCase("layout-large")) {
+            loadListTimeline(event.getDefaultList().getSlug(),event.getDefaultList().getListName());
+        }
     }
 
     private void loadListTimeline(String slug, String listName){
