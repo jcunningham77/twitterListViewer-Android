@@ -71,10 +71,13 @@ public class ListsActivity extends Activity {
 
             }
 
+            //double check that the fragment doesn't already exist
+            //this activity may have been launched from the TwitterListActivity's
+            //onConfigurationStateChange method - which means, ListActivity.onCreate, the ListFragment may already exist
+            //try to find it by Tag, and only add if not already added.
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
-
             if(listsFragment==null){
                 listsFragment = new ListsFragment();
             }
@@ -103,7 +106,7 @@ public class ListsActivity extends Activity {
             ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
 
             ft.commit();
-            
+
         }
 
 
