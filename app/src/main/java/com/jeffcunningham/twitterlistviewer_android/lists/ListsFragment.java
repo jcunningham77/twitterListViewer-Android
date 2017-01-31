@@ -138,6 +138,7 @@ public class ListsFragment extends Fragment {
         //only launch TwitterListActivity if we are in layout (phone) configuration
         //in tablet config (layout-large), TwitterListFragment is also listening to this event and
         //can refresh itself
+        logger.info(TAG,"onMessageEvent - ViewListEvent, this.selectedConfiguration: " + this.selectedConfiguration);
         if (this.selectedConfiguration.equalsIgnoreCase("layout")){
             Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
             listIntent.putExtra("slug",event.getSlug());
