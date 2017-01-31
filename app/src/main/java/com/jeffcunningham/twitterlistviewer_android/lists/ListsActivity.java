@@ -73,23 +73,37 @@ public class ListsActivity extends Activity {
 
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ListsFragment listsFragment = new ListsFragment();
-            ft.add(R.id.lists_fragment_container, listsFragment);
-            ft.commit();
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
+
+            if(listsFragment==null){
+                listsFragment = new ListsFragment();
+            }
+            listsFragment.setRetainInstance(false);
+
+            if(!listsFragment.isAdded()){
+                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.commit();
+            }
+
         } else {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ListsFragment listsFragment = new ListsFragment();
-            ft.add(R.id.lists_fragment_container, listsFragment);
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
 
+            if(listsFragment==null){
+                listsFragment = new ListsFragment();
+            }
+            listsFragment.setRetainInstance(false);
+
+            if(!listsFragment.isAdded()) {
+                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+            }
 
             TwitterListFragment twitterListFragment = new TwitterListFragment();
             ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
 
             ft.commit();
-
-
-
+            
         }
 
 

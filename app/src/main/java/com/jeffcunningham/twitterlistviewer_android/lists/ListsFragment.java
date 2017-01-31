@@ -168,6 +168,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        logger.info(TAG, "onDestroy: ");
         listsRecyclerView = null;
     }
 }

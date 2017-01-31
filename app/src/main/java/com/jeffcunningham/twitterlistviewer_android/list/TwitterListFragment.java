@@ -163,6 +163,7 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        logger.info(TAG, "onDestroy: ");
         setListAdapter(null);
     }
 
