@@ -148,12 +148,14 @@ public class TwitterListFragment extends ListFragment {
 
     private void loadListTimeline(String slug, String listName){
 
+        logger.info(TAG,"loadListTimeline for slug = " + slug + ", listName = " + listName);
+
         tvListName.setText("@"+this.alias + "/" + listName);
         tvListName.setVisibility(View.VISIBLE);
         final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
                 .slugWithOwnerScreenName(slug, this.alias)
                 .build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity().getApplicationContext())
                 .setTimeline(userTimeline)
                 .build();
         setListAdapter(adapter);
