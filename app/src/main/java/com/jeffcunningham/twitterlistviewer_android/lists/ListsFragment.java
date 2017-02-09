@@ -89,7 +89,7 @@ public class ListsFragment extends Fragment {
         listsRecyclerView.setAdapter(listsAdapter);
         
         EventBus.getDefault().register(this);
-        listsPresenter.getListMembershipByTwitterUser();
+        listsPresenter.getListOwnershipByTwitterUser();
 
     }
 
@@ -100,6 +100,7 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
+        logger.info(TAG, "onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event)");
         listsAdapter.setTwitterLists(event.getTwitterLists());
         if (event.getTwitterLists().get(0)!=null){
 
