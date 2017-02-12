@@ -82,6 +82,12 @@ public class ListsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvError.setVisibility(View.GONE);
+        //handle header for wide screens
+        if (this.selectedConfiguration.equalsIgnoreCase("layout-land")||this.selectedConfiguration.equalsIgnoreCase("layout-large")){
+            tvTwitterAlias.setVisibility(View.GONE);
+        }
+
+
         listsRecyclerView.setHasFixedSize(true);
         listsLayoutManager = new LinearLayoutManager(getActivity());
         listsRecyclerView.setLayoutManager(listsLayoutManager);
