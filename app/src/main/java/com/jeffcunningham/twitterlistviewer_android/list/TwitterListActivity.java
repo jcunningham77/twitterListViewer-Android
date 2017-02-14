@@ -2,6 +2,8 @@ package com.jeffcunningham.twitterlistviewer_android.list;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
@@ -9,9 +11,12 @@ import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.di.DaggerListComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListModule;
+import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 
 import javax.inject.Inject;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 /**
  * Created by jeffcunningham on 1/7/17.
@@ -53,5 +58,19 @@ public class TwitterListActivity extends android.app.Activity {
         twitterListFragment.setArguments(bundle);
         ft.add(R.id.fragment_container, twitterListFragment);
         ft.commit();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        String selectedConfiguration = getString(R.string.selected_configuration);
+        logger.info(TAG,"onConfigurationChanged, selected_configuration = " + selectedConfiguration);
+        if (selectedConfiguration.equalsIgnoreCase("layout-land")){
+
+            Intent listsIntent = new Intent(this, ListsActivity.class);
+            listsIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(listsIntent);
+        }
     }
 }

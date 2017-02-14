@@ -53,13 +53,13 @@ public class ListsPresenterImpl implements ListsPresenter {
     }
 
     @Override
-    public void getListMembershipByTwitterUser(){
+    public void getListOwnershipByTwitterUser(){
 
         // get current Twitter user's list membership
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
         ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
-        logger.info(TAG,"getListMembershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
+        logger.info(TAG,"getListOwnershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
 
         Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
 
@@ -72,9 +72,10 @@ public class ListsPresenterImpl implements ListsPresenter {
                     logger.info(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
 
-
-
+                String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
+                sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
                 EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
+
 
             }
 

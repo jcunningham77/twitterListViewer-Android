@@ -3,6 +3,7 @@ package com.jeffcunningham.twitterlistviewer_android.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.jeffcunningham.twitterlistviewer_android.di.annotations.ApplicationContext;
 
@@ -41,7 +42,8 @@ public class SharedPreferencesRepositoryImpl implements SharedPreferencesReposit
     @Override
     public void clearDefaultListData() {
         SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
+        editor.remove("slug");
+        editor.remove("listName");
         editor.commit();
     }
 
@@ -55,6 +57,28 @@ public class SharedPreferencesRepositoryImpl implements SharedPreferencesReposit
     public String getDefaultListName() {
         logger.info(TAG, ": getDefaultListName(): ");
         return prefs.getString("listName", "");
+    }
+
+    @Override
+    public void persistTwitterAvatarImgUrl(String twitterAvatarImgUrl) {
+        Log.i(TAG, "persistTwitterAvatarImgUrl: " + twitterAvatarImgUrl);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("twitterAvatarImgUrl",twitterAvatarImgUrl);
+        editor.commit();
+    }
+
+    @Override
+    public String getTwitterAvatarImgUrl() {
+        return prefs.getString("twitterAvatarImgUrl", "");
+    }
+
+    @Override
+    public void clearTwitterAvatarImgUrl() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("twitterAvatarImgUrl");
+        editor.commit();
+
     }
 
 

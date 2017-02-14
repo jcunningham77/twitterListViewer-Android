@@ -34,6 +34,8 @@ public class ListsAdapter extends Adapter{
 
 
     public void setTwitterLists(List<TwitterList> twitterLists) {
+        //TODO: inject util logger
+        Log.i(TAG, "setTwitterLists: twitterLists");
         this.twitterLists = twitterLists;
         notifyDataSetChanged();
     }
@@ -48,13 +50,17 @@ public class ListsAdapter extends Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+
+
         View view;
 
         RecyclerView.ViewHolder viewHolder;
         if (viewType==TYPE_LIST_HEADER){
+            Log.i(TAG, "onCreateViewHolder: viewType = Header" );
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lists_header_view, parent, false);
             viewHolder = new ListsHeaderViewHolder(view);
         } else {
+            Log.i(TAG, "onCreateViewHolder: viewType = list selector" );
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_selector_view, parent, false);
             // set the view's size, margins, paddings and layout parameters
             viewHolder = new ListSelectorViewHolder(view, getItemCount());
@@ -65,6 +71,8 @@ public class ListsAdapter extends Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        Log.i(TAG, "onBindViewHolder: position = " + position);
 
         if (position>0){
             ((ListSelectorViewHolder)holder).setTvListName(twitterLists.get(position-1).getName());
@@ -93,7 +101,7 @@ public class ListsAdapter extends Adapter{
 
     @Override
     public int getItemCount() {
-        Log.i(TAG, "getItemCount: = ");
+        Log.i(TAG, "getItemCount: = " + (twitterLists==null? 0 : twitterLists.size()+1));
         return twitterLists==null? 0 : twitterLists.size()+1;
     }
 

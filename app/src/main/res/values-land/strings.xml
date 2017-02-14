@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="selected_configuration">layout-land</string>
+
+    <!-- list_header_view-->
+    <string name="list_name_label">List</string>
+    <string name="default_label">Default?</string>
+
+</resources>

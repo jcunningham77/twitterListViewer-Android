@@ -1,5 +1,6 @@
 package com.jeffcunningham.twitterlistviewer_android.di;
 
+import com.jeffcunningham.twitterlistviewer_android.list.TwitterListFragment;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.jeffcunningham.twitterlistviewer_android.lists.ListsFragment;
 
@@ -16,6 +17,10 @@ public interface ListsComponent {
     void inject(ListsActivity activity);
 
     void inject(ListsFragment fragment);
+
+    //in case we are in Tablet view, the TwitterListFragment will need to resolve it's dependencies
+    //from the Lists component as it will belong to the Lists activity
+    void inject(TwitterListFragment fragment);
 
 
 

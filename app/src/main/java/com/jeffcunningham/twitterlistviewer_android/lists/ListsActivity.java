@@ -12,6 +12,7 @@ import com.jeffcunningham.twitterlistviewer_android.di.DaggerListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ListsModule;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
+import com.jeffcunningham.twitterlistviewer_android.list.TwitterListFragment;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.jeffcunningham.twitterlistviewer_android.util.SharedPreferencesRepository;
 
@@ -32,7 +33,7 @@ public class ListsActivity extends Activity {
     @Inject
     Logger logger;
 
-    ListsComponent component() {
+    public ListsComponent component() {
         if (component == null) {
             component = DaggerListsComponent.builder()
                     .applicationComponent(((BaseApplication) getApplication()).getApplicationComponent())
@@ -50,22 +51,67 @@ public class ListsActivity extends Activity {
 
         String persistedDefaultSlug = sharedPreferencesRepository.getDefaultListSlug();
         String persistedDefaultListName = sharedPreferencesRepository.getDefaultListName();
-        if ((null != persistedDefaultSlug) && (!persistedDefaultSlug.equalsIgnoreCase(""))) {
-            logger.info(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to the TwitterListActivity.");
-            Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
-            listIntent.putExtra("slug", persistedDefaultSlug);
-            listIntent.putExtra("listName", persistedDefaultListName);
-            startActivity(listIntent);
 
-        }
+        String selectedConfiguration = getString(R.string.selected_configuration);
+        logger.info(TAG,"onCreate - layout configuration = " + selectedConfiguration);
 
         setContentView(R.layout.activity_lists);
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ListsFragment listsFragment = new ListsFragment();
-        ft.add(R.id.fragment_container, listsFragment);
-        ft.commit();
+
+
+        //we only forward to TwitterListActivity when running on Phone-sized device
+        if (selectedConfiguration.equalsIgnoreCase("layout")) {
+
+            if ((null != persistedDefaultSlug) && (!persistedDefaultSlug.equalsIgnoreCase(""))) {
+                logger.info(TAG, "onCreate: we have a default list Id, \"" + persistedDefaultSlug + "\" stored - forward to the TwitterListActivity.");
+                Intent listIntent = new Intent(ListsActivity.this, TwitterListActivity.class);
+                listIntent.putExtra("slug", persistedDefaultSlug);
+                listIntent.putExtra("listName", persistedDefaultListName);
+                startActivity(listIntent);
+
+            }
+
+            //double check that the fragment doesn't already exist
+            //this activity may have been launched from the TwitterListActivity's
+            //onConfigurationStateChange method - which means, ListActivity.onCreate, the ListFragment may already exist
+            //try to find it by Tag, and only add if not already added.
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
+            if(listsFragment==null){
+                listsFragment = new ListsFragment();
+            }
+            listsFragment.setRetainInstance(false);
+
+            if(!listsFragment.isAdded()){
+                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.commit();
+            }
+
+        } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
+
+            if(listsFragment==null){
+                listsFragment = new ListsFragment();
+            }
+            listsFragment.setRetainInstance(false);
+
+            if(!listsFragment.isAdded()) {
+                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+            }
+
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+            ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
+
+            ft.commit();
+
+        }
+
+
+
+
 
     }
 }

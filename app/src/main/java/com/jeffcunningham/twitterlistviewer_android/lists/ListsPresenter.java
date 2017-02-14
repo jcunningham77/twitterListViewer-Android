@@ -5,7 +5,7 @@ package com.jeffcunningham.twitterlistviewer_android.lists;
  */
 public interface ListsPresenter {
 
-    public void getListMembershipByTwitterUser();
+    public void getListOwnershipByTwitterUser();
 
     public void persistDefaultListId(String listId, String slug, String listName);
 

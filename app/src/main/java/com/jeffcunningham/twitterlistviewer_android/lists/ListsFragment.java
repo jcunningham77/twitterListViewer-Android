@@ -2,7 +2,6 @@ package com.jeffcunningham.twitterlistviewer_android.lists;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +21,8 @@ import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
 import com.jeffcunningham.twitterlistviewer_android.lists.ui.ListsAdapter;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.twitterlistviewer_android.util.ImageLoader;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,11 +54,16 @@ public class ListsFragment extends Fragment {
 
     ListsAdapter listsAdapter;
     private RecyclerView.LayoutManager listsLayoutManager;
+    private String avatarImgUrl;
 
     @Inject
     ListsPresenterImpl listsPresenter;
     @Inject
     Logger logger;
+    @Inject
+    ImageLoader imageLoader;
+
+    private String selectedConfiguration;
 
 
 
@@ -69,6 +73,8 @@ public class ListsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
         ((ListsActivity) getActivity()).component().inject(this);
         ButterKnife.bind(this,view);
+        this.selectedConfiguration = getString(R.string.selected_configuration);
+        logger.info(TAG, "onCreateView: selectedConfiguration =" + selectedConfiguration);
         return view;
     }
 
@@ -76,6 +82,12 @@ public class ListsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvError.setVisibility(View.GONE);
+        //handle header for wide screens
+        if (this.selectedConfiguration.equalsIgnoreCase("layout-land")||this.selectedConfiguration.equalsIgnoreCase("layout-large")){
+            tvTwitterAlias.setVisibility(View.GONE);
+        }
+
+
         listsRecyclerView.setHasFixedSize(true);
         listsLayoutManager = new LinearLayoutManager(getActivity());
         listsRecyclerView.setLayoutManager(listsLayoutManager);
@@ -83,7 +95,7 @@ public class ListsFragment extends Fragment {
         listsRecyclerView.setAdapter(listsAdapter);
         
         EventBus.getDefault().register(this);
-        listsPresenter.getListMembershipByTwitterUser();
+        listsPresenter.getListOwnershipByTwitterUser();
 
     }
 
@@ -94,15 +106,12 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event){
+        logger.info(TAG, "onMessageEvent(GetListOwnershipByTwitterUserSuccessEvent event)");
         listsAdapter.setTwitterLists(event.getTwitterLists());
         if (event.getTwitterLists().get(0)!=null){
-            Uri uri = new Uri.Builder().appendPath(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).build();
 
-//            imgTwitterAvatar.setImageURI(uri);
-
-            //Picasso.with(getContext()).load(uri).into(imgTwitterAvatar);
-
-            Picasso.with(getContext()).load(event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps()).into(imgTwitterAvatar);
+            this.avatarImgUrl = event.getTwitterLists().get(0).getUser().getProfileImageUrlHttps();
+            imageLoader.loadImageByUrlWithRoundedCorners(this.avatarImgUrl,imgTwitterAvatar);
             tvTwitterAlias.setText("@" + event.getTwitterLists().get(0).getUser().getScreenName());
 
         }
@@ -132,10 +141,20 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event){
-        Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
-        listIntent.putExtra("slug",event.getSlug());
-        listIntent.putExtra("listName",event.getListName());
-        startActivity(listIntent);
+
+        //only launch TwitterListActivity if we are in layout (phone) configuration
+        //in tablet config (layout-large), TwitterListFragment is also listening to this event and
+        //can refresh itself
+        logger.info(TAG,"onMessageEvent - ViewListEvent, this.selectedConfiguration: " + this.selectedConfiguration);
+        if (this.selectedConfiguration.equalsIgnoreCase("layout")){
+            Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
+            listIntent.putExtra("slug",event.getSlug());
+            listIntent.putExtra("listName",event.getListName());
+            listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
+            startActivity(listIntent);
+        }
+
+
     }
 
 
@@ -151,5 +170,12 @@ public class ListsFragment extends Fragment {
             }
             listsAdapter.notifyDataSetChanged();
         };
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        logger.info(TAG, "onDestroy: ");
+        listsRecyclerView = null;
     }
 }

@@ -10,38 +10,44 @@
 
     <TextView
         android:id="@+id/tvListName"
-        android:layout_width="250dp"
-        android:layout_height="18dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="3dp"
         android:text="ListName"
-        android:textSize="14sp"
+        android:textSize="10sp"
         android:textStyle="normal|bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cbMakeDefaultList"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_constraintLeft_creator="1"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="3dp" />
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:text="Fantasy Football News" />
 
     <TextView
         android:id="@+id/tvMembers"
-        android:layout_width="250dp"
-        android:layout_height="13dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:text="5 Members"
-        android:textSize="10sp"
         android:textColor="@color/tw__composer_light_gray"
+        android:textSize="8sp"
         android:textStyle="normal|bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvListName"
-        tools:layout_constraintLeft_creator="1" />
+        tools:layout_constraintLeft_creator="1"
+        tools:text="5 Members" />
 
     <CheckBox
         android:id="@+id/cbMakeDefaultList"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="2dp"
+        android:gravity="center_vertical|center_horizontal|center|start"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/tvListName"
-        android:gravity="center_vertical|center_horizontal|center|start" />
+
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
