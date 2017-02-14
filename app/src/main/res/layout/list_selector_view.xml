@@ -17,6 +17,7 @@
         android:textStyle="normal|bold"
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteY="3dp" />
 
     <TextView

@@ -14,10 +14,8 @@
         <TextView
             android:id="@+id/error"
             android:layout_width="0dp"
-            android:layout_height="12dp"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
             android:padding="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -32,26 +30,30 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Sorry, there was a problem retrieving the lists for this Twitter user. Please try again later."
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <ImageView
             android:id="@+id/twitterAvater"
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:paddingTop="10dp"
+            android:paddingTop="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/error" />
+            app:layout_constraintTop_toTopOf="@+id/error"
+            tools:src="@drawable/maxthumbnail"
+            android:layout_marginTop="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            android:layout_marginBottom="2dp"
+            android:cropToPadding="false" />
 
         <TextView
             android:id="@+id/twitterAlias"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
             android:textAlignment="center"
             android:textSize="10sp"
             android:textStyle="normal"
@@ -60,17 +62,20 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/twitterAvater"
-            tools:text="\@TwitterAlias" />
+            tools:text="\@TwitterAlias"
+            tools:visibility="gone"/>
 
-        <View android:layout_width="match_parent"
-            android:layout_height="1dip"
+        <View android:layout_width="0dp"
+            android:layout_height="1dp"
             android:background="#ccd6dd"
-            android:layout_marginBottom="0dp"
             android:layout_marginTop="74dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
+            android:id="@+id/view" />
 
 
     </android.support.constraint.ConstraintLayout>
