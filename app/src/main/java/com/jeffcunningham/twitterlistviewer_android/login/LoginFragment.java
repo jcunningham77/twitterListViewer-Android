@@ -47,10 +47,15 @@ public class LoginFragment extends Fragment {
     @Inject
     Logger logger;
 
+    private String selectedConfiguration;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         ((LoginActivity)this.getActivity()).component().inject(this);
+
+        this.selectedConfiguration = getString(R.string.selected_configuration);
+        logger.info(TAG, "onCreate: selectedConfiguration = " + selectedConfiguration);
 
     }
 
