@@ -3,43 +3,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/error"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:padding="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="14sp"
-        android:textStyle="normal|bold"
-        android:visibility="gone"
-        tools:text="Sorry, there was a problem retrieving the lists for this Twitter user. Please try again later."
-        tools:visibility="visible" />
+        android:background="@android:color/white">
 
-    <ImageView
-        android:id="@+id/twitterAvater"
-        android:paddingTop="10dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="0.29"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Sorry, there was a problem retrieving the lists for this Twitter user. Please try again later."
+            tools:visibility="gone" />
 
-    <TextView
-        android:id="@+id/twitterAlias"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="\@TwitterAlias"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="normal|bold"
-        android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/twitterAvater"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:layout_marginTop="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/maxthumbnail"
+            />
+
+        <TextView
+            android:id="@+id/twitterAlias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twitterAvater"
+            tools:text="\@TwitterAlias"/>
+
+        <View android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="#ccd6dd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/twitterAlias"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listsRecyclerView"
