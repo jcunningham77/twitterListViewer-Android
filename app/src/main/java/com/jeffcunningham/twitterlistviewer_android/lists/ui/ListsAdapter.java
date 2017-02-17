@@ -63,7 +63,7 @@ public class ListsAdapter extends Adapter{
             Log.i(TAG, "onCreateViewHolder: viewType = list selector" );
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_selector_view, parent, false);
             // set the view's size, margins, paddings and layout parameters
-            viewHolder = new ListSelectorViewHolder(view, getItemCount());
+            viewHolder = new ListsSelectorViewHolder(view, getItemCount());
         }
 
         return viewHolder;
@@ -75,14 +75,14 @@ public class ListsAdapter extends Adapter{
         Log.i(TAG, "onBindViewHolder: position = " + position);
 
         if (position>0){
-            ((ListSelectorViewHolder)holder).setTvListName(twitterLists.get(position-1).getName());
-            ((ListSelectorViewHolder)holder).setSlug(twitterLists.get(position-1).getSlug());
-            ((ListSelectorViewHolder)holder).setListId(twitterLists.get(position-1).getIdStr());
+            ((ListsSelectorViewHolder)holder).setTvListName(twitterLists.get(position-1).getName());
+            ((ListsSelectorViewHolder)holder).setSlug(twitterLists.get(position-1).getSlug());
+            ((ListsSelectorViewHolder)holder).setListId(twitterLists.get(position-1).getIdStr());
             String membersLabel = new String("" + twitterLists.get(position-1).getMemberCount() + " Members");
-            ((ListSelectorViewHolder)holder).setTvMembers(membersLabel);
-            ((ListSelectorViewHolder)holder).setUserId(Twitter.getSessionManager().getActiveSession().getUserId());
+            ((ListsSelectorViewHolder)holder).setTvMembers(membersLabel);
+            ((ListsSelectorViewHolder)holder).setUserId(Twitter.getSessionManager().getActiveSession().getUserId());
             Log.i(TAG, "onBindViewHolder: setting default = " + twitterLists.get(position-1).isDefaultList());
-            ((ListSelectorViewHolder)holder).setDefault(twitterLists.get(position-1).isDefaultList());
+            ((ListsSelectorViewHolder)holder).setDefault(twitterLists.get(position-1).isDefaultList());
 
         }
 

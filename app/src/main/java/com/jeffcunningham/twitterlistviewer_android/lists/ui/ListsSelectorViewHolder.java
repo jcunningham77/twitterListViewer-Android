@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
@@ -20,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by jeffcunningham on 12/17/16.
  */
 
-public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ListsSelectorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @BindView(R.id.tvListName)
     TextView tvListName;
@@ -47,7 +46,7 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         this.listId = listId;
     }
 
-    private static final String TAG = "ListSelectorViewHolder";
+    private static final String TAG = "ListsSelectorViewHolder";
 
     @Override
     public void onClick(View v) {
@@ -55,16 +54,14 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
 
 
         if (v.getId() == cbMakeDefaultList.getId()){
-            Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition())+ " List Name = " + tvListName.getText().toString() + " List ID = " + listId, Toast.LENGTH_LONG).show();
+//            Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition())+ " List Name = " + tvListName.getText().toString() + " List ID = " + listId, Toast.LENGTH_LONG).show();
             Log.i(TAG, "onClick: ITEM PRESSED = " + String.valueOf(getAdapterPosition()));
             Log.i(TAG, "onClick: List Name = " + tvListName.getText().toString());
             Log.i(TAG, "onClick: List ID = " + listId);
             Log.i(TAG, "onClick: User Id = " + userId);
 
             EventBus.getDefault().post(new SetDefaultListEvent(getAdapterPosition(),listId,slug,tvListName.getText().toString()));
-        }
-
-        if (v.getId() == tvListName.getId()){
+        } else {
             Log.i(TAG, "onClick: ITEM PRESSED = " + String.valueOf(getAdapterPosition()));
             Log.i(TAG, "onClick: List Name = " + tvListName.getText().toString());
             EventBus.getDefault().post(new ViewListEvent(this.getSlug(),this.tvListName.getText().toString()));
@@ -84,12 +81,13 @@ public class ListSelectorViewHolder extends RecyclerView.ViewHolder implements V
         cbMakeDefaultList.setChecked(isDefault);
     }
 
-    public ListSelectorViewHolder(View v, int itemCount) {
+    public ListsSelectorViewHolder(View v, int itemCount) {
         super(v);
         ButterKnife.bind(this,v);
         cbMakeDefaultList.setOnClickListener(this);
         cbMakeDefaultList.setChecked(isDefault);
         tvListName.setOnClickListener(this);
+        v.setOnClickListener(this);
 
     }
 

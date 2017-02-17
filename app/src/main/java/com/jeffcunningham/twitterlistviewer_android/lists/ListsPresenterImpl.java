@@ -138,6 +138,7 @@ public class ListsPresenterImpl implements ListsPresenter {
         getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
+                //todo handle when new user doesn't have a default list
                 logger.info(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
 
                 persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
