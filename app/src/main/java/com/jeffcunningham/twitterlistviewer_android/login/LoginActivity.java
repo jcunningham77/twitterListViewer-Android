@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.twitterlistviewer_android.BaseApplication;
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.di.DaggerLoginComponent;
@@ -16,10 +17,9 @@ import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
-
 import javax.inject.Inject;
-
 import butterknife.ButterKnife;
+import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        Fabric.with(this, new Crashlytics());
 
         component().inject(this);
         logger.info(TAG,"onCreate: ");
