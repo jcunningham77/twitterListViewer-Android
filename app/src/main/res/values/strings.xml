@@ -11,4 +11,8 @@
     <!-- list_header_view-->
     <string name="list_name_label">List Name</string>
     <string name="default_label">Default List?</string>
+
+    <string name="no_default_list_persisted">No Default List On Record</string>
+
+
 </resources>

@@ -4,6 +4,7 @@ import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
+import com.jeffcunningham.twitterlistviewer_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.twitterlistviewer_android.restapi.APIManager;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.twitterlistviewer_android.restapi.dto.post.Data;
@@ -141,11 +142,20 @@ public class ListsPresenterImpl implements ListsPresenter {
         getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
-                //todo handle when new user doesn't have a default list
+
                 logger.info(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
 
-                persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
-                EventBus.getDefault().post(new GetDefaultListSuccessEvent(response.body()));
+
+                if (response.body()!=null){
+                    persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
+                    EventBus.getDefault().post(new GetDefaultListSuccessEvent(response.body()));
+                } else {
+                    logger.info(TAG,"onResponse: Retrofit call to Node get default list API succeeded, but there is no default list data.");
+                    //todo handle when new user doesn't have a default list
+                    EventBus.getDefault().post(new NoDefaultListPersistedEvent());
+                }
+
+
             }
 
             @Override

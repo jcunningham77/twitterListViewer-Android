@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jeffcunningham.twitterlistviewer_android.R;
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
+import com.jeffcunningham.twitterlistviewer_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.SetDefaultListEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.ViewListEvent;
 import com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity;
@@ -117,6 +119,13 @@ public class ListsFragment extends Fragment {
         }
         listsPresenter.getDefaultListId();
 
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NoDefaultListPersistedEvent event){
+        logger.info(TAG, "onMessageEvent: NoDefaultListPersistedEvent");
+        Toast.makeText(this.getActivity(), getString(R.string.no_default_list_persisted),Toast.LENGTH_LONG).show();
 
     }
 
