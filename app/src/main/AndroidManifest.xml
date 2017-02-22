@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jeffcunningham.twitterlistviewer_android">
+    package="com.jeffcunningham.lv4t_android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,16 +11,16 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".BaseApplication">
-        <activity android:name=".login.LoginActivity">
+        android:name="com.jeffcunningham.lv4t_android.BaseApplication">
+        <activity android:name="com.jeffcunningham.lv4t_android.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity"></activity>
-        <activity android:name="com.jeffcunningham.twitterlistviewer_android.list.TwitterListActivity"
+        <activity android:name="com.jeffcunningham.lv4t_android.lists.ListsActivity"></activity>
+        <activity android:name="com.jeffcunningham.lv4t_android.list.TwitterListActivity"
             android:configChanges="orientation|screenSize">
 
         </activity>

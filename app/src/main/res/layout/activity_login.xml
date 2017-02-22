@@ -6,7 +6,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jeffcunningham.twitterlistviewer_android.login.LoginActivity">
+    tools:context="com.jeffcunningham.lv4t_android.login.LoginActivity">
 
     <LinearLayout
         android:id="@+id/fragment_container"
