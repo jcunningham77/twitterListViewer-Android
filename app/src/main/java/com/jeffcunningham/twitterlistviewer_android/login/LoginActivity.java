@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
-        ft.add(R.id.fragment_container, loginFragment, "LoginFragment");
+        ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
         ft.commit();
 
         //the below code block could conceivably be pushed to a presenter layer, but since it is performing business logic,
