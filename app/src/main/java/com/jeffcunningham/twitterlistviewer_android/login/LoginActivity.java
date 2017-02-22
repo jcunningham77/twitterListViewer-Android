@@ -17,9 +17,10 @@ import com.jeffcunningham.twitterlistviewer_android.lists.ListsActivity;
 import com.jeffcunningham.twitterlistviewer_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
+
 import javax.inject.Inject;
+
 import butterknife.ButterKnife;
-import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Fabric.with(this, new Crashlytics());
+
 
         component().inject(this);
         logger.info(TAG,"onCreate: ");
@@ -71,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
         //and is not referencing any UI, it could likely stay here
         if (session!=null){
             logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
+
+            Crashlytics.setUserName(session.getUserName());
             logger.info(TAG, "onCreate: forwarding direct to Lists page");
             //forward direct to Lists page
             Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);

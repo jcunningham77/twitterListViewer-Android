@@ -3,6 +3,7 @@ package com.jeffcunningham.twitterlistviewer_android;
 import android.app.Application;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.twitterlistviewer_android.di.ApplicationComponent;
 import com.jeffcunningham.twitterlistviewer_android.di.ApplicationModule;
 import com.jeffcunningham.twitterlistviewer_android.di.DaggerApplicationComponent;
@@ -19,15 +20,7 @@ public class BaseApplication extends Application {
 
     private static final String TWITTER_KEY = BuildConfig.TWITTER_KEY;
     private static final String TWITTER_SECRET = BuildConfig.TWITTER_SECRET;
-//    private static final String BACKENDLESS_APP_ID = BuildConfig.BACKENDLESS_APP_ID;
-//    private static final String BACKENDLESS_KEY = BuildConfig.BACKENDLESS_KEY;
-//    private static final String BACKENDLESS_APP_VERSION = BuildConfig.BACKENDLESS_APP_VERSION;
-
-
-//    protected static SharedPreferencesComponent preferencesComponent;
-
     private ApplicationComponent applicationComponent;
-
 
     private static final String TAG = "BaseApplication";
     @Override
@@ -37,15 +30,11 @@ public class BaseApplication extends Application {
         Log.i(TAG, "onCreate: TWITTER_KEY" + TWITTER_KEY);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
 
-        Fabric.with(this, new Twitter(authConfig));
-
+        Fabric.with(this, new Crashlytics(), new Twitter(authConfig));
 
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-
-
-
     }
 
     public ApplicationComponent getApplicationComponent() {

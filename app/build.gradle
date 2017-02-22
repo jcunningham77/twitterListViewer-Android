@@ -13,8 +13,8 @@ android {
         applicationId "com.jeffcunningham.twitterlistviewer_android"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "Alpha 3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -43,7 +43,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
-    compile 'org.mongodb:mongodb-driver-async:3.2.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile('com.twitter.sdk.android:twitter:2.3.0@aar') {

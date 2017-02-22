@@ -1,5 +1,6 @@
 package com.jeffcunningham.twitterlistviewer_android.lists;
 
+import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.twitterlistviewer_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.twitterlistviewer_android.events.GetListOwnershipByTwitterUserSuccessEvent;
@@ -96,6 +97,7 @@ public class ListsPresenterImpl implements ListsPresenter {
         String alias = "";
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
         alias = twitterSession.getUserName();
+        Crashlytics.setUserName(alias);
 
         PostDefaultList defaultListBody = new PostDefaultList();
         Data defaultListBodyData = new Data();
@@ -132,6 +134,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
 
         String userName = twitterSession.getUserName();
+        Crashlytics.setUserName(userName);
         logger.info(TAG, "getDefaultListId: for " + userName);
         Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(userName);
 
@@ -157,5 +160,8 @@ public class ListsPresenterImpl implements ListsPresenter {
         logger.info(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
         sharedPreferencesRepository.persistDefaultListData(slug,listName);
     }
+
+
+
 
 }
