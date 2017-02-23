@@ -5,6 +5,8 @@
     <string name="please_login">Please Login</string>
     <string name="submit">Submit</string>
     <string name="retrieveListsError">Sorry, there was a problem retrieving the lists for this Twitter user. Please try again later.</string>
+    <string name="noListsOwned">Have you created any Lists for this Twitter account? We didn\'t find any. Please create some and come back soon!</string>
+
 
     <string name="selected_configuration">layout</string>
 

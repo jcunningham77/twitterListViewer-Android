@@ -5,6 +5,7 @@ import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
+import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.restapi.APIManager;
 import com.jeffcunningham.lv4t_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.lv4t_android.restapi.dto.post.Data;
@@ -74,9 +75,15 @@ public class ListsPresenterImpl implements ListsPresenter {
                     logger.info(TAG, "success: twitterList = " + twitterList.getFullName());
                 }
 
-                String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
-                sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
-                EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
+                if (result.data.size()>0){
+                    String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
+                    sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
+                    EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
+                } else {//no list data returned from Twitter
+                    EventBus.getDefault().post(new NoListOwnershipByTwitterUserEvent());
+                }
+
+
 
 
             }
@@ -151,7 +158,7 @@ public class ListsPresenterImpl implements ListsPresenter {
                     EventBus.getDefault().post(new GetDefaultListSuccessEvent(response.body()));
                 } else {
                     logger.info(TAG,"onResponse: Retrofit call to Node get default list API succeeded, but there is no default list data.");
-                    //todo handle when new user doesn't have a default list
+                    
                     EventBus.getDefault().post(new NoDefaultListPersistedEvent());
                 }
 

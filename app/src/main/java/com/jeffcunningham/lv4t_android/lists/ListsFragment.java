@@ -17,6 +17,7 @@ import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
+import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.events.SetDefaultListEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListActivity;
@@ -133,6 +134,16 @@ public class ListsFragment extends Fragment {
     public void onMessageEvent(GetListOwnershipByTwitterUserFailureEvent event){
         tvError.setText(getActivity().getApplicationContext().getString(R.string.retrieveListsError));
         tvError.setVisibility(View.VISIBLE);
+        imgTwitterAvatar.setVisibility(View.INVISIBLE);
+        tvTwitterAlias.setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NoListOwnershipByTwitterUserEvent event){
+        tvError.setText(getActivity().getApplicationContext().getString(R.string.noListsOwned));
+        tvError.setVisibility(View.VISIBLE);
+        imgTwitterAvatar.setVisibility(View.INVISIBLE);
+        tvTwitterAlias.setVisibility(View.INVISIBLE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
