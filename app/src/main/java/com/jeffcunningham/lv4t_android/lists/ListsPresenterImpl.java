@@ -58,12 +58,14 @@ public class ListsPresenterImpl implements ListsPresenter {
         this.logger = logger;
     }
 
+    @Override
     public void start(){
         logger.info(TAG,"start: ");
         getListOwnershipByTwitterUser();
 
     }
-
+    
+    @Override
     public void stop(){
         if(listMembership!=null){
             logger.info(TAG,"stop: cancelling listMembership call");
