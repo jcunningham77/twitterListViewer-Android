@@ -2,6 +2,8 @@ package com.jeffcunningham.lv4t_android.login;
 
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jeffcunningham.lv4t_android.R;
-import com.jeffcunningham.lv4t_android.lists.ListsActivity;
+import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -124,8 +126,13 @@ public class LoginFragment extends Fragment {
                 String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
                 Log.i(TAG, "success: msg = " + msg);
                 loginPresenter.clearSharedPreferencesData();
-                Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
-                startActivity(listsIntent);
+//                Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
+//                startActivity(listsIntent);
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ListsFragment listsFragment = new ListsFragment();
+                ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+                ft.commit();
 
             }
 

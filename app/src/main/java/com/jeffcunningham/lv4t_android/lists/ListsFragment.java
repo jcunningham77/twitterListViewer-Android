@@ -1,7 +1,8 @@
 package com.jeffcunningham.lv4t_android.lists;
 
 import android.app.Fragment;
-import android.content.Intent;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.events.SetDefaultListEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
-import com.jeffcunningham.lv4t_android.list.TwitterListActivity;
+import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ui.ListsAdapter;
 import com.jeffcunningham.lv4t_android.login.LoginActivity;
 import com.jeffcunningham.lv4t_android.restapi.dto.get.DefaultList;
@@ -77,6 +78,7 @@ public class ListsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
         ((LoginActivity) getActivity()).component().inject(this);
         ButterKnife.bind(this,view);
+
         this.selectedConfiguration = getString(R.string.selected_configuration);
         logger.info(TAG, "onCreateView: selectedConfiguration =" + selectedConfiguration);
         return view;
@@ -98,7 +100,7 @@ public class ListsFragment extends Fragment {
         listsAdapter = new ListsAdapter();
         listsRecyclerView.setAdapter(listsAdapter);
         
-        EventBus.getDefault().register(this);
+
 
 
     }
@@ -106,6 +108,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+        EventBus.getDefault().register(this);
         listsPresenter.start();
 
     }
@@ -113,6 +116,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStop(){
         super.onStop();
+        EventBus.getDefault().unregister(this);
         listsPresenter.stop();
 
     }
@@ -182,11 +186,23 @@ public class ListsFragment extends Fragment {
         //can refresh itself
         logger.info(TAG,"onMessageEvent - ViewListEvent, this.selectedConfiguration: " + this.selectedConfiguration);
         if (this.selectedConfiguration.equalsIgnoreCase("layout")){
-            Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
-            listIntent.putExtra("slug",event.getSlug());
-            listIntent.putExtra("listName",event.getListName());
-            listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
-            startActivity(listIntent);
+//            Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
+//            listIntent.putExtra("slug",event.getSlug());
+//            listIntent.putExtra("listName",event.getListName());
+//            listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
+//            startActivity(listIntent);
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+            Bundle bundle = new Bundle();
+
+            bundle.putString("slug",event.getSlug());
+            bundle.putString("listName",event.getListName());
+            twitterListFragment.setArguments(bundle);
+            ft.replace(R.id.fragment_container, twitterListFragment,"TwitterListFragment");
+            ft.addToBackStack(null);
+            ft.commit();
         }
 
 

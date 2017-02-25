@@ -1,17 +1,16 @@
 package com.jeffcunningham.lv4t_android.login;
 
 
-import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.lv4t_android.BaseApplication;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
@@ -65,12 +64,13 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
-        PagerAdapter pagerAdapter = new NavigationPagerAdapter(getFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out"));
+        tabLayout.addTab(tabLayout.newTab().setText("Lists"));
+        tabLayout.addOnTabSelectedListener(listener);
+
+
 
 
 
@@ -80,29 +80,26 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-//        //
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        LoginFragment loginFragment = new LoginFragment();
-//        ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
-//        ft.commit();
-//
-//        //the below code block could conceivably be pushed to a presenter layer, but since it is performing business logic,
-//        //and is not referencing any UI, it could likely stay here
-//        if (session!=null){
-//            logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
-//
-//            Crashlytics.setUserName(session.getUserName());
-//            logger.info(TAG, "onCreate: forwarding direct to Lists page");
-//            //forward direct to Lists page
-//            //load ListsFragment instead of Activity
-////            Intent listsIntent = new Intent(LoginActivity.this, ListsActivity.class);
-////            startActivity(listsIntent);
-////            ft = fm.beginTransaction();
-////
-////            ListsFragment listsFragment = new ListsFragment();
-//
-//        }
+        //
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        LoginFragment loginFragment = new LoginFragment();
+        ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+        ft.commit();
+
+        //the below code block could conceivably be pushed to a presenter layer, but since it is performing business logic,
+        //and is not referencing any UI, it could likely stay here
+        if (session!=null){
+            logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
+
+            Crashlytics.setUserName(session.getUserName());
+            logger.info(TAG, "onCreate: forwarding direct to Lists page");
+            ListsFragment listsFragment = new ListsFragment();
+            ft = fm.beginTransaction();
+            ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+            ft.commit();
+
+        }
 
     }
 
@@ -113,57 +110,48 @@ public class LoginActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         if (fm != null) {
             fm.findFragmentByTag("LoginFragment").onActivityResult(requestCode, resultCode, data);
-            
+
         }
         else logger.debug("Twitter", "fragment is null");
     }
 
+    TabLayout.OnTabSelectedListener listener = new TabLayout.OnTabSelectedListener() {
 
-    public class NavigationPagerAdapter extends FragmentPagerAdapter {
-        public NavigationPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
         @Override
-        public Fragment getItem(int i) {
-
-            Fragment fragment= new Fragment();
-
-            switch (i){
+        public void onTabSelected(TabLayout.Tab tab) {
+            Log.i(TAG, "onTabSelected: ");
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            switch (tab.getPosition()){
                 case 0:
-                    fragment = new LoginFragment();
+                    LoginFragment loginFragment = new LoginFragment();
+                    ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+                    ft.commit();
                     break;
                 case 1:
-                    fragment = new ListsFragment();
+                    ListsFragment listsFragment = new ListsFragment();
+                    ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+                    ft.commit();
                     break;
             }
+        }
 
-            return fragment;
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+            Log.i(TAG, "onTabUnselected: ");
 
         }
 
         @Override
-        public int getCount() {
-            return 2;
-        }
+        public void onTabReselected(TabLayout.Tab tab) {
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            String title = new String();
-
-            switch (position) {
-                case 0:
-                    title = "SignIn/Out";
-                    break;
-                case 1:
-                    title = "Lists";
-                    break;
-            }
-
-            return  title;
+            Log.i(TAG, "onTabReselected: ");
 
         }
-    }
+    };
+
+
 
 }

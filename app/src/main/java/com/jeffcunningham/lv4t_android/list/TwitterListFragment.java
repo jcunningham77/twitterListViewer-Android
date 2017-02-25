@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
-import com.jeffcunningham.lv4t_android.lists.ListsActivity;
+import com.jeffcunningham.lv4t_android.login.LoginActivity;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
@@ -70,7 +70,7 @@ public class TwitterListFragment extends ListFragment {
             this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
 
         } else {
-            ((ListsActivity) getActivity()).component().inject(this);
+            ((LoginActivity) getActivity()).component().inject(this);
         }
 
         //in tablet view, the arguments will not have been set by TwitterListActivity, so null check this
