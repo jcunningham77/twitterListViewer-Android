@@ -5,9 +5,9 @@ package com.jeffcunningham.lv4t_android.lists;
  */
 public interface ListsPresenter {
 
-    public void getListOwnershipByTwitterUser();
+    void getListOwnershipByTwitterUser();
 
-    public void persistDefaultListId(String listId, String slug, String listName);
+    void persistDefaultListId(String listId, String slug, String listName);
 
 
 }

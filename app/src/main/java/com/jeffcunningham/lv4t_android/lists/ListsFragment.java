@@ -98,7 +98,21 @@ public class ListsFragment extends Fragment {
         listsRecyclerView.setAdapter(listsAdapter);
         
         EventBus.getDefault().register(this);
-        listsPresenter.getListOwnershipByTwitterUser();
+
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        listsPresenter.start();
+
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        listsPresenter.stop();
 
     }
 

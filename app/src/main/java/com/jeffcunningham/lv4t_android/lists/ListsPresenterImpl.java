@@ -45,6 +45,9 @@ public class ListsPresenterImpl implements ListsPresenter {
     //these dependencies are not injected by Dagger
     private APIManager apiManager;
     private TwitterSession twitterSession;
+    Call<List<TwitterList>> listMembership;
+    Call<DefaultList> postDefaultListCall;
+    Call<DefaultList> getDefaultListCall;
 
 
 
@@ -53,6 +56,28 @@ public class ListsPresenterImpl implements ListsPresenter {
 
         this.sharedPreferencesRepository = sharedPreferencesRepository;
         this.logger = logger;
+    }
+
+    public void start(){
+        logger.info(TAG,"start: ");
+        getListOwnershipByTwitterUser();
+
+    }
+
+    public void stop(){
+        if(listMembership!=null){
+            logger.info(TAG,"stop: cancelling listMembership call");
+            listMembership.cancel();
+        }
+        if (postDefaultListCall!=null){
+            logger.info(TAG,"stop: cancelling postDefaultListCall call");
+            postDefaultListCall.cancel();
+        }
+        if (getDefaultListCall!=null){
+            logger.info(TAG,"stop: cancelling getDefaultListCall call");
+            getDefaultListCall.cancel();
+        }
+
     }
 
     @Override
@@ -116,7 +141,7 @@ public class ListsPresenterImpl implements ListsPresenter {
         defaultListBodyData.setListName(listName);
         defaultListBody.setData(defaultListBodyData);
         logger.info(TAG, "persistDefaultListId: listId = " + listId + " slug = " + slug);
-        Call<DefaultList> postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
+        postDefaultListCall = apiManager.apiTransactions.postDefaultList(defaultListBody);
 
         postDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
@@ -144,7 +169,7 @@ public class ListsPresenterImpl implements ListsPresenter {
         String userName = twitterSession.getUserName();
         Crashlytics.setUserName(userName);
         logger.info(TAG, "getDefaultListId: for " + userName);
-        Call<DefaultList> getDefaultListCall = apiManager.apiTransactions.getDefaultList(userName);
+        getDefaultListCall = apiManager.apiTransactions.getDefaultList(userName);
 
         getDefaultListCall.enqueue(new retrofit2.Callback<DefaultList>() {
             @Override
