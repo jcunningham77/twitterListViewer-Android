@@ -150,6 +150,7 @@ public class ListsPresenterImpl implements ListsPresenter {
             @Override
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
 
+
                 logger.info(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
 
 

@@ -84,9 +84,12 @@ public class ListsActivity extends Activity {
             listsFragment.setRetainInstance(false);
 
             if(!listsFragment.isAdded()){
-                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+//                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.replace(R.id.lists_fragment_container, listsFragment, "ListsFragment");
                 ft.commit();
             }
+
+
 
         } else {
             FragmentManager fm = getFragmentManager();
@@ -99,11 +102,13 @@ public class ListsActivity extends Activity {
             listsFragment.setRetainInstance(false);
 
             if(!listsFragment.isAdded()) {
-                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+//                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.replace(R.id.lists_fragment_container, listsFragment, "ListsFragment");
             }
 
             TwitterListFragment twitterListFragment = new TwitterListFragment();
-            ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
+//            ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
+            ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
 
             ft.commit();
 

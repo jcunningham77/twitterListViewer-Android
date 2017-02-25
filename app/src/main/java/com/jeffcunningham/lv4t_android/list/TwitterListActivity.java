@@ -56,7 +56,7 @@ public class TwitterListActivity extends android.app.Activity {
         bundle.putString("slug",getIntent().getStringExtra("slug"));
         bundle.putString("listName",getIntent().getStringExtra("listName"));
         twitterListFragment.setArguments(bundle);
-        ft.add(R.id.fragment_container, twitterListFragment);
+        ft.replace(R.id.fragment_container, twitterListFragment,"TwitterListFragment");
         ft.commit();
     }
 
