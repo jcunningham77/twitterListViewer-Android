@@ -22,6 +22,7 @@ import com.jeffcunningham.lv4t_android.events.SetDefaultListEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListActivity;
 import com.jeffcunningham.lv4t_android.lists.ui.ListsAdapter;
+import com.jeffcunningham.lv4t_android.login.LoginActivity;
 import com.jeffcunningham.lv4t_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
@@ -74,7 +75,7 @@ public class ListsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
-        ((ListsActivity) getActivity()).component().inject(this);
+        ((LoginActivity) getActivity()).component().inject(this);
         ButterKnife.bind(this,view);
         this.selectedConfiguration = getString(R.string.selected_configuration);
         logger.info(TAG, "onCreateView: selectedConfiguration =" + selectedConfiguration);
