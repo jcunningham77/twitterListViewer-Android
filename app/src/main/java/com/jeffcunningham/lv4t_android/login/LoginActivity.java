@@ -4,8 +4,12 @@ package com.jeffcunningham.lv4t_android.login;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -64,11 +68,29 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
+        Drawable accountDrawable = ContextCompat.getDrawable(this, R.drawable.ic_account_box_white_24dp);
+        Drawable listsDrawable = ContextCompat.getDrawable(this, R.drawable.ic_toc_white_24dp);
+        accountDrawable = DrawableCompat.wrap(accountDrawable);
+        listsDrawable = DrawableCompat.wrap(listsDrawable);
+        int color = Color.parseColor("#607D8B");
+        DrawableCompat.setTint(accountDrawable, color);
+        DrawableCompat.setTint(listsDrawable, color);
+
+
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out"));
-        tabLayout.addTab(tabLayout.newTab().setText("Lists"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out").setIcon(R.drawable.ic_account_box_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("Lists").setIcon(R.drawable.ic_toc_white_24dp));
         tabLayout.addOnTabSelectedListener(listener);
+
+        tabLayout.setTabTextColors(
+                color,
+                color
+        );
+
+        tabLayout.setSelectedTabIndicatorColor(color);
+
+
 
 
 
