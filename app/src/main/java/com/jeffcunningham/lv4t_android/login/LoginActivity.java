@@ -13,6 +13,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.lv4t_android.BaseApplication;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
     TwitterSession session;
 
+    TabLayout tabLayout;
+
     @Inject
     Logger logger;
 
@@ -56,8 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         component().inject(this);
         logger.info(TAG,"onCreate: ");
 
@@ -67,42 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-
-        Drawable accountDrawable = ContextCompat.getDrawable(this, R.drawable.ic_account_box_white_24dp);
-        Drawable listsDrawable = ContextCompat.getDrawable(this, R.drawable.ic_toc_white_24dp);
-        accountDrawable = DrawableCompat.wrap(accountDrawable);
-        listsDrawable = DrawableCompat.wrap(listsDrawable);
-        int color = Color.parseColor("#607D8B");
-        DrawableCompat.setTint(accountDrawable, color);
-        DrawableCompat.setTint(listsDrawable, color);
-
-
-
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out").setIcon(R.drawable.ic_account_box_white_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("Lists").setIcon(R.drawable.ic_toc_white_24dp));
-        tabLayout.addOnTabSelectedListener(listener);
-
-        tabLayout.setTabTextColors(
-                color,
-                color
-        );
-
-        tabLayout.setSelectedTabIndicatorColor(color);
-
-
-
-
-
-
-
+        initializeTabLayout();
 
         session = Twitter.getSessionManager().getActiveSession();
 
-
-
-
-        //
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
@@ -116,15 +85,15 @@ public class LoginActivity extends AppCompatActivity {
 
             Crashlytics.setUserName(session.getUserName());
             logger.info(TAG, "onCreate: forwarding direct to Lists page");
-            ListsFragment listsFragment = new ListsFragment();
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
-            ft.commit();
 
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            tab.select();
+//            ListsFragment listsFragment = new ListsFragment();
+//            ft = fm.beginTransaction();
+//            ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+//            ft.commit();
         }
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -152,9 +121,13 @@ public class LoginActivity extends AppCompatActivity {
                     ft.commit();
                     break;
                 case 1:
-                    ListsFragment listsFragment = new ListsFragment();
-                    ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
-                    ft.commit();
+                    if (Twitter.getSessionManager().getActiveSession()!=null) {
+                        ListsFragment listsFragment = new ListsFragment();
+                        ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+                        ft.commit();
+                    } else {
+                        Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
+                    }
                     break;
             }
         }
@@ -173,6 +146,33 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     };
+
+
+    private void initializeTabLayout(){
+
+        Drawable accountDrawable = ContextCompat.getDrawable(this, R.drawable.ic_account_box_white_24dp);
+        Drawable listsDrawable = ContextCompat.getDrawable(this, R.drawable.ic_toc_white_24dp);
+        accountDrawable = DrawableCompat.wrap(accountDrawable);
+        listsDrawable = DrawableCompat.wrap(listsDrawable);
+        int color = Color.parseColor("#607D8B");
+        DrawableCompat.setTint(accountDrawable, color);
+        DrawableCompat.setTint(listsDrawable, color);
+
+
+
+        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out").setIcon(R.drawable.ic_account_box_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("Lists").setIcon(R.drawable.ic_toc_white_24dp));
+        tabLayout.addOnTabSelectedListener(listener);
+
+        tabLayout.setTabTextColors(
+                color,
+                color
+        );
+
+        tabLayout.setSelectedTabIndicatorColor(color);
+
+    }
 
 
 

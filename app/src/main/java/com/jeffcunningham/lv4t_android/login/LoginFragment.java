@@ -2,11 +2,10 @@ package com.jeffcunningham.lv4t_android.login;
 
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jeffcunningham.lv4t_android.R;
-import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -50,6 +48,8 @@ public class LoginFragment extends Fragment {
     @Inject
     Logger logger;
 
+    TabLayout tabLayout;
+
     private String selectedConfiguration;
 
     @Override
@@ -66,7 +66,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
         ButterKnife.bind(this,view);
+        tabLayout = (TabLayout)getActivity().findViewById(R.id.tabLayout);
         logger.info(TAG,"onCreateView: ");
         return view;
 
@@ -124,15 +126,19 @@ public class LoginFragment extends Fragment {
 
                 twitterSession = result.data;
                 String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
-                Log.i(TAG, "success: msg = " + msg);
+                logger.info(TAG, "success: msg = " + msg);
+
                 loginPresenter.clearSharedPreferencesData();
+                TabLayout.Tab tab = tabLayout.getTabAt(1);
+                tab.select();
+
 //                Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
 //                startActivity(listsIntent);
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ListsFragment listsFragment = new ListsFragment();
-                ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
-                ft.commit();
+//                FragmentManager fm = getFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ListsFragment listsFragment = new ListsFragment();
+//                ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+//                ft.commit();
 
             }
 
