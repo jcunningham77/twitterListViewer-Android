@@ -6,6 +6,8 @@ import com.jeffcunningham.lv4t_android.lists.ListsPresenter;
 import com.jeffcunningham.lv4t_android.lists.ListsPresenterImpl;
 import com.jeffcunningham.lv4t_android.login.LoginPresenter;
 import com.jeffcunningham.lv4t_android.login.LoginPresenterImpl;
+import com.jeffcunningham.lv4t_android.util.ListsStorage;
+import com.jeffcunningham.lv4t_android.util.ListsStorageImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -31,6 +33,11 @@ public class LoginModule {
     //from the Lists component as it will belong to the Lists activity
     @Provides
     TwitterListPresenter provideTwitterListPresenter(TwitterListPresenterImpl impl){
+        return impl;
+    }
+
+    @Provides
+    ListsStorage provideListStorage(ListsStorageImpl impl){
         return impl;
     }
 

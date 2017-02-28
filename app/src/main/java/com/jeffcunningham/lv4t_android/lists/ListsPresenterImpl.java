@@ -13,6 +13,8 @@ import com.jeffcunningham.lv4t_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.ListOwnershipService;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.util.ListsCache;
+import com.jeffcunningham.lv4t_android.util.ListsStorage;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
@@ -22,6 +24,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import org.greenrobot.eventbus.EventBus;
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 
 import java.util.List;
 
@@ -41,6 +45,7 @@ public class ListsPresenterImpl implements ListsPresenter {
     //dependencies injected by Dagger via constructor
     private SharedPreferencesRepository sharedPreferencesRepository;
     private Logger logger;
+    private ListsStorage listsStorage;
 
     //these dependencies are not injected by Dagger
     private APIManager apiManager;
@@ -52,10 +57,11 @@ public class ListsPresenterImpl implements ListsPresenter {
 
 
     @Inject
-    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository, Logger logger) {
+    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository, Logger logger, ListsStorage listsStorage) {
 
         this.sharedPreferencesRepository = sharedPreferencesRepository;
         this.logger = logger;
+        this.listsStorage = listsStorage;
     }
 
     @Override
@@ -97,39 +103,57 @@ public class ListsPresenterImpl implements ListsPresenter {
         ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
         logger.info(TAG,"getListOwnershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
 
-        Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
+        //todo extract the below to a use case
 
-        listMembership.enqueue(new Callback<List<TwitterList>>(){
+        if ((listsStorage.retrieveListsCache()!=null)&&(Minutes.minutesBetween(listsStorage.retrieveListsCache().getDepositTimestamp(),new DateTime()).getMinutes()<10)){
+            logger.info(TAG,"getListOwnershipByTwitterUser, twitter list cache is younger than 10 minutes, use it");
 
-            @Override
-            public void success(Result<List<TwitterList>> result) {
+            EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(listsStorage.retrieveListsCache().getTwitterLists()));
 
-                for (TwitterList twitterList : result.data){
-                    logger.info(TAG, "success: twitterList = " + twitterList.getFullName());
+
+        } else {
+
+            Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
+
+            listMembership.enqueue(new Callback<List<TwitterList>>(){
+
+                @Override
+                public void success(Result<List<TwitterList>> result) {
+
+                    //check rate limit
+                    String requestsRemaining;
+                    requestsRemaining = result.response.headers().get("x-rate-limit-remaining");
+                    logger.info(TAG,"getListOwnershipByTwitterUser, success = requestsRemaining = " + requestsRemaining);
+
+                    for (TwitterList twitterList : result.data){
+                        logger.info(TAG, "success: twitterList = " + twitterList.getFullName());
+                    }
+
+                    if (result.data.size()>0){
+                        String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
+                        sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
+                        ListsCache listsCache = new ListsCache();
+                        listsCache.setTwitterLists(result.data);
+                        listsCache.setDepositTimestamp(new DateTime());
+                        listsStorage.persistListsCache(listsCache);
+                        EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
+                    } else {//no list data returned from Twitter
+                        EventBus.getDefault().post(new NoListOwnershipByTwitterUserEvent());
+                    }
+
                 }
 
-                if (result.data.size()>0){
-                    String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
-                    sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
-                    EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
-                } else {//no list data returned from Twitter
-                    EventBus.getDefault().post(new NoListOwnershipByTwitterUserEvent());
+                @Override
+                public void failure(TwitterException exception) {
+
+                    logger.error(TAG, "failure: " + exception.getMessage());
+                    logger.getStackTraceString(exception);
+                    EventBus.getDefault().post(new GetListOwnershipByTwitterUserFailureEvent());
+
                 }
+            });
 
-
-
-
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-
-                logger.error(TAG, "failure: " + exception.getMessage());
-                logger.getStackTraceString(exception);
-                EventBus.getDefault().post(new GetListOwnershipByTwitterUserFailureEvent());
-
-            }
-        });
+        }
 
     }
 
