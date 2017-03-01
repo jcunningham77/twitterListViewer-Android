@@ -105,13 +105,17 @@ public class ListsPresenterImpl implements ListsPresenter {
 
         //todo extract the below to a use case
 
-        if ((listsStorage.retrieveListsCache()!=null)&&(Minutes.minutesBetween(listsStorage.retrieveListsCache().getDepositTimestamp(),new DateTime()).getMinutes()<10)){
-            logger.info(TAG,"getListOwnershipByTwitterUser, twitter list cache is younger than 10 minutes, use it");
+
+
+        if ((listsStorage.retrieveListsCache()!=null)&&(Minutes.minutesBetween(listsStorage.retrieveListsCache().getDepositTimestamp(),new DateTime()).getMinutes()<15)){
+            logger.info(TAG,"getListOwnershipByTwitterUser, twitter list cache is younger than 15 minutes, use it");
 
             EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(listsStorage.retrieveListsCache().getTwitterLists()));
 
 
         } else {
+
+
 
             Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
 
@@ -132,9 +136,12 @@ public class ListsPresenterImpl implements ListsPresenter {
                     if (result.data.size()>0){
                         String twitterAvatarImgUrl = ((List<TwitterList>)result.data).get(0).getUser().getProfileImageUrlHttps();
                         sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
+
+                        listsStorage.clearListsCache();
                         ListsCache listsCache = new ListsCache();
                         listsCache.setTwitterLists(result.data);
                         listsCache.setDepositTimestamp(new DateTime());
+                        //in case there was old list data in there
                         listsStorage.persistListsCache(listsCache);
                         EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
                     } else {//no list data returned from Twitter

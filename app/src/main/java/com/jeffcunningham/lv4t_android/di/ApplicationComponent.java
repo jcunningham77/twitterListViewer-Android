@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.jeffcunningham.lv4t_android.BaseApplication;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
+import com.jeffcunningham.lv4t_android.util.ListsStorage;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 
@@ -23,12 +24,8 @@ public interface ApplicationComponent {
 
     ImageLoader imageLoader();
 
+    ListsStorage listsStorage();
 
-    //will not be supplying TwitterSession via Dagger-injected constructors
-    //Probably easier to get current session from presenter methods in case user
-    //switches Twitter accounts
 
-    //this also seems to be necessary, and it's not using the @Inject annotation
-//    TwitterSession twitterSession();
 
 }

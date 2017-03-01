@@ -6,6 +6,8 @@ import android.content.Context;
 import com.jeffcunningham.lv4t_android.di.annotations.ApplicationContext;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.ImageLoaderImpl;
+import com.jeffcunningham.lv4t_android.util.ListsStorage;
+import com.jeffcunningham.lv4t_android.util.ListsStorageImpl;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.LoggerImpl;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
@@ -62,14 +64,11 @@ public class ApplicationModule {
         return impl;
     }
 
+    @Provides
+    @Singleton
+    ListsStorage provideListStorage(ListsStorageImpl impl){
+        return impl;
+    }
 
-
-    //will not be supplying TwitterSession via Dagger-injected constructors
-    //Probably easier to get current session from presenter methods in case user
-    //switches Twitter accounts
-//    @Provides
-//    TwitterSession provideTwitterSession(){
-//        return Twitter.getSessionManager().getActiveSession();
-//    };
 
 }
