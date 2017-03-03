@@ -35,8 +35,12 @@ public class ListsAdapter extends Adapter{
 
     public void setTwitterLists(List<TwitterList> twitterLists) {
         //TODO: inject util logger
-        Log.i(TAG, "setTwitterLists: twitterLists");
-        this.twitterLists = twitterLists;
+        if (twitterLists!=null) {
+            Log.i(TAG, "setTwitterLists: twitterLists.size =" + twitterLists.size());
+            this.twitterLists = twitterLists;
+        } else {
+            Log.e(TAG, "setTwitterLists: twitterLists is null");
+        }
         notifyDataSetChanged();
     }
 

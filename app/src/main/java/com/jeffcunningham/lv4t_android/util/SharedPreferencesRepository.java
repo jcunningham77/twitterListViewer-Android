@@ -6,17 +6,17 @@ package com.jeffcunningham.lv4t_android.util;
 
 public interface SharedPreferencesRepository {
 
-    public void persistDefaultListData(String slug, String listName);
+    void persistDefaultListData(String slug, String listName);
 
-    public void clearDefaultListData();
+    void clearDefaultListData();
 
-    public String getDefaultListSlug();
+    String getDefaultListSlug();
 
-    public String getDefaultListName();
+    String getDefaultListName();
 
-    public void persistTwitterAvatarImgUrl(String twitterAvatarImgUrl);
+    void persistTwitterAvatarImgUrl(String twitterAvatarImgUrl);
 
-    public String getTwitterAvatarImgUrl();
+    String getTwitterAvatarImgUrl();
 
-    public void clearTwitterAvatarImgUrl();
+    void clearTwitterAvatarImgUrl();
 }

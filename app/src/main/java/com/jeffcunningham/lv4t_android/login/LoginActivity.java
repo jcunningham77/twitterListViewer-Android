@@ -13,6 +13,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -21,6 +22,7 @@ import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
+import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
@@ -33,12 +35,10 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-
     private LoginComponent component;
-
     TwitterSession session;
-
     TabLayout tabLayout;
+    private String selectedConfiguration;
 
     @Inject
     Logger logger;
@@ -68,9 +68,58 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        initializeTabLayout();
+        selectedConfiguration = getString(R.string.selected_configuration);
 
         session = Twitter.getSessionManager().getActiveSession();
+
+        if (selectedConfiguration.equalsIgnoreCase("layout")){
+            initializeNormalLayout();
+        } else {
+            initializeLandscapeOrLargeLayout();
+        }
+
+    }
+
+    private void initializeLandscapeOrLargeLayout(){
+        View activityView = findViewById(R.id.activity_login);
+
+        if (session!=null){
+            setContentView(R.layout.activity_lists);
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
+
+            if(listsFragment==null){
+                listsFragment = new ListsFragment();
+            }
+            listsFragment.setRetainInstance(false);
+
+            if(!listsFragment.isAdded()) {
+//                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.replace(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+            }
+
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+//            ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
+            ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
+
+            ft.commit();
+        } else {
+            //show the login fragment
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            LoginFragment loginFragment = new LoginFragment();
+            ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+            ft.commit();
+        }
+
+
+
+    }
+
+    private void initializeNormalLayout() {
+
+        initializeTabLayout();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -88,10 +137,6 @@ public class LoginActivity extends AppCompatActivity {
 
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
-//            ListsFragment listsFragment = new ListsFragment();
-//            ft = fm.beginTransaction();
-//            ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
-//            ft.commit();
         }
     }
 
