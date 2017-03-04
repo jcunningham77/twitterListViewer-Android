@@ -226,7 +226,10 @@ public class ListsFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        logger.info(TAG, "onDestroy: ");
+        if (logger!=null){//logger may be null if we are removing this fragment from portait container on orientation change
+            logger.info(TAG, "onDestroy: ");
+        }
+
         listsRecyclerView = null;
     }
 }

@@ -145,8 +145,11 @@ public class TwitterListFragment extends ListFragment {
     public void onMessageEvent(GetDefaultListSuccessEvent event){
         //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
         //in regular configuration, the ListsFragment will launch an activity for this fragment
-        if (selectedConfiguration.equalsIgnoreCase("layout-large")||selectedConfiguration.equalsIgnoreCase("layout-land")) {
-            loadListTimeline(event.getDefaultList().getSlug(),event.getDefaultList().getListName());
+        //todo is this the best way to ensure the fragment is attached to an activity?
+        if (isAdded()) {
+            if (selectedConfiguration.equalsIgnoreCase("layout-large") || selectedConfiguration.equalsIgnoreCase("layout-land")) {
+                loadListTimeline(event.getDefaultList().getSlug(), event.getDefaultList().getListName());
+            }
         }
     }
 

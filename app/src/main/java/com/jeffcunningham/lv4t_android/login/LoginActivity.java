@@ -81,15 +81,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initializeLandscapeOrLargeLayout(){
+        logger.info(TAG, "initializeLandscapeOrLargeLayout: ");
         View activityView = findViewById(R.id.activity_login);
 
         if (session!=null){
             setContentView(R.layout.activity_lists);
+            logger.info(TAG, "initializeLandscapeOrLargeLayout: session!=null - setContentView to activity_lists layout");
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
 
             if(listsFragment==null){
+
                 listsFragment = new ListsFragment();
             }
             listsFragment.setRetainInstance(false);
@@ -97,10 +100,22 @@ public class LoginActivity extends AppCompatActivity {
             if(!listsFragment.isAdded()) {
 //                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
                 ft.replace(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.commit();
+            } else {//this listFragment had been added already, probably to the "fragment_container" from the portrait layout
+                //so lets remove that fragment and re-add it - since it is changing containers
+                ft = fm.beginTransaction();
+                ft.remove(listsFragment);
+                ft.commit();
+                fm.executePendingTransactions();
+                ft = fm.beginTransaction();
+                ft.add(R.id.lists_fragment_container, listsFragment);
+                ft.commit();
+
             }
 
             TwitterListFragment twitterListFragment = new TwitterListFragment();
 //            ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
+            ft = fm.beginTransaction();
             ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
 
             ft.commit();
