@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,9 @@ public class ListsFragment extends Fragment {
     @BindView(R.id.twitterAvater)
     ImageView imgTwitterAvatar;
 
+    //only used in landscape or large
+    Button btnSignOut;
+
 
 
     ListsAdapter listsAdapter;
@@ -91,6 +95,9 @@ public class ListsFragment extends Fragment {
         //handle header for wide screens
         if (this.selectedConfiguration.equalsIgnoreCase("layout-land")||this.selectedConfiguration.equalsIgnoreCase("layout-large")){
             tvTwitterAlias.setVisibility(View.GONE);
+            btnSignOut = (Button)getView().findViewById(R.id.btnSignOut);
+            btnSignOut.setBackgroundResource(R.drawable.ic_account_box_white_24dp);
+
         }
 
 
