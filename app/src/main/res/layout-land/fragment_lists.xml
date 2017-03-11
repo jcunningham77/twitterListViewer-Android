@@ -85,18 +85,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listsRecyclerView"
             android:layout_width="match_parent"
-
             android:layout_height="0dp"
-            android:layout_weight="8"
-
-            android:layout_alignParentTop="true">
-
-        </android.support.v7.widget.RecyclerView>
+            android:layout_weight="8"/>
 
 
 
@@ -105,12 +98,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:layout_below="@+id/listsRecyclerView"
-            android:layout_alignParentBottom="true"
+
+
             android:text="Sign Out" />
 
     </LinearLayout>
-
-
-
 </LinearLayout>
