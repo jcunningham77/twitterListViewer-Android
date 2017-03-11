@@ -87,8 +87,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
             <include layout="@layout/lists_header_view"></include>
         </LinearLayout>
 
@@ -99,22 +98,22 @@
 
 
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/listsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="6"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+>
+                <include layout="@layout/signout_view"></include>
+            </LinearLayout>
 
 
 
-                <Button
-                    android:id="@+id/btnSignOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
 
-
-                    android:text="Sign Out" />
 
         </LinearLayout>
 

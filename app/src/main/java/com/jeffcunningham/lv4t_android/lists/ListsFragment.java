@@ -95,8 +95,7 @@ public class ListsFragment extends Fragment {
         //handle header for wide screens
         if (this.selectedConfiguration.equalsIgnoreCase("layout-land")||this.selectedConfiguration.equalsIgnoreCase("layout-large")){
             tvTwitterAlias.setVisibility(View.GONE);
-            btnSignOut = (Button)getView().findViewById(R.id.btnSignOut);
-//            btnSignOut.setBackgroundResource(R.drawable.ic_account_box_white_24dp);
+
 
         }
 
