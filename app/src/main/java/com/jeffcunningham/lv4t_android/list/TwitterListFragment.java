@@ -148,7 +148,7 @@ public class TwitterListFragment extends ListFragment {
         final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
                 .slugWithOwnerScreenName(slug, this.alias)
                 .build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity().getApplicationContext())
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
                 .setTimeline(userTimeline)
                 .build();
         setListAdapter(adapter);
@@ -158,7 +158,6 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        logger.info(TAG, "onDestroy: ");
         setListAdapter(null);
     }
 
