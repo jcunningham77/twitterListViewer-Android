@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         selectedConfiguration = getString(R.string.selected_configuration);
 
-        session = Twitter.getSessionManager().getActiveSession();
+
 
         if (selectedConfiguration.equalsIgnoreCase("layout")){
             initializeNormalLayout();
@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
     private void initializeLandscapeOrLargeLayout(){
         logger.info(TAG, "initializeLandscapeOrLargeLayout: ");
         View activityView = findViewById(R.id.activity_login);
+
+        session = Twitter.getSessionManager().getActiveSession();
 
         if (session!=null){
             setContentView(R.layout.activity_lists);
