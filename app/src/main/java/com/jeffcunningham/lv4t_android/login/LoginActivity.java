@@ -244,6 +244,25 @@ public class LoginActivity extends AppCompatActivity {
         public void onTabReselected(TabLayout.Tab tab) {
 
             Log.i(TAG, "onTabReselected: ");
+            Log.i(TAG, "onTabSelected: ");
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            switch (tab.getPosition()){
+                case 0:
+                    LoginFragment loginFragment = new LoginFragment();
+                    ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+                    ft.commit();
+                    break;
+                case 1:
+                    if (Twitter.getSessionManager().getActiveSession()!=null) {
+                        ListsFragment listsFragment = new ListsFragment();
+                        ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+                        ft.commit();
+                    } else {
+                        Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
 
         }
     };
