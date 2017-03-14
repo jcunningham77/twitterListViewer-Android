@@ -22,6 +22,7 @@ import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
+import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
 import com.jeffcunningham.lv4t_android.events.SignOutEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
@@ -95,6 +96,11 @@ public class LoginActivity extends AppCompatActivity {
         LoginFragment loginFragment = new LoginFragment();
         ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
         ft.commit();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginSucccessEventFromLandscape event){
+        initializeLandscapeOrLargeLayout();
     }
 
     private void initializeLandscapeOrLargeLayout(){

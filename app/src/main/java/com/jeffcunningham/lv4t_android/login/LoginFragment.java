@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jeffcunningham.lv4t_android.R;
+import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -21,6 +22,8 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -50,7 +53,7 @@ public class LoginFragment extends Fragment {
 
     TabLayout tabLayout;
 
-    private String selectedConfiguration;
+    public String selectedConfiguration;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -106,7 +109,49 @@ public class LoginFragment extends Fragment {
 
             logger.info(TAG," onResume:  there is not an active twitter session");
             showLoginButton();
+
         }
+
+    }
+
+    private void showLoginButtonForLandscape(){
+
+        btnTwitterLogout.setVisibility(View.GONE);
+
+        if (twitterLoginButton==null){
+            twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
+        }
+
+        twitterLoginButton.setEnabled(true);
+        twitterLoginButton.setVisibility(View.VISIBLE);
+        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+
+                twitterSession = result.data;
+                String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
+                logger.info(TAG, "success: msg = " + msg);
+
+                loginPresenter.clearSharedPreferencesData();
+                //todo - should we be using event bus to communicate between fragments and their parent activities?
+                EventBus.getDefault().post(new LoginSucccessEventFromLandscape());
+
+//                FragmentManager fm = getFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ListsFragment listsFragment = new ListsFragment();
+//                ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+//                ft.commit();
+
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("TwitterKit", "Login with Twitter failure", exception);
+                loginPresenter.clearSharedPreferencesData();
+                textViewTwitterError.setVisibility(View.VISIBLE);
+                textViewTwitterError.setText("Twitter Login failed due to " + exception.getMessage());
+            }
+        });
 
     }
 
@@ -129,8 +174,19 @@ public class LoginFragment extends Fragment {
                 logger.info(TAG, "success: msg = " + msg);
 
                 loginPresenter.clearSharedPreferencesData();
-                TabLayout.Tab tab = tabLayout.getTabAt(1);
-                tab.select();
+
+
+
+
+                //todo - should we be using event bus to communicate between fragments and their parent activities?
+                if (!LoginFragment.this.selectedConfiguration.equalsIgnoreCase("layout")) {
+                    EventBus.getDefault().post(new LoginSucccessEventFromLandscape());
+                }else{
+                    TabLayout.Tab tab = tabLayout.getTabAt(1);
+                    tab.select();
+                }
+
+
 
 //                Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
 //                startActivity(listsIntent);
