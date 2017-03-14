@@ -66,7 +66,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
     @Override
     public void start(){
-        
+
         if(Twitter.getSessionManager().getActiveSession()!=null) {
             logger.info(TAG,"start: twitter session is not null");
             getListOwnershipByTwitterUser();
@@ -103,21 +103,14 @@ public class ListsPresenterImpl implements ListsPresenter {
         logger.info(TAG,"getListOwnershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
 
         //todo extract the below to a use case
-
-
-
+        //todo cache at retrofit layer
         if ((listsStorage.retrieveListsCache()!=null)&&(Minutes.minutesBetween(listsStorage.retrieveListsCache().getDepositTimestamp(),new DateTime()).getMinutes()<15)){
             logger.info(TAG,"getListOwnershipByTwitterUser, twitter list cache is younger than 15 minutes, use it");
-
             EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(listsStorage.retrieveListsCache().getTwitterLists()));
-
 
         } else {
 
-
-
             Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
-
             listMembership.enqueue(new Callback<List<TwitterList>>(){
 
                 @Override
@@ -158,9 +151,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
                 }
             });
-
         }
-
     }
 
     public void persistDefaultListId(String listId, String slug, String listName){
@@ -203,7 +194,6 @@ public class ListsPresenterImpl implements ListsPresenter {
 
     public void getDefaultListId(){
 
-
         String userName = twitterSession.getUserName();
         Crashlytics.setUserName(userName);
         logger.info(TAG, "getDefaultListId: for " + userName);
@@ -213,20 +203,15 @@ public class ListsPresenterImpl implements ListsPresenter {
             @Override
             public void onResponse(Call<DefaultList> call, Response<DefaultList> response) {
 
-
                 logger.info(TAG, "onResponse: Retrofit call to Node get default list API succeeded, default list id = " + response.body());
-
 
                 if (response.body()!=null){
                     persistDefaultListDataToSharedPreferences(response.body().getSlug(),response.body().getListName());
                     EventBus.getDefault().post(new GetDefaultListSuccessEvent(response.body()));
                 } else {
                     logger.info(TAG,"onResponse: Retrofit call to Node get default list API succeeded, but there is no default list data.");
-                    
                     EventBus.getDefault().post(new NoDefaultListPersistedEvent());
                 }
-
-
             }
 
             @Override
@@ -241,8 +226,5 @@ public class ListsPresenterImpl implements ListsPresenter {
         logger.info(TAG, "persistDefaultListDataToSharedPreferences: slug = " + slug + ", listName = " + listName);
         sharedPreferencesRepository.persistDefaultListData(slug,listName);
     }
-
-
-
 
 }

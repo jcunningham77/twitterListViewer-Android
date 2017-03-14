@@ -78,7 +78,7 @@ public class TwitterListFragment extends ListFragment {
             this.listName = getArguments().getString("listName");
         }
 
-        //if these values weren't manually passed in, let's check sharedpreferences
+        //if these values weren't manually passed in, let's check shared preferences
         if (StringUtils.isBlank(this.slug)&&StringUtils.isBlank(this.slug)){
             this.slug = sharedPreferencesRepository.getDefaultListSlug();
             this.listName = sharedPreferencesRepository.getDefaultListName();
@@ -92,12 +92,9 @@ public class TwitterListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         String selectedConfiguration = getString(R.string.selected_configuration);
 
-
         this.alias = twitterListPresenter.getTwitterUserName();
-
 
         if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
 
@@ -115,43 +112,36 @@ public class TwitterListFragment extends ListFragment {
             loadListTimeline(this.slug,this.listName);
 
         } else {
-            //slug and listname are not present from TwitterListActivity (tablet width)
-            //set placeholder until we get default list from ListsPresenter, or the user selects a list to view
+            //since we are in large or landscape configuration, this fragment may be created at the same time
+            //as the lists fragment. set placeholder until we get default list from ListsPresenter, or the user selects a
+            // list to view
             logger.info(TAG, "onViewCreated: - no slug or listName initialized yet");
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
             tvListName.setVisibility(View.GONE);
             imgTwitterAvatar.setVisibility(View.GONE);
 
         }
-
-
-
     }
 
     @Override
     public void onStart(){
         super.onStart();
         EventBus.getDefault().register(this);
-
-
     }
 
     @Override
     public void onStop(){
         super.onStop();
         EventBus.getDefault().unregister(this);
-
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event) {
 
         logger.info(TAG, "onMessageEvent: ViewListEvent ");
-
         //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
-        //in regular configuration, the ListsFragment will launch an activity for this fragment
-        if (selectedConfiguration.equalsIgnoreCase("layout-large")||selectedConfiguration.equalsIgnoreCase("layout-land")){
+        //in regular configuration, the ListsFragment will launch this fragment
+        if (!selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
             loadListTimeline(event.getSlug(),event.getListName());
         }
 
@@ -160,10 +150,10 @@ public class TwitterListFragment extends ListFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetDefaultListSuccessEvent event){
         //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
-        //in regular configuration, the ListsFragment will launch an activity for this fragment
-        //todo is this the best way to ensure the fragment is attached to an activity?
+        //in regular configuration, the ListsFragment will launch this fragment
+        //todo - is this the best way to ensure the fragment is attached to an activity?
         if (isAdded()) {
-            if (selectedConfiguration.equalsIgnoreCase("layout-large") || selectedConfiguration.equalsIgnoreCase("layout-land")) {
+            if (!selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
                 loadListTimeline(event.getDefaultList().getSlug(), event.getDefaultList().getListName());
             }
         }
@@ -190,6 +180,5 @@ public class TwitterListFragment extends ListFragment {
         super.onDestroy();
         setListAdapter(null);
     }
-
 
 }
