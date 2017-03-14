@@ -23,7 +23,7 @@ import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
-import com.jeffcunningham.lv4t_android.events.SignOutEvent;
+import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(SignOutEvent event){
+    public void onMessageEvent(ShowSignOutSignInScreenEvent event){
         setContentView(R.layout.activity_login);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //we have a default list set - load the TwitterListFragment
-        if (sharedPreferencesRepository.getDefaultListSlug()!=null){
+        if (!sharedPreferencesRepository.getDefaultListSlug().isEmpty()){
 
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();

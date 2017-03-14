@@ -21,7 +21,7 @@ import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserSucce
 import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.events.SetDefaultListEvent;
-import com.jeffcunningham.lv4t_android.events.SignOutEvent;
+import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ui.ListsAdapter;
@@ -103,7 +103,7 @@ public class ListsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     logger.info(TAG,"clicked sign out view");
-                    EventBus.getDefault().post(new SignOutEvent());
+                    EventBus.getDefault().post(new ShowSignOutSignInScreenEvent());
                 }
             });
 

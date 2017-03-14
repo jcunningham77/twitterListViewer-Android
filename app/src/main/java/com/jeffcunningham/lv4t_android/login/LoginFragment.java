@@ -96,7 +96,6 @@ public class LoginFragment extends Fragment {
 
     }
 
-
     @Override
     public void onResume(){
         twitterSession = Twitter.getSessionManager().getActiveSession();
@@ -111,47 +110,6 @@ public class LoginFragment extends Fragment {
             showLoginButton();
 
         }
-
-    }
-
-    private void showLoginButtonForLandscape(){
-
-        btnTwitterLogout.setVisibility(View.GONE);
-
-        if (twitterLoginButton==null){
-            twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
-        }
-
-        twitterLoginButton.setEnabled(true);
-        twitterLoginButton.setVisibility(View.VISIBLE);
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> result) {
-
-                twitterSession = result.data;
-                String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
-                logger.info(TAG, "success: msg = " + msg);
-
-                loginPresenter.clearSharedPreferencesData();
-                //todo - should we be using event bus to communicate between fragments and their parent activities?
-                EventBus.getDefault().post(new LoginSucccessEventFromLandscape());
-
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ListsFragment listsFragment = new ListsFragment();
-//                ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
-//                ft.commit();
-
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                Log.d("TwitterKit", "Login with Twitter failure", exception);
-                loginPresenter.clearSharedPreferencesData();
-                textViewTwitterError.setVisibility(View.VISIBLE);
-                textViewTwitterError.setText("Twitter Login failed due to " + exception.getMessage());
-            }
-        });
 
     }
 
@@ -174,9 +132,6 @@ public class LoginFragment extends Fragment {
                 logger.info(TAG, "success: msg = " + msg);
 
                 loginPresenter.clearSharedPreferencesData();
-
-
-
 
                 //todo - should we be using event bus to communicate between fragments and their parent activities?
                 if (!LoginFragment.this.selectedConfiguration.equalsIgnoreCase("layout")) {
