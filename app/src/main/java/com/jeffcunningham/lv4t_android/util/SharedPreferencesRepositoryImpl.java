@@ -70,6 +70,7 @@ public class SharedPreferencesRepositoryImpl implements SharedPreferencesReposit
 
     @Override
     public String getTwitterAvatarImgUrl() {
+        Log.i(TAG, "getTwitterAvatarImgUrl: prefs.getString(\"twitterAvatarImgUrl\" = " + prefs.getString("twitterAvatarImgUrl",""));
         return prefs.getString("twitterAvatarImgUrl", "");
     }
 

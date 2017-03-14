@@ -1,9 +1,11 @@
 package com.jeffcunningham.lv4t_android.login;
 
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
-import com.jeffcunningham.lv4t_android.lists.ListsActivity;
+import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
+import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -20,6 +24,8 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -47,12 +53,14 @@ public class LoginFragment extends Fragment {
     @Inject
     Logger logger;
 
-    private String selectedConfiguration;
+    TabLayout tabLayout;
+
+    public String selectedConfiguration;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        ((LoginActivity)this.getActivity()).component().inject(this);
+        ((MainActivity)this.getActivity()).component().inject(this);
 
         this.selectedConfiguration = getString(R.string.selected_configuration);
         logger.info(TAG, "onCreate: selectedConfiguration = " + selectedConfiguration);
@@ -63,7 +71,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
         ButterKnife.bind(this,view);
+        tabLayout = (TabLayout)getActivity().findViewById(R.id.tabLayout);
         logger.info(TAG,"onCreateView: ");
         return view;
 
@@ -88,7 +98,6 @@ public class LoginFragment extends Fragment {
 
     }
 
-
     @Override
     public void onResume(){
         twitterSession = Twitter.getSessionManager().getActiveSession();
@@ -101,6 +110,7 @@ public class LoginFragment extends Fragment {
 
             logger.info(TAG," onResume:  there is not an active twitter session");
             showLoginButton();
+
         }
 
     }
@@ -121,11 +131,17 @@ public class LoginFragment extends Fragment {
 
                 twitterSession = result.data;
                 String msg = "@" + twitterSession.getUserName() + " logged in! (#" + twitterSession.getUserId() + ")";
-                Log.i(TAG, "success: msg = " + msg);
-                loginPresenter.clearSharedPreferencesData();
-                Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
-                startActivity(listsIntent);
+                logger.info(TAG, "success: msg = " + msg);
 
+                loginPresenter.clearSharedPreferencesData();
+
+                //todo - should we be using event bus to communicate between fragments and their parent activities?
+                if (!LoginFragment.this.selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
+                    EventBus.getDefault().post(new LoginSucccessEventFromLandscape());
+                }else{
+                    TabLayout.Tab tab = tabLayout.getTabAt(1);
+                    tab.select();
+                }
             }
 
             @Override
@@ -155,6 +171,7 @@ public class LoginFragment extends Fragment {
                                                     public void onClick(View view) {
                                                         logger.info(TAG, "onClick: logging user " + twitterSession.getUserName() + "out of Twitter");
                                                         loginPresenter.logoutOfTwitter();
+                                                        loginPresenter.clearSharedPreferencesData();
                                                         showLoginButton();
                                                     }
                                                 }

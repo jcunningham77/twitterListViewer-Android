@@ -1,4 +1,4 @@
-package com.jeffcunningham.lv4t_android.di;
+package com.jeffcunningham.lv4t_android.di.annotations;
 
 /**
  * Created by jeffcunningham on 1/22/17.

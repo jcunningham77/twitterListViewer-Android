@@ -9,15 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
-import com.jeffcunningham.lv4t_android.lists.ListsActivity;
+import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
+import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TwitterListTimeline;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -33,8 +36,8 @@ import butterknife.ButterKnife;
 
 public class TwitterListFragment extends ListFragment {
 
-    String slug;
     String alias;
+    String slug;
     String listName;
 
     @BindView(R.id.tvListName)
@@ -53,6 +56,9 @@ public class TwitterListFragment extends ListFragment {
     @Inject
     ImageLoader imageLoader;
 
+    @Inject
+    SharedPreferencesRepository sharedPreferencesRepository;
+
     private String avatarImgUrl;
     private String selectedConfiguration;
 
@@ -62,25 +68,21 @@ public class TwitterListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_twitter_list, container, false);
 
         this.selectedConfiguration = getString(R.string.selected_configuration);
+        ((MainActivity) getActivity()).component().inject(this);
 
-        //for tablet, this Fragment will belong to ListsActivity
-        if (getActivity().getClass().equals(TwitterListActivity.class)){
-            ((TwitterListActivity) getActivity()).component().inject(this);
-            //we only display the ImgUrl when this fragment is viewed on phone (i.e. launched by TwitterListActivity
-            this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
+        this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
 
-        } else {
-            ((ListsActivity) getActivity()).component().inject(this);
+        //first check if this fragment was launched via manually selecting list event
+        if (getArguments()!=null) {
+            this.slug = getArguments().getString("slug");
+            this.listName = getArguments().getString("listName");
         }
 
-        //in tablet view, the arguments will not have been set by TwitterListActivity, so null check this
-        if (getArguments()!=null){
-            this.slug = getArguments().getString("slug","");
-            this.listName = getArguments().getString("listName","");
-
+        //if these values weren't manually passed in, let's check shared preferences
+        if (StringUtils.isBlank(this.slug)&&StringUtils.isBlank(this.slug)){
+            this.slug = sharedPreferencesRepository.getDefaultListSlug();
+            this.listName = sharedPreferencesRepository.getDefaultListName();
         }
-
-
 
         ButterKnife.bind(this,view);
         return view;
@@ -89,15 +91,12 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EventBus.getDefault().register(this);
 
         String selectedConfiguration = getString(R.string.selected_configuration);
 
-
         this.alias = twitterListPresenter.getTwitterUserName();
 
-        //slug and listname are present and were likely passed from TwitterListActivity (phone width)
-        if (this.slug!=null&&this.listName!=null) {
+        if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
 
             logger.info(TAG, "onViewCreated: this.slug = " + this.slug + ", this.listName = " + this.listName);
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
@@ -113,25 +112,36 @@ public class TwitterListFragment extends ListFragment {
             loadListTimeline(this.slug,this.listName);
 
         } else {
-            //slug and listname are not present from TwitterListActivity (table width)
-            //set placeholder until we get default list from ListsPresenter, or the user selects a list to view
+            //since we are in large or landscape configuration, this fragment may be created at the same time
+            //as the lists fragment. set placeholder until we get default list from ListsPresenter, or the user selects a
+            // list to view
             logger.info(TAG, "onViewCreated: - no slug or listName initialized yet");
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
             tvListName.setVisibility(View.GONE);
             imgTwitterAvatar.setVisibility(View.GONE);
 
         }
+    }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
-
+    @Override
+    public void onStop(){
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event) {
 
+        logger.info(TAG, "onMessageEvent: ViewListEvent ");
         //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
-        //in regular configuration, the ListsFragment will launch an activity for this fragment
-        if (selectedConfiguration.equalsIgnoreCase("layout-large")||selectedConfiguration.equalsIgnoreCase("layout-land")){
+        //in regular configuration, the ListsFragment will launch this fragment
+        if (!selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
             loadListTimeline(event.getSlug(),event.getListName());
         }
 
@@ -140,9 +150,12 @@ public class TwitterListFragment extends ListFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetDefaultListSuccessEvent event){
         //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
-        //in regular configuration, the ListsFragment will launch an activity for this fragment
-        if (selectedConfiguration.equalsIgnoreCase("layout-large")||selectedConfiguration.equalsIgnoreCase("layout-land")) {
-            loadListTimeline(event.getDefaultList().getSlug(),event.getDefaultList().getListName());
+        //in regular configuration, the ListsFragment will launch this fragment
+        //todo - is this the best way to ensure the fragment is attached to an activity?
+        if (isAdded()) {
+            if (!selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
+                loadListTimeline(event.getDefaultList().getSlug(), event.getDefaultList().getListName());
+            }
         }
     }
 
@@ -155,7 +168,7 @@ public class TwitterListFragment extends ListFragment {
         final TwitterListTimeline userTimeline = new TwitterListTimeline.Builder()
                 .slugWithOwnerScreenName(slug, this.alias)
                 .build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity().getApplicationContext())
+        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(getActivity())
                 .setTimeline(userTimeline)
                 .build();
         setListAdapter(adapter);
@@ -165,9 +178,7 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        logger.info(TAG, "onDestroy: ");
         setListAdapter(null);
     }
-
 
 }

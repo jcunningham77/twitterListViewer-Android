@@ -1,17 +1,20 @@
 package com.jeffcunningham.lv4t_android.lists;
 
 import android.app.Fragment;
-import android.content.Intent;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserFailureEvent;
@@ -19,11 +22,13 @@ import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserSucce
 import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.events.SetDefaultListEvent;
+import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
-import com.jeffcunningham.lv4t_android.list.TwitterListActivity;
+import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ui.ListsAdapter;
 import com.jeffcunningham.lv4t_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
 
@@ -53,6 +58,9 @@ public class ListsFragment extends Fragment {
     @BindView(R.id.twitterAvater)
     ImageView imgTwitterAvatar;
 
+    //only used in landscape or large
+    Button btnSignOut;
+
 
 
     ListsAdapter listsAdapter;
@@ -66,6 +74,8 @@ public class ListsFragment extends Fragment {
     @Inject
     ImageLoader imageLoader;
 
+    View signOutView;
+
     private String selectedConfiguration;
 
 
@@ -74,8 +84,9 @@ public class ListsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
-        ((ListsActivity) getActivity()).component().inject(this);
+        ((MainActivity) getActivity()).component().inject(this);
         ButterKnife.bind(this,view);
+
         this.selectedConfiguration = getString(R.string.selected_configuration);
         logger.info(TAG, "onCreateView: selectedConfiguration =" + selectedConfiguration);
         return view;
@@ -86,25 +97,29 @@ public class ListsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         tvError.setVisibility(View.GONE);
         //handle header for wide screens
-        if (this.selectedConfiguration.equalsIgnoreCase("layout-land")||this.selectedConfiguration.equalsIgnoreCase("layout-large")){
+        if (!this.selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
             tvTwitterAlias.setVisibility(View.GONE);
+            signOutView = getActivity().findViewById(R.id.signOutView);
+            signOutView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    logger.info(TAG,"clicked sign out view");
+                    EventBus.getDefault().post(new ShowSignOutSignInScreenEvent());
+                }
+            });
         }
-
 
         listsRecyclerView.setHasFixedSize(true);
         listsLayoutManager = new LinearLayoutManager(getActivity());
         listsRecyclerView.setLayoutManager(listsLayoutManager);
         listsAdapter = new ListsAdapter();
         listsRecyclerView.setAdapter(listsAdapter);
-        
-        EventBus.getDefault().register(this);
-
-
     }
 
     @Override
     public void onStart(){
         super.onStart();
+        EventBus.getDefault().register(this);
         listsPresenter.start();
 
     }
@@ -112,6 +127,7 @@ public class ListsFragment extends Fragment {
     @Override
     public void onStop(){
         super.onStop();
+        EventBus.getDefault().unregister(this);
         listsPresenter.stop();
 
     }
@@ -162,33 +178,31 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SetDefaultListEvent event) {
-
-
         logger.info(TAG, "onClick: ITEM position PRESSED = " + String.valueOf(event.getPosition()));
         logger.info(TAG, "onClick: List Name = " + event.getSlug());
-        logger.info(TAG, "onClick: List ID = " + event.getListId());
-
-
         listsPresenter.persistDefaultListId(event.getListId(),event.getSlug(),event.getListName());
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event){
-
-        //only launch TwitterListActivity if we are in layout (phone) configuration
-        //in tablet config (layout-large), TwitterListFragment is also listening to this event and
+        //only launch TwitterListFragment if we are in layout (phone) configuration
+        //in tablet config (layout-large, layout_land), TwitterListFragment is also listening to this event and
         //can refresh itself
         logger.info(TAG,"onMessageEvent - ViewListEvent, this.selectedConfiguration: " + this.selectedConfiguration);
-        if (this.selectedConfiguration.equalsIgnoreCase("layout")){
-            Intent listIntent = new Intent(getActivity(), TwitterListActivity.class);
-            listIntent.putExtra("slug",event.getSlug());
-            listIntent.putExtra("listName",event.getListName());
-            listIntent.putExtra("twitterAvatarImageUrl",this.avatarImgUrl);
-            startActivity(listIntent);
+        if (this.selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+            Bundle bundle = new Bundle();
+
+            bundle.putString("slug",event.getSlug());
+            bundle.putString("listName",event.getListName());
+            twitterListFragment.setArguments(bundle);
+            ft.replace(R.id.fragment_container, twitterListFragment,"TwitterListFragment");
+            ft.addToBackStack(null);
+            ft.commit();
         }
-
-
     }
 
 
@@ -209,7 +223,9 @@ public class ListsFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        logger.info(TAG, "onDestroy: ");
+        if (logger!=null){//logger may be null if we are removing this fragment from portrait container on orientation change
+            logger.info(TAG, "onDestroy: ");
+        }
         listsRecyclerView = null;
     }
 }

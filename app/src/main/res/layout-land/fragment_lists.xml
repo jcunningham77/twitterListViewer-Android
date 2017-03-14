@@ -34,7 +34,7 @@
 
         <ImageView
             android:id="@+id/twitterAvater"
-            android:layout_width="70dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginEnd="16dp"
@@ -47,12 +47,14 @@
             android:layout_marginTop="2dp"
             app:layout_constraintBottom_toTopOf="@+id/view"
             android:layout_marginBottom="2dp"
-            android:cropToPadding="false" />
+            android:cropToPadding="false"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
 
         <TextView
             android:id="@+id/twitterAlias"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:textAlignment="center"
             android:textSize="10sp"
@@ -66,7 +68,7 @@
             tools:visibility="gone"/>
 
         <View android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="0dp"
             android:background="#ccd6dd"
             android:layout_marginTop="74dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -76,17 +78,45 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="1.0"
             android:id="@+id/view" />
-
-
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/listsRecyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/lists_header_view"></include>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6"/>
+
+            <LinearLayout
+                android:id="@+id/signOutView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+>
+                <include layout="@layout/signout_view"></include>
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
