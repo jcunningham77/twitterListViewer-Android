@@ -140,17 +140,6 @@ public class LoginFragment extends Fragment {
                     TabLayout.Tab tab = tabLayout.getTabAt(1);
                     tab.select();
                 }
-
-
-
-//                Intent listsIntent = new Intent(getActivity(), ListsActivity.class);
-//                startActivity(listsIntent);
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ListsFragment listsFragment = new ListsFragment();
-//                ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
-//                ft.commit();
-
             }
 
             @Override
@@ -180,6 +169,7 @@ public class LoginFragment extends Fragment {
                                                     public void onClick(View view) {
                                                         logger.info(TAG, "onClick: logging user " + twitterSession.getUserName() + "out of Twitter");
                                                         loginPresenter.logoutOfTwitter();
+                                                        loginPresenter.clearSharedPreferencesData();
                                                         showLoginButton();
                                                     }
                                                 }
