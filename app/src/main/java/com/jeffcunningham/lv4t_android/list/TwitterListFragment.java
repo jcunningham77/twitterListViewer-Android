@@ -65,15 +65,9 @@ public class TwitterListFragment extends ListFragment {
 
 
 
-        //for tablet, this Fragment will belong to ListsActivity
-        if (getActivity().getClass().equals(TwitterListActivity.class)){
-            ((TwitterListActivity) getActivity()).component().inject(this);
-            //we only display the ImgUrl when this fragment is viewed on phone (i.e. launched by TwitterListActivity
 
+        ((LoginActivity) getActivity()).component().inject(this);
 
-        } else {
-            ((LoginActivity) getActivity()).component().inject(this);
-        }
 
         this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
 
