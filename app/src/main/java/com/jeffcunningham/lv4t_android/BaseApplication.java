@@ -1,7 +1,6 @@
 package com.jeffcunningham.lv4t_android;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.lv4t_android.di.ApplicationComponent;
@@ -27,11 +26,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Log.i(TAG, "onCreate: TWITTER_KEY" + TWITTER_KEY);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-
         Fabric.with(this, new Crashlytics(), new Twitter(authConfig));
-
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();

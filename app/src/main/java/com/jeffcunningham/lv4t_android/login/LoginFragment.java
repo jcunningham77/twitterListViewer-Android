@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
+import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -135,7 +136,7 @@ public class LoginFragment extends Fragment {
                 loginPresenter.clearSharedPreferencesData();
 
                 //todo - should we be using event bus to communicate between fragments and their parent activities?
-                if (!LoginFragment.this.selectedConfiguration.equalsIgnoreCase("layout")) {
+                if (!LoginFragment.this.selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
                     EventBus.getDefault().post(new LoginSucccessEventFromLandscape());
                 }else{
                     TabLayout.Tab tab = tabLayout.getTabAt(1);

@@ -25,6 +25,7 @@ import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.login.LoginFragment;
+import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
@@ -43,13 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private LoginComponent component;
-
-
-
     TwitterSession session;
     TabLayout tabLayout;
     private String selectedConfiguration;
-
 
     @Inject
     Logger logger;
@@ -63,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
                     .applicationComponent(((BaseApplication) getApplication()).getApplicationComponent())
                     .loginModule(new LoginModule())
                     .build();
-
-
         }
         return component;
     }
@@ -73,22 +68,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        component().inject(this);
         logger.info(TAG,"onCreate: ");
+        //dagger inject fields
+        component().inject(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
         EventBus.getDefault().register(this);
-
         selectedConfiguration = getString(R.string.selected_configuration);
 
-
-
-        if (selectedConfiguration.equalsIgnoreCase("layout")){
+        if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
             initializeNormalLayout();
         } else {
             initializeLandscapeOrLargeLayout();

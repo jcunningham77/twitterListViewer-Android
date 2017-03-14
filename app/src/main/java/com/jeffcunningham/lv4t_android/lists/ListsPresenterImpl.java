@@ -66,8 +66,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
     @Override
     public void start(){
-
-
+        
         if(Twitter.getSessionManager().getActiveSession()!=null) {
             logger.info(TAG,"start: twitter session is not null");
             getListOwnershipByTwitterUser();

@@ -13,6 +13,7 @@ import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
+import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
@@ -98,7 +99,7 @@ public class TwitterListFragment extends ListFragment {
         this.alias = twitterListPresenter.getTwitterUserName();
 
 
-        if (selectedConfiguration.equalsIgnoreCase("layout")) {
+        if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
 
             logger.info(TAG, "onViewCreated: this.slug = " + this.slug + ", this.listName = " + this.listName);
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
