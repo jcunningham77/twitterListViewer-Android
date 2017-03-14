@@ -68,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        logger.info(TAG,"onCreate: ");
+
         //dagger inject fields
         component().inject(this);
-
+        logger.info(TAG,"onCreate: ");
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
