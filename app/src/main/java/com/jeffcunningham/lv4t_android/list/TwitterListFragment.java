@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
-import com.jeffcunningham.lv4t_android.login.LoginActivity;
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
@@ -66,7 +66,7 @@ public class TwitterListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_twitter_list, container, false);
 
         this.selectedConfiguration = getString(R.string.selected_configuration);
-        ((LoginActivity) getActivity()).component().inject(this);
+        ((MainActivity) getActivity()).component().inject(this);
 
         this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
         this.slug = sharedPreferencesRepository.getDefaultListSlug();

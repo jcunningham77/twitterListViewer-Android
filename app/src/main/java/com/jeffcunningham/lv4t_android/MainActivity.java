@@ -1,4 +1,4 @@
-package com.jeffcunningham.lv4t_android.login;
+package com.jeffcunningham.lv4t_android;
 
 
 import android.app.FragmentManager;
@@ -26,6 +26,7 @@ import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
 import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
+import com.jeffcunningham.lv4t_android.login.LoginFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
@@ -39,9 +40,9 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "MainActivity";
     private LoginComponent component;
 
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
 import com.jeffcunningham.lv4t_android.util.Logger;
@@ -58,7 +59,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        ((LoginActivity)this.getActivity()).component().inject(this);
+        ((MainActivity)this.getActivity()).component().inject(this);
 
         this.selectedConfiguration = getString(R.string.selected_configuration);
         logger.info(TAG, "onCreate: selectedConfiguration = " + selectedConfiguration);
