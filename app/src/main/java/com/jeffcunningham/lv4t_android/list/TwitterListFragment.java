@@ -9,16 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
-import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TwitterListTimeline;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -34,8 +35,8 @@ import butterknife.ButterKnife;
 
 public class TwitterListFragment extends ListFragment {
 
-    String slug;
     String alias;
+    String slug;
     String listName;
 
     @BindView(R.id.tvListName)
@@ -69,8 +70,18 @@ public class TwitterListFragment extends ListFragment {
         ((MainActivity) getActivity()).component().inject(this);
 
         this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
-        this.slug = sharedPreferencesRepository.getDefaultListSlug();
-        this.listName = sharedPreferencesRepository.getDefaultListName();
+
+        //first check if this fragment was launched via manually selecting list event
+        if (getArguments()!=null) {
+            this.slug = getArguments().getString("slug");
+            this.listName = getArguments().getString("listName");
+        }
+
+        //if these values weren't manually passed in, let's check sharedpreferences
+        if (StringUtils.isBlank(this.slug)&&StringUtils.isBlank(this.slug)){
+            this.slug = sharedPreferencesRepository.getDefaultListSlug();
+            this.listName = sharedPreferencesRepository.getDefaultListName();
+        }
 
         ButterKnife.bind(this,view);
         return view;
@@ -79,15 +90,15 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EventBus.getDefault().register(this);
+
 
         String selectedConfiguration = getString(R.string.selected_configuration);
 
 
         this.alias = twitterListPresenter.getTwitterUserName();
 
-        //slug and listname are present and were likely passed from TwitterListActivity (phone width)
-        if (this.slug!=null&&this.listName!=null) {
+
+        if (selectedConfiguration.equalsIgnoreCase("layout")) {
 
             logger.info(TAG, "onViewCreated: this.slug = " + this.slug + ", this.listName = " + this.listName);
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
@@ -103,7 +114,7 @@ public class TwitterListFragment extends ListFragment {
             loadListTimeline(this.slug,this.listName);
 
         } else {
-            //slug and listname are not present from TwitterListActivity (table width)
+            //slug and listname are not present from TwitterListActivity (tablet width)
             //set placeholder until we get default list from ListsPresenter, or the user selects a list to view
             logger.info(TAG, "onViewCreated: - no slug or listName initialized yet");
             logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
@@ -116,8 +127,26 @@ public class TwitterListFragment extends ListFragment {
 
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ViewListEvent event) {
+
+        logger.info(TAG, "onMessageEvent: ViewListEvent ");
 
         //Only execute the below logic if we are in layout-large (tablet) or layout-land (landscape) configurations -
         //in regular configuration, the ListsFragment will launch an activity for this fragment

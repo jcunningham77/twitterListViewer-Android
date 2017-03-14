@@ -17,8 +17,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.jeffcunningham.lv4t_android.BaseApplication;
-import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
@@ -32,6 +30,7 @@ import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //we have a default list set - load the TwitterListFragment
-        if (!sharedPreferencesRepository.getDefaultListSlug().isEmpty()){
+        if (!StringUtils.isBlank(sharedPreferencesRepository.getDefaultListSlug())){
 
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
