@@ -22,11 +22,16 @@ import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
+import com.jeffcunningham.lv4t_android.events.SignOutEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -68,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        EventBus.getDefault().register(this);
+
         selectedConfiguration = getString(R.string.selected_configuration);
 
         session = Twitter.getSessionManager().getActiveSession();
@@ -78,6 +85,16 @@ public class LoginActivity extends AppCompatActivity {
             initializeLandscapeOrLargeLayout();
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SignOutEvent event){
+        setContentView(R.layout.activity_login);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        LoginFragment loginFragment = new LoginFragment();
+        ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+        ft.commit();
     }
 
     private void initializeLandscapeOrLargeLayout(){
