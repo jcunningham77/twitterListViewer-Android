@@ -15,6 +15,7 @@ import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.login.LoginActivity;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
+import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TwitterListTimeline;
 
@@ -53,6 +54,9 @@ public class TwitterListFragment extends ListFragment {
     @Inject
     ImageLoader imageLoader;
 
+    @Inject
+    SharedPreferencesRepository sharedPreferencesRepository;
+
     private String avatarImgUrl;
     private String selectedConfiguration;
 
@@ -62,23 +66,11 @@ public class TwitterListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_twitter_list, container, false);
 
         this.selectedConfiguration = getString(R.string.selected_configuration);
-
-
-
-
         ((LoginActivity) getActivity()).component().inject(this);
 
-
         this.avatarImgUrl = twitterListPresenter.getTwitterAvatarImgUrl();
-
-        //in tablet view, the arguments will not have been set by TwitterListActivity, so null check this
-        if (getArguments()!=null){
-            this.slug = getArguments().getString("slug","");
-            this.listName = getArguments().getString("listName","");
-
-        }
-
-
+        this.slug = sharedPreferencesRepository.getDefaultListSlug();
+        this.listName = sharedPreferencesRepository.getDefaultListName();
 
         ButterKnife.bind(this,view);
         return view;

@@ -27,6 +27,7 @@ import com.jeffcunningham.lv4t_android.events.SignOutEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.util.Logger;
+import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -42,12 +43,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private LoginComponent component;
+
+
+
     TwitterSession session;
     TabLayout tabLayout;
     private String selectedConfiguration;
 
+
     @Inject
     Logger logger;
+
+    @Inject
+    SharedPreferencesRepository sharedPreferencesRepository;
 
     public LoginComponent component() {
         if (component == null) {
@@ -159,15 +167,18 @@ public class LoginActivity extends AppCompatActivity {
 
         initializeTabLayout();
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        LoginFragment loginFragment = new LoginFragment();
-        ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
-        ft.commit();
 
-        //the below code block could conceivably be pushed to a presenter layer, but since it is performing business logic,
-        //and is not referencing any UI, it could likely stay here
-        if (session!=null){
+
+        //we have a default list set - load the TwitterListFragment
+        if (sharedPreferencesRepository.getDefaultListSlug()!=null){
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+            ft.replace(R.id.fragment_container, twitterListFragment, "twitterListFragment");
+            ft.commit();
+
+        } else if (session!=null){
             logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
 
             Crashlytics.setUserName(session.getUserName());
@@ -175,6 +186,13 @@ public class LoginActivity extends AppCompatActivity {
 
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
+        } else {
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            LoginFragment loginFragment = new LoginFragment();
+            ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+            ft.commit();
         }
     }
 
