@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.jeffcunningham.lv4t_android.about.AboutWebViewFragment;
 import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
@@ -226,6 +227,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
                     }
                     break;
+                case 2:
+                    AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
+                    ft.replace(R.id.fragment_container, aboutWebViewFragment, "LoginFragment");
+                    ft.addToBackStack(null);
+                    ft.commit();
+                    break;
             }
         }
 
@@ -259,6 +266,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
                     }
                     break;
+                case 2:
+                    AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
+                    ft.replace(R.id.fragment_container, aboutWebViewFragment, "LoginFragment");
+                    ft.addToBackStack(null);
+                    ft.commit();
+                    break;
+
             }
 
         }
@@ -280,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out").setIcon(R.drawable.ic_account_box_white_24dp));
         tabLayout.addTab(tabLayout.newTab().setText("Lists").setIcon(R.drawable.ic_toc_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText("About").setIcon(R.drawable.ic_about));
         tabLayout.addOnTabSelectedListener(listener);
 
         tabLayout.setTabTextColors(
