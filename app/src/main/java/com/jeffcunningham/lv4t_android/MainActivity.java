@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private LoginComponent component;
     TwitterSession session;
-    TabLayout tabLayout;
+    public TabLayout tabLayout;
+    int color = Color.parseColor("#607D8B");
     private String selectedConfiguration;
 
     @Inject
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             listsFragment.setRetainInstance(false);
 
             if(!listsFragment.isAdded()) {
-//                ft.add(R.id.lists_fragment_container, listsFragment, "ListsFragment");
                 ft.replace(R.id.lists_fragment_container, listsFragment, "ListsFragment");
                 ft.commit();
             } else {//this listFragment had been added already, probably to the "fragment_container" from the portrait layout
@@ -209,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "onTabSelected: ");
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
+
+            tabLayout.setSelectedTabIndicatorColor(color);
             switch (tab.getPosition()){
                 case 0:
                     LoginFragment loginFragment = new LoginFragment();
@@ -241,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "onTabSelected: ");
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
+            tabLayout.setSelectedTabIndicatorColor(color);
             switch (tab.getPosition()){
                 case 0:
                     LoginFragment loginFragment = new LoginFragment();
@@ -284,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 color
         );
 
-        tabLayout.setSelectedTabIndicatorColor(color);
+        tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
 
     }
 

@@ -3,6 +3,7 @@ package com.jeffcunningham.lv4t_android.lists;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -190,6 +191,8 @@ public class ListsFragment extends Fragment {
         //can refresh itself
         logger.info(TAG,"onMessageEvent - ViewListEvent, this.selectedConfiguration: " + this.selectedConfiguration);
         if (this.selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
+
+            ((MainActivity)getActivity()).tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
 
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
