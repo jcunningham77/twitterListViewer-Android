@@ -164,18 +164,20 @@ public class ListsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GetListOwnershipByTwitterUserFailureEvent event){
-        tvError.setText(getActivity().getApplicationContext().getString(R.string.retrieveListsError));
-        tvError.setVisibility(View.VISIBLE);
-        imgTwitterAvatar.setVisibility(View.INVISIBLE);
-        tvTwitterAlias.setVisibility(View.INVISIBLE);
+//        tvError.setText(getActivity().getApplicationContext().getString(R.string.retrieveListsError));
+//        tvError.setVisibility(View.VISIBLE);
+//        imgTwitterAvatar.setVisibility(View.INVISIBLE);
+//        tvTwitterAlias.setVisibility(View.INVISIBLE);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NoListOwnershipByTwitterUserEvent event){
-        tvError.setText(getActivity().getApplicationContext().getString(R.string.noListsOwned));
-        tvError.setVisibility(View.VISIBLE);
-        imgTwitterAvatar.setVisibility(View.INVISIBLE);
-        tvTwitterAlias.setVisibility(View.INVISIBLE);
+        listsAdapter.notifyDataSetChanged();
+//        tvError.setText(getActivity().getApplicationContext().getString(R.string.noListsOwned));
+//        tvError.setVisibility(View.VISIBLE);
+//        imgTwitterAvatar.setVisibility(View.INVISIBLE);
+//        tvTwitterAlias.setVisibility(View.INVISIBLE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

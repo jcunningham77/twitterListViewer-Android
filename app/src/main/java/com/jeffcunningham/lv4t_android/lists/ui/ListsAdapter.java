@@ -20,7 +20,7 @@ import java.util.List;
 public class ListsAdapter extends Adapter{
 
     private static final String TAG = "ListsAdapter";
-//    private static final int TYPE_LIST_HEADER=0;
+    private static final int TYPE_EMPTY_LIST_MESSAGE =0;
     private static final int TYPE_LIST_SELECTOR =1;
 
 
@@ -59,16 +59,15 @@ public class ListsAdapter extends Adapter{
         View view;
 
         RecyclerView.ViewHolder viewHolder;
-//        if (viewType==TYPE_LIST_HEADER){
-//            Log.i(TAG, "onCreateViewHolder: viewType = Header" );
-//            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lists_header_view, parent, false);
-//            viewHolder = new ListsHeaderViewHolder(view);
-//        } else {
+        if (viewType==TYPE_EMPTY_LIST_MESSAGE){
+            Log.i(TAG, "onCreateViewHolder: viewType = Header" );
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_list_message, parent, false);
+            viewHolder = new EmptyListMessageViewHolder(view);
+        } else {
             Log.i(TAG, "onCreateViewHolder: viewType = list selector" );
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_selector_view, parent, false);
-            // set the view's size, margins, paddings and layout parameters
             viewHolder = new ListsSelectorViewHolder(view, getItemCount());
-//        }
+        }
 
         return viewHolder;
     }
@@ -76,28 +75,46 @@ public class ListsAdapter extends Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        Log.i(TAG, "onBindViewHolder: position = " + position);
-        ((ListsSelectorViewHolder)holder).setTvListName(twitterLists.get(position).getName());
-        ((ListsSelectorViewHolder)holder).setSlug(twitterLists.get(position).getSlug());
-        ((ListsSelectorViewHolder)holder).setListId(twitterLists.get(position).getIdStr());
-        String membersLabel = new String("" + twitterLists.get(position).getMemberCount() + " Members");
-        ((ListsSelectorViewHolder)holder).setTvMembers(membersLabel);
-        ((ListsSelectorViewHolder)holder).setUserId(Twitter.getSessionManager().getActiveSession().getUserId());
-        Log.i(TAG, "onBindViewHolder: setting default = " + twitterLists.get(position).isDefaultList());
-        ((ListsSelectorViewHolder)holder).setDefault(twitterLists.get(position).isDefaultList());
+        if (twitterLists!=null&&twitterLists.size()>1) {
+
+            Log.i(TAG, "onBindViewHolder: position = " + position);
+            ((ListsSelectorViewHolder) holder).setTvListName(twitterLists.get(position).getName());
+            ((ListsSelectorViewHolder) holder).setSlug(twitterLists.get(position).getSlug());
+            ((ListsSelectorViewHolder) holder).setListId(twitterLists.get(position).getIdStr());
+            String membersLabel = new String("" + twitterLists.get(position).getMemberCount() + " Members");
+            ((ListsSelectorViewHolder) holder).setTvMembers(membersLabel);
+            ((ListsSelectorViewHolder) holder).setUserId(Twitter.getSessionManager().getActiveSession().getUserId());
+            Log.i(TAG, "onBindViewHolder: setting default = " + twitterLists.get(position).isDefaultList());
+            ((ListsSelectorViewHolder) holder).setDefault(twitterLists.get(position).isDefaultList());
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
 
-            return TYPE_LIST_SELECTOR;
+        Log.i(TAG, "getItemViewType: position = " + position);
+
+            if (this.twitterLists!=null && this.twitterLists.size()>0){
+
+
+                Log.d(TAG, "getItemViewType() returned:  + TYPE_LIST_SELECTOR");
+                return TYPE_LIST_SELECTOR;
+
+            } else {
+                Log.d(TAG, "getItemViewType() returned:  + TYPE_EMPTY_LIST_MESSAGE");
+
+                return TYPE_EMPTY_LIST_MESSAGE;
+
+            }
+
+
 
     }
 
     @Override
     public int getItemCount() {
         Log.i(TAG, "getItemCount: = " + (twitterLists==null? 0 : twitterLists.size()));
-        return twitterLists==null? 0 : twitterLists.size();
+        return twitterLists==null? 1 : twitterLists.size();
     }
 
 
