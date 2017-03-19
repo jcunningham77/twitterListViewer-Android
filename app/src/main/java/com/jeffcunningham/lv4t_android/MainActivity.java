@@ -13,7 +13,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeLandscapeOrLargeLayout(){
         logger.info(TAG, "initializeLandscapeOrLargeLayout: ");
-        View activityView = findViewById(R.id.activity_login);
+
 
         session = Twitter.getSessionManager().getActiveSession();
 
@@ -140,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             TwitterListFragment twitterListFragment = new TwitterListFragment();
-//            ft.add(R.id.twitter_list_fragment_container,twitterListFragment);
             ft = fm.beginTransaction();
             ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
 
@@ -283,18 +281,21 @@ public class MainActivity extends AppCompatActivity {
 
         Drawable accountDrawable = ContextCompat.getDrawable(this, R.drawable.ic_account_box_white_24dp);
         Drawable listsDrawable = ContextCompat.getDrawable(this, R.drawable.ic_toc_white_24dp);
+        Drawable aboutDrawable = ContextCompat.getDrawable(this, R.drawable.ic_info_white_24dp);
         accountDrawable = DrawableCompat.wrap(accountDrawable);
         listsDrawable = DrawableCompat.wrap(listsDrawable);
+        aboutDrawable = DrawableCompat.wrap(aboutDrawable);
         int color = Color.parseColor("#607D8B");
         DrawableCompat.setTint(accountDrawable, color);
         DrawableCompat.setTint(listsDrawable, color);
+        DrawableCompat.setTint(aboutDrawable, color);
 
 
 
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out").setIcon(R.drawable.ic_account_box_white_24dp));
         tabLayout.addTab(tabLayout.newTab().setText("Lists").setIcon(R.drawable.ic_toc_white_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("About").setIcon(R.drawable.ic_about));
+        tabLayout.addTab(tabLayout.newTab().setText("About").setIcon(R.drawable.ic_info_white_24dp));
         tabLayout.addOnTabSelectedListener(listener);
 
         tabLayout.setTabTextColors(
