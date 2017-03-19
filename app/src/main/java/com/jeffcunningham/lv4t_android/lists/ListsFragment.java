@@ -84,12 +84,13 @@ public class ListsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_lists, container, false);
         ((MainActivity) getActivity()).component().inject(this);
-        ButterKnife.bind(this,view);
-
         this.selectedConfiguration = getString(R.string.selected_configuration);
         logger.info(TAG, "onCreateView: selectedConfiguration =" + selectedConfiguration);
+        View view = inflater.inflate(R.layout.fragment_lists, container, false);
+        ButterKnife.bind(this,view);
+
+
         return view;
     }
 
