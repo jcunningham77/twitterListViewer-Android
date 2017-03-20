@@ -112,6 +112,14 @@
                 <include layout="@layout/signout_view"></include>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/aboutView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <include layout="@layout/about_view"></include>
+            </LinearLayout>
+
 
 
 

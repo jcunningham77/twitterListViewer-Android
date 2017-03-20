@@ -21,6 +21,7 @@ import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginComponent;
 import com.jeffcunningham.lv4t_android.di.LoginModule;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
+import com.jeffcunningham.lv4t_android.events.ShowAboutWebViewFragmentLandscapeEvent;
 import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
@@ -97,6 +98,16 @@ public class MainActivity extends AppCompatActivity {
         LoginFragment loginFragment = new LoginFragment();
         ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
         ft.commit();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ShowAboutWebViewFragmentLandscapeEvent event){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
+        ft.replace(R.id.twitter_list_fragment_container,aboutWebViewFragment,"AboutWebviewFragment");
+        ft.commit();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -266,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2:
                     AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
-                    ft.replace(R.id.fragment_container, aboutWebViewFragment, "LoginFragment");
+                    ft.replace(R.id.fragment_container, aboutWebViewFragment, "AboutWebviewFragment");
                     ft.addToBackStack(null);
                     ft.commit();
                     break;
