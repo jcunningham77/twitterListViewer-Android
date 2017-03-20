@@ -12,7 +12,7 @@ import retrofit2.http.Query;
  * Created by jeffcunningham on 12/12/16.
  */
 
-public interface ListOwnershipService {
+public interface TwitterAPIService {
 
     /**
      * Returns an HTTP 200 OK response code and a List of TwitterLists that the given screen name is an owner of

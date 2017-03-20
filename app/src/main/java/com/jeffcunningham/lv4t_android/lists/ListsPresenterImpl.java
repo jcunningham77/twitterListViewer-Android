@@ -10,7 +10,7 @@ import com.jeffcunningham.lv4t_android.restapi.APIManager;
 import com.jeffcunningham.lv4t_android.restapi.dto.get.DefaultList;
 import com.jeffcunningham.lv4t_android.restapi.dto.post.Data;
 import com.jeffcunningham.lv4t_android.restapi.dto.post.PostDefaultList;
-import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.ListOwnershipService;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.TwitterAPIService;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
 import com.jeffcunningham.lv4t_android.util.ListsCache;
@@ -99,7 +99,7 @@ public class ListsPresenterImpl implements ListsPresenter {
         // get current Twitter user's list membership
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
         TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
-        ListOwnershipService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
+        TwitterAPIService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
         logger.info(TAG,"getListOwnershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
 
         //todo extract the below to a use case
