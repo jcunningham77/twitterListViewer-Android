@@ -13,8 +13,8 @@ import dagger.Component;
  */
 
 @PerActivity
-@Component(dependencies = ApplicationComponent.class,modules = LoginModule.class)
-public interface LoginComponent {
+@Component(dependencies = ApplicationComponent.class,modules = MainModule.class)
+public interface MainComponent {
 
     void inject(MainActivity activity);
     void inject(LoginFragment fragment);

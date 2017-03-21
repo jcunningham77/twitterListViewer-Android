@@ -1,6 +1,6 @@
 package com.jeffcunningham.lv4t_android.events;
 
-import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list.TwitterList;
 
 import java.util.List;
 

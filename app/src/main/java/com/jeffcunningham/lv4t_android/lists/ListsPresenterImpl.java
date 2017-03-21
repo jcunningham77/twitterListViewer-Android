@@ -4,6 +4,7 @@ import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserSuccessEvent;
+import com.jeffcunningham.lv4t_android.events.GetUserLookupSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.restapi.APIManager;
@@ -12,7 +13,8 @@ import com.jeffcunningham.lv4t_android.restapi.dto.post.Data;
 import com.jeffcunningham.lv4t_android.restapi.dto.post.PostDefaultList;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.TwitterAPIService;
 import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.TwitterApiClientExtension;
-import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.user.User;
 import com.jeffcunningham.lv4t_android.util.ListsCache;
 import com.jeffcunningham.lv4t_android.util.ListsStorage;
 import com.jeffcunningham.lv4t_android.util.Logger;
@@ -31,6 +33,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -46,22 +49,25 @@ public class ListsPresenterImpl implements ListsPresenter {
     private SharedPreferencesRepository sharedPreferencesRepository;
     private Logger logger;
     private ListsStorage listsStorage;
+    private OkHttpClient client;
 
     //these dependencies are not injected by Dagger
     private APIManager apiManager;
     private TwitterSession twitterSession;
     Call<List<TwitterList>> listMembership;
+    Call<List<User>> userLookup;
     Call<DefaultList> postDefaultListCall;
     Call<DefaultList> getDefaultListCall;
 
 
 
     @Inject
-    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository, Logger logger, ListsStorage listsStorage) {
+    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository, Logger logger, ListsStorage listsStorage, OkHttpClient client) {
 
         this.sharedPreferencesRepository = sharedPreferencesRepository;
         this.logger = logger;
         this.listsStorage = listsStorage;
+        this.client = client;
     }
 
     @Override
@@ -90,6 +96,11 @@ public class ListsPresenterImpl implements ListsPresenter {
             logger.info(TAG,"stop: cancelling getDefaultListCall call");
             getDefaultListCall.cancel();
         }
+        if (userLookup!=null){
+            logger.info(TAG,"stop: cancelling getDefaultListCall call");
+            userLookup.cancel();
+        }
+
 
     }
 
@@ -98,8 +109,9 @@ public class ListsPresenterImpl implements ListsPresenter {
 
         // get current Twitter user's list membership
         this.twitterSession = Twitter.getSessionManager().getActiveSession();
-        TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession());
-        TwitterAPIService listOwnershipService = twitterApiClientExtension.getListOwnershipService();
+
+        TwitterApiClientExtension twitterApiClientExtension = new TwitterApiClientExtension(Twitter.getSessionManager().getActiveSession(), client);
+        final TwitterAPIService twitterAPIService = twitterApiClientExtension.getTwitterAPIService();
         logger.info(TAG,"getListOwnershipByTwitterUser: for alias = " + this.twitterSession.getUserName());
 
         //todo extract the below to a use case
@@ -110,7 +122,7 @@ public class ListsPresenterImpl implements ListsPresenter {
 
         } else {
 
-            Call<List<TwitterList>> listMembership= listOwnershipService.listOwnershipByScreenName(twitterSession.getUserName());
+            listMembership= twitterAPIService.listOwnershipByScreenName(twitterSession.getUserName());
             listMembership.enqueue(new Callback<List<TwitterList>>(){
 
                 @Override
@@ -137,6 +149,31 @@ public class ListsPresenterImpl implements ListsPresenter {
                         listsStorage.persistListsCache(listsCache);
                         EventBus.getDefault().post(new GetListOwnershipByTwitterUserSuccessEvent(result.data));
                     } else {//no list data returned from Twitter
+                        //try to at least get the user data to display their avatar and handle
+                        logger.info(TAG, "listMembership success, but no list data, execute user lookup: ");
+                        userLookup = twitterAPIService.userLookupByScreenName(twitterSession.getUserName());
+                        userLookup.enqueue(new Callback<List<User>>() {
+                            @Override
+                            public void success(Result<List<User>> result) {
+                                logger.info(TAG, "userLookup success");
+                                String twitterAvatarImgUrl = ((List<User>)result.data).get(0).getProfileImageUrlHttps();
+                                sharedPreferencesRepository.persistTwitterAvatarImgUrl(twitterAvatarImgUrl);
+
+                                listsStorage.clearListsCache();
+                                EventBus.getDefault().post(new GetUserLookupSuccessEvent(twitterAvatarImgUrl,twitterSession.getUserName()));
+
+                            }
+
+                            @Override
+                            public void failure(TwitterException exception) {
+                                logger.info(TAG, "userLookup failure");
+                                logger.error(TAG, "failure: " + exception.getMessage(), exception);
+
+
+
+                            }
+                        });
+
                         EventBus.getDefault().post(new NoListOwnershipByTwitterUserEvent());
                     }
 

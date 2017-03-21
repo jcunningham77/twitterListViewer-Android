@@ -1,8 +1,9 @@
 
-package com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto;
+package com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.user.User;
 
 public class TwitterList {
 //

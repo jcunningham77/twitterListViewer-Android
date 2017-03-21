@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
+import com.jeffcunningham.lv4t_android.events.GetUserLookupSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
@@ -157,6 +158,13 @@ public class TwitterListFragment extends ListFragment {
                 loadListTimeline(event.getDefaultList().getSlug(), event.getDefaultList().getListName());
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GetUserLookupSuccessEvent event){
+        logger.info(TAG, "onMessageEvent(GetUserLookupSuccessEvent event)");
+        tvListName.setText("@"+event.getScreenName());
+        tvListName.setVisibility(View.VISIBLE);
     }
 
     private void loadListTimeline(String slug, String listName){

@@ -14,7 +14,7 @@ import dagger.Provides;
  * Created by jeffcunningham on 1/23/17.
  */
 @Module
-public class LoginModule {
+public class MainModule {
 
     @Provides
     LoginPresenter provideLoginPresenter(LoginPresenterImpl impl){

@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.jeffcunningham.lv4t_android.about.AboutWebViewFragment;
-import com.jeffcunningham.lv4t_android.di.DaggerLoginComponent;
-import com.jeffcunningham.lv4t_android.di.LoginComponent;
-import com.jeffcunningham.lv4t_android.di.LoginModule;
+import com.jeffcunningham.lv4t_android.di.DaggerMainComponent;
+import com.jeffcunningham.lv4t_android.di.MainComponent;
+import com.jeffcunningham.lv4t_android.di.MainModule;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
 import com.jeffcunningham.lv4t_android.events.ShowAboutWebViewFragmentLandscapeEvent;
 import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private LoginComponent component;
+    private MainComponent component;
     TwitterSession session;
     public TabLayout tabLayout;
     int color = Color.parseColor("#607D8B");
@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferencesRepository sharedPreferencesRepository;
 
-    public LoginComponent component() {
+    public MainComponent component() {
         if (component == null) {
-            component = DaggerLoginComponent.builder()
+            component = DaggerMainComponent.builder()
                     .applicationComponent(((BaseApplication) getApplication()).getApplicationComponent())
-                    .loginModule(new LoginModule())
+                    .mainModule(new MainModule())
                     .build();
         }
         return component;

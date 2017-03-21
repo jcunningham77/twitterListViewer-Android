@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jeffcunningham.lv4t_android.R;
-import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list.TwitterList;
 import com.twitter.sdk.android.Twitter;
 
 import java.util.List;

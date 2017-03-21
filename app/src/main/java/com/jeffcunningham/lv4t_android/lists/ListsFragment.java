@@ -20,6 +20,7 @@ import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.GetDefaultListSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserFailureEvent;
 import com.jeffcunningham.lv4t_android.events.GetListOwnershipByTwitterUserSuccessEvent;
+import com.jeffcunningham.lv4t_android.events.GetUserLookupSuccessEvent;
 import com.jeffcunningham.lv4t_android.events.NoDefaultListPersistedEvent;
 import com.jeffcunningham.lv4t_android.events.NoListOwnershipByTwitterUserEvent;
 import com.jeffcunningham.lv4t_android.events.SetDefaultListEvent;
@@ -29,7 +30,7 @@ import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ui.ListsAdapter;
 import com.jeffcunningham.lv4t_android.restapi.dto.get.DefaultList;
-import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list.TwitterList;
 import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.Logger;
@@ -166,6 +167,15 @@ public class ListsFragment extends Fragment {
 
 
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GetUserLookupSuccessEvent event){
+        logger.info(TAG, "onMessageEvent(GetUserLookupSuccessEvent event)");
+        imageLoader.loadImageByUrlWithRoundedCorners(event.getAvatarUrl(),imgTwitterAvatar);
+    }
+
+
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NoDefaultListPersistedEvent event){

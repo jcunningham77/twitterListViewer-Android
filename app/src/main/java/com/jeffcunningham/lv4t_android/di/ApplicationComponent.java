@@ -11,6 +11,7 @@ import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import okhttp3.OkHttpClient;
 
 @Singleton
 @Component(modules = ApplicationModule.class)
@@ -25,6 +26,8 @@ public interface ApplicationComponent {
     ImageLoader imageLoader();
 
     ListsStorage listsStorage();
+
+    OkHttpClient okhttpClient();
 
 
 

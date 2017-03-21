@@ -1,6 +1,7 @@
 package com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions;
 
-import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list.TwitterList;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.user.User;
 
 import java.util.List;
 
@@ -21,4 +22,9 @@ public interface TwitterAPIService {
      */
     @GET("/1.1/lists/list.json")
     Call<List<TwitterList>> listOwnershipByScreenName(@Query("screen_name") String screenName);
+
+
+
+    @GET("/1.1/users/lookup.json")
+    Call<List<User>> userLookupByScreenName(@Query("screen_name") String screenName);
 }

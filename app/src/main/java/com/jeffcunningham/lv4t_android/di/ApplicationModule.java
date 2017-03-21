@@ -13,10 +13,15 @@ import com.jeffcunningham.lv4t_android.util.LoggerImpl;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepositoryImpl;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by jeffcunningham on 1/22/17.
@@ -68,6 +73,24 @@ public class ApplicationModule {
     @Singleton
     ListsStorage provideListStorage(ListsStorageImpl impl){
         return impl;
+    }
+
+    @Provides
+    OkHttpClient provideHttpClient(){
+        final int TIMEOUT_CONNECT = 1000;
+        final int TIMEOUT_READ = 1000;
+        final ConnectionPool CONNECTION_POOL = new ConnectionPool();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(TIMEOUT_CONNECT, TimeUnit.MILLISECONDS)
+                .readTimeout(TIMEOUT_READ,TimeUnit.MILLISECONDS)
+                .connectionPool(CONNECTION_POOL)
+                .addInterceptor(logging)
+                .build();
+        return client;
     }
 
 

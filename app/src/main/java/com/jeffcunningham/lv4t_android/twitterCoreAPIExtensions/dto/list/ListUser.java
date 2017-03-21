@@ -1,10 +1,10 @@
 
-package com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto;
+package com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.dto.list;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class ListUser {
 
     //these returning values from twitter are greater than the upper bounds of a Java int.
     //if we decide we need these, can always use longs
