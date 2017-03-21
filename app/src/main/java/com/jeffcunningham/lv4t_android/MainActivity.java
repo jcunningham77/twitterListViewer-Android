@@ -23,6 +23,7 @@ import com.jeffcunningham.lv4t_android.di.MainModule;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
 import com.jeffcunningham.lv4t_android.events.ShowAboutWebViewFragmentLandscapeEvent;
 import com.jeffcunningham.lv4t_android.events.ShowSignOutSignInScreenEvent;
+import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.login.LoginFragment;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ShowAboutWebViewFragmentLandscapeEvent event){
+        logger.info(TAG, "onMessageEvent: ShowAboutWebViewFragmentLandscapeEvent");
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
@@ -113,6 +115,34 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LoginSucccessEventFromLandscape event){
         initializeLandscapeOrLargeLayout();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ViewListEvent event){
+        logger.info(TAG, "onMessageEvent: ViewListEvent, selectedConfiguration = " + selectedConfiguration);
+        //its possible that, in landscape or large device orientation, the "About this app" webview will be shown
+        //in the space usually occupied by the TwitterListFragment (i.e. activity_lists.twitter_list_fragment_container)
+        //In this case, the TwitterListFragment will have been removed by the AboutWebView fragment.
+        //We check for that condition, and if it exists, we load the TwitterListFragment
+        //otherwise we take no action here and assume TwitterListFragment will refresh itself
+        if (!selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft;
+            TwitterListFragment twitterListFragment = (TwitterListFragment) fm.findFragmentByTag("twitterListFragment");
+            if (twitterListFragment == null) {
+                logger.info(TAG, "onMessageEvent: ViewListEvent - twitterListFragment is null, instantiate a new one and add to it's container");
+                twitterListFragment = new TwitterListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("slug",event.getSlug());
+                bundle.putString("listName",event.getListName());
+                twitterListFragment.setArguments(bundle);
+                ft = fm.beginTransaction();
+                ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
+                ft.commit();
+            }
+        }
+
+        
     }
 
     private void initializeLandscapeOrLargeLayout(){

@@ -3,6 +3,7 @@ package com.jeffcunningham.lv4t_android.list;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,13 +114,14 @@ public class TwitterListFragment extends ListFragment {
             loadListTimeline(this.slug,this.listName);
 
         } else {
-            //since we are in large or landscape configuration, this fragment may be created at the same time
-            //as the lists fragment. set placeholder until we get default list from ListsPresenter, or the user selects a
-            // list to view
-            logger.info(TAG, "onViewCreated: - no slug or listName initialized yet");
-            logger.info(TAG, "onViewCreated: selected configuration = " + selectedConfiguration);
-            tvListName.setVisibility(View.GONE);
             imgTwitterAvatar.setVisibility(View.GONE);
+            if (!StringUtils.isBlank(this.slug)&&(!StringUtils.isBlank(this.listName))){
+                loadListTimeline(this.slug,this.listName);    
+            } else {
+                logger.info(TAG, "onViewCreated: selectedConfiguration = " + selectedConfiguration + " this.slug,this.listName are empty ");
+            }
+            
+            
 
         }
     }
@@ -133,6 +135,11 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onStop(){
         super.onStop();
+        if (logger!=null) {
+            logger.info(TAG, "onStop: ");
+        } else {
+            Log.i(TAG, "onStop: ");
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -186,6 +193,11 @@ public class TwitterListFragment extends ListFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        if (logger!=null) {
+            logger.info(TAG, "onDestroy: ");
+        } else {
+            Log.i(TAG, "onDestroy: ");
+        }
         setListAdapter(null);
     }
 
