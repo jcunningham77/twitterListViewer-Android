@@ -37,7 +37,6 @@
         android:id="@+id/cbMakeDefaultList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginRight="16dp"
         android:gravity="center_vertical|center_horizontal|center|start"
         app:layout_constraintBaseline_toBaselineOf="@id/tvListName"
