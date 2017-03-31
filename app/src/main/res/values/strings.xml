@@ -19,6 +19,8 @@
     <string name="no_default_list_persisted">No Default List On Record</string>
 
     <string name="about_label">About This App</string>
+    <string name="logout">LOGOUT</string>
+    <string name="aboutLabel">About</string>
 
 
 </resources>

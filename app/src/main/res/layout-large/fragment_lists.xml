@@ -104,19 +104,44 @@
                 android:layout_height="0dp"
                 android:layout_weight="6"/>
 
-            <LinearLayout
-                android:id="@+id/signOutView"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <include layout="@layout/signout_view"></include>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
-            <LinearLayout
-                android:id="@+id/aboutView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <include layout="@layout/about_view"></include>
-            </LinearLayout>
+                <Button
+                    android:id="@+id/btnSignOut"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Sign Out"
+                    android:textColor="@color/tw__composer_blue"
+                    android:theme="@style/FlatButton"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/btnAbout"
+                    app:layout_constraintBaseline_toBaselineOf="@id/btnAbout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginLeft="0dp" />
+
+                <Button
+                    android:id="@+id/btnAbout"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="About"
+                    android:textColor="@color/tw__composer_blue"
+                    android:theme="@style/FlatButton"
+                    app:layout_constraintLeft_toRightOf="@+id/btnSignOut"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginLeft="0dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
 

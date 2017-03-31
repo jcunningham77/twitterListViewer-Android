@@ -61,8 +61,6 @@ public class ListsFragment extends Fragment {
     @BindView(R.id.twitterAvater)
     ImageView imgTwitterAvatar;
 
-    //only used in landscape or large
-    Button btnSignOut;
 
 
 
@@ -77,8 +75,9 @@ public class ListsFragment extends Fragment {
     @Inject
     ImageLoader imageLoader;
 
-    View signOutView;
-    View aboutView;
+    //used in large/land
+    Button btnSignOut;
+    Button btnAbout;
 
     private String selectedConfiguration;
 
@@ -104,8 +103,8 @@ public class ListsFragment extends Fragment {
         //handle header for wide screens
         if (!this.selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
             tvTwitterAlias.setVisibility(View.GONE);
-            signOutView = getActivity().findViewById(R.id.signOutView);
-            signOutView.setOnClickListener(new View.OnClickListener() {
+            btnSignOut = (Button)getActivity().findViewById(R.id.btnSignOut);
+            btnSignOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     logger.info(TAG,"clicked sign out view");
@@ -113,8 +112,8 @@ public class ListsFragment extends Fragment {
                 }
             });
 
-            aboutView = getActivity().findViewById(R.id.aboutView);
-            aboutView.setOnClickListener(new View.OnClickListener() {
+            btnAbout = (Button) getActivity().findViewById(R.id.btnAbout);
+            btnAbout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     logger.info(TAG,"clicked sign out view");
