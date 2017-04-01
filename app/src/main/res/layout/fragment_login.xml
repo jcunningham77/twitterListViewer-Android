@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvBanner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:src="@drawable/tlv_dlv_logo_roboto"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
@@ -20,7 +23,30 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/app_name" />
+        />
+
+
+
+
+
+
+
+
+    <!--<TextView-->
+        <!--android:id="@+id/tvBanner"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:text="@string/app_name"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textSize="24sp"-->
+        <!--android:textStyle="normal|bold"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--tools:text="@string/app_name" />-->
 
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
@@ -47,9 +73,11 @@
         android:textColor="@color/tw__composer_red"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBanner"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
         tools:text="Error Connecting To Twitter"
         tools:visibility="invisible" />
+
+
 
     <Button
         android:id="@+id/twitter_logout_button"
@@ -69,6 +97,7 @@
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/twitter_login_button" />
+        app:layout_constraintTop_toBottomOf="@+id/twitter_login_button"
+        tools:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>
