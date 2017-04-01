@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
 import com.jeffcunningham.lv4t_android.events.LoginSucccessEventFromLandscape;
+import com.jeffcunningham.lv4t_android.twitterCoreAPIExtensions.button.DefaultListViewLoginButton;
 import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.twitter.sdk.android.Twitter;
@@ -23,7 +24,6 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,7 +40,9 @@ public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
 
-    TwitterLoginButton twitterLoginButton;
+//    TwitterLoginButton defaultListViewLoginButton;
+
+    DefaultListViewLoginButton defaultListViewLoginButton;
     @BindView(R.id.tvTwitterError)
     TextView textViewTwitterError;
     @BindView(R.id.twitter_logout_button)
@@ -119,13 +121,13 @@ public class LoginFragment extends Fragment {
 
         btnTwitterLogout.setVisibility(View.GONE);
 
-        if (twitterLoginButton==null){
-            twitterLoginButton = (TwitterLoginButton) getActivity().findViewById(R.id.twitter_login_button);
+        if (defaultListViewLoginButton==null){
+            defaultListViewLoginButton = (DefaultListViewLoginButton) getActivity().findViewById(R.id.twitter_login_button);
         }
 
-        twitterLoginButton.setEnabled(true);
-        twitterLoginButton.setVisibility(View.VISIBLE);
-        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+        defaultListViewLoginButton.setEnabled(true);
+        defaultListViewLoginButton.setVisibility(View.VISIBLE);
+        defaultListViewLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
 
@@ -160,9 +162,9 @@ public class LoginFragment extends Fragment {
 
 
         logger.info(TAG," showLogoutButton: there is an active twitter session");
-        if (twitterLoginButton!=null) {
-            twitterLoginButton.setEnabled(false);
-            twitterLoginButton.setVisibility(View.GONE);
+        if (defaultListViewLoginButton!=null) {
+            defaultListViewLoginButton.setEnabled(false);
+            defaultListViewLoginButton.setVisibility(View.GONE);
         }
         if (btnTwitterLogout!=null) {
             btnTwitterLogout.setVisibility(View.VISIBLE);
@@ -184,7 +186,7 @@ public class LoginFragment extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        defaultListViewLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
 

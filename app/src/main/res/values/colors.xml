@@ -15,6 +15,13 @@
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
     <item name="white" type="color">#ffffffff</item>
+    <item name="darkLogoBlue" type="color">#34b0e3</item>
+    <item name="twitterLogoBlue" type="color">#1DA1F2</item>
+    <item name="twitterLogoDarkGrey" type="color">#657786</item>
+    <item name="twitterLogoLightGrey" type="color">#AAB8C2</item>
+    <item name="twitterLogoXLightGrey" type="color">#E1E8ED</item>
+    <item name="twitterLogoXXLightGrey" type="color">#F5F8FA</item>
+
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>
@@ -28,5 +35,11 @@
         <item>@color/darkorange</item>
         <item>@color/darkred</item>
         <item>@color/white</item>
+        <item>@color/darkLogoBlue</item>
+        <item>@color/twitterLogoBlue</item>
+        <item>@color/twitterLogoDarkGrey</item>
+        <item>@color/twitterLogoLightGrey</item>
+        <item>@color/twitterLogoXLightGrey</item>
+        <item>@color/twitterLogoXXLightGrey</item>
     </integer-array>
 </resources>
