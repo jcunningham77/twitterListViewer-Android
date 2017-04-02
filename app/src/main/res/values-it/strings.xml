@@ -1,29 +1,29 @@
 <resources>
-    <string name = "app_name"> Default Lista Visualizza </ string>
-        <string name = "EMAIL_ADDRESS"> Indirizzo e-mail </ string>
-        <string name = "password"> Password </ string>
-        <string name = "please_login"> Effettua il Login </ string>
-        <string name = "submit"> Invia </ string>
-        <string name = "retrieveListsError"> Spiacente, c\'è stato un problema durante il recupero delle liste per l\'utente Twitter. Si prega di riprovare più tardi. </ string>
-        <string name = "noListsOwned"> Avete creato nessun elenco per questo account Twitter? Noi didn \ \'t trovare qualsiasi. Si prega di creare un po \'e tornare al più presto! </ string>
-        <string name = "pleaseLoginMessage"> l\'accesso a Twitter per visualizzare gli elenchi </ string>
+    <string name = "app_name"> Default Lista Visualizza </string>
+        <string name = "EMAIL_ADDRESS"> Indirizzo e-mail </string>
+        <string name = "password"> Password </string>
+        <string name = "please_login"> Effettua il Login </string>
+        <string name = "submit"> Invia </string>
+        <string name = "retrieveListsError"> Spiacente, c\'è stato un problema durante il recupero delle liste per l\'utente Twitter. Si prega di riprovare più tardi. </string>
+        <string name = "noListsOwned"> Avete creato nessun elenco per questo account Twitter? Noi didn \ \'t trovare qualsiasi. Si prega di creare un po \'e tornare al più presto! </string>
+        <string name = "pleaseLoginMessage"> l\'accesso a Twitter per visualizzare gli elenchi </string>
 
      
-        <string name = "tabLogin"> LOG IN / OUT </ string>
-        <string name = "tabLists"> tablists LISTE </ string>
-        <string name = "tabAbout"> su </ string>
+        <string name = "tabLogin"> LOG IN / OUT </string>
+        <string name = "tabLists"> tablists LISTE </string>
+        <string name = "tabAbout"> su </string>
 
 
 
-        <string name = "selected_configuration"> Layout </ string>
+        <string name = "selected_configuration"> Layout </string>
 
        
-        <string name = "list_name_label"> Lista Nome </ string>
-        <string name = "default_label"> Default? </ string>
+        <string name = "list_name_label"> Lista Nome </string>
+        <string name = "default_label"> Default? </string>
 
-        <string name = "no_default_list_persisted"> No default Lista On Record </ string>
+        <string name = "no_default_list_persisted"> No default Lista On Record </string>
 
-        <string name = "logout"> Esci </ string>
-        <string name = "aboutLabel"> Chi </ string>
+        <string name = "logout"> Esci </string>
+        <string name = "aboutLabel"> Chi </string>
 
 </resources>

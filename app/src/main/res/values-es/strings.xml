@@ -4,9 +4,9 @@
         <string name = "password"> Contraseña </string>
         <string name = "please_login"> Por favor Inicie sesión </string>
         <string name = "submit"> Enviar </string>
-        <string name = "retrieveListsError"> Lo sentimos, hubo un problema al recuperar las listas para este usuario de Twitter. Vuelve a intentarlo más tarde. </ string>
-        <string name = "noListsOwned"> ¿Ha creado alguna lista para esta cuenta de Twitter? No encontramos ninguno. ¡Por favor cree algo y vuelva pronto! </ string>
-        <string name = "pleaseLoginMessage"> Por favor, inicie sesión en Twitter para ver listas </ string>
+        <string name = "retrieveListsError"> Lo sentimos, hubo un problema al recuperar las listas para este usuario de Twitter. Vuelve a intentarlo más tarde. </string>
+        <string name = "noListsOwned"> ¿Ha creado alguna lista para esta cuenta de Twitter? No encontramos ninguno. ¡Por favor cree algo y vuelva pronto! </string>
+        <string name = "pleaseLoginMessage"> Por favor, inicie sesión en Twitter para ver listas </string>
 
         <!-- etiquetas de pestaña -->
         <string name = "tabLogin"> LOG IN / OUT </string>
@@ -19,11 +19,11 @@
 
         <!-- list_header_view -->
         <string name = "list_name_label"> Nombre de la lista </string>
-        <string name = "default_label"> ¿Por defecto? </ string>
+        <string name = "default_label"> ¿Por defecto? </string>
 
-        <string name = "no_default_list_persisted"> Ninguna lista predeterminada en registro </ string>
+        <string name = "no_default_list_persisted"> Ninguna lista predeterminada en registro </string>
 
-        <string name = "logout"> LOGOUT </ string>
-        <string name = "aboutLabel"> Acerca de </ string>
+        <string name = "logout"> LOGOUT </string>
+        <string name = "aboutLabel"> Acerca de </string>
 
 </resources>

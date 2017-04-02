@@ -1,29 +1,29 @@
 <resources>
-    <string name = "app_name">デフォルトのリストビュー</ string>
-        <string name = "email_address">電子メールアドレス</ string>
-        <string name = "password">パスワード</ string>
-        <string name = "please_login">ログインしてください</ string>
-        <string name = "submit">送信</ string>
-        <string name = "retrieveListsError">申し訳ありませんが、このTwitterユーザーのリストを取得する際に問題が発生しました。後でもう一度試してください。</ string>
-        <string name = "noListsOwned">このTwitterアカウントのリストを作成しましたか？私たちは何も見つけませんでした。いくつか作成してもう一度やり直してください！</ string>
-        <string name = "pleaseLoginMessage">リストを表示するにはTwitterにログインしてください</ string>
+    <string name = "app_name">デフォルトのリストビュー</string>
+        <string name = "email_address">電子メールアドレス</string>
+        <string name = "password">パスワード</string>
+        <string name = "please_login">ログインしてください</string>
+        <string name = "submit">送信</string>
+        <string name = "retrieveListsError">申し訳ありませんが、このTwitterユーザーのリストを取得する際に問題が発生しました。後でもう一度試してください。</string>
+        <string name = "noListsOwned">このTwitterアカウントのリストを作成しましたか？私たちは何も見つけませんでした。いくつか作成してもう一度やり直してください！</string>
+        <string name = "pleaseLoginMessage">リストを表示するにはTwitterにログインしてください</string>
 
      
-        <string name = "tabLogin"> LOG IN / OUT </ string>
-        <string name = "tabLists"> LISTS </ string>
-        <string name = "tabAbout"> ABOUT </ string>
+        <string name = "tabLogin"> LOG IN / OUT </string>
+        <string name = "tabLists"> LISTS </string>
+        <string name = "tabAbout"> ABOUT </string>
 
 
 
-        <string name = "selected_configuration">レイアウト</ string>
+        <string name = "selected_configuration">レイアウト</string>
 
        
-        <string name = "list_name_label">リスト名</ string>
-        <string name = "default_label">デフォルト？</ string>
+        <string name = "list_name_label">リスト名</string>
+        <string name = "default_label">デフォルト？</string>
 
-        <string name = "no_default_list_persisted">レコードの既定のリストがありません</ string>
+        <string name = "no_default_list_persisted">レコードの既定のリストがありません</string>
 
-        <string name = "logout"> LOGOUT </ string>
-        <string name = "aboutLabel">について</ string>
+        <string name = "logout"> LOGOUT </string>
+        <string name = "aboutLabel">について</string>
 
 </resources>
