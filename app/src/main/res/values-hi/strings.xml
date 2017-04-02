@@ -9,13 +9,14 @@
         <string name = "pleaseLoginMessage"> कृपया सूची देखने के लिए ट्विटर पर लॉगिन करें </string>
 
      
-        <string name = "tabLogin"> लॉग इन / आउट </string>
+        <string name = "tablogin"> लॉगिन </string>
+        <string name = "tabLogout"> लॉगआउट </string>
         <string name = "tabLists"> सूची </string>
         <string name = "tabAbout"> के बारे में </string>
 
 
 
-        <string name = "selected_configuration"> लेआउट </string>
+
 
        
         <string name = "list_name_label"> सूची नाम </string>

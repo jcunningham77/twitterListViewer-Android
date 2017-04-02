@@ -9,16 +9,16 @@
         <string name = "pleaseLoginMessage"> Por favor, inicie sesión en Twitter para ver listas </string>
 
         <!-- etiquetas de pestaña -->
-        <string name = "tabLogin"> LOG IN / OUT </string>
-        <string name = "tabLists"> LISTAS </string>
+        <string name = "tabLogin"> Inicio de sesión </string>
+        <string name = "tabLogout"> Cerrar sesión </string>
         <string name = "tabAbout"> ACERCA </string>
 
 
 
-        <string name = "selected_configuration"> diseño </string>
+
 
         <!-- list_header_view -->
-        <string name = "list_name_label"> Nombre de la lista </string>
+        <string name = "list_name_label"> Nombre</string>
         <string name = "default_label"> ¿Por defecto? </string>
 
         <string name = "no_default_list_persisted"> Ninguna lista predeterminada en registro </string>

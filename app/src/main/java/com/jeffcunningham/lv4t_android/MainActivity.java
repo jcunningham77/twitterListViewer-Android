@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         selectedConfiguration = getString(R.string.selected_configuration);
 
+        logger.info(TAG, "onCreate: selectedConfiguration = " + selectedConfiguration);
+
         if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
             initializeNormalLayout();
         } else {
@@ -332,7 +334,12 @@ public class MainActivity extends AppCompatActivity {
         DrawableCompat.setTint(aboutDrawable, color);
 
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLogin).setIcon(R.drawable.ic_account_box_white_24dp));
+        if (session!=null){
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLogout).setIcon(R.drawable.ic_account_box_white_24dp));
+        } else {
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLogout).setIcon(R.drawable.ic_account_box_white_24dp));
+        }
+
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLists).setIcon(R.drawable.ic_toc_white_24dp));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tabAbout).setIcon(R.drawable.ic_info_white_24dp));
         tabLayout.addOnTabSelectedListener(listener);

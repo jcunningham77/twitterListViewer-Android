@@ -9,7 +9,8 @@
     <string name="pleaseLoginMessage">Please login to Twitter to view lists</string>
 
     <!--tab labels -->
-    <string name="tabLogin">LOG IN/OUT</string>
+    <string name="tabLogin">LOGIN</string>
+    <string name="tabLogout">LOGOUT</string>
     <string name="tabLists">LISTS</string>
     <string name="tabAbout">ABOUT</string>
 

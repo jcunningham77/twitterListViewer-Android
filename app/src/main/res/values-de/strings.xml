@@ -9,13 +9,14 @@
         <string name = "pleaseLoginMessage"> Bitte melden Sie sich bei Twitter an, um Listen anzuzeigen </string>
 
      
-        <string name = "tabLogin"> LOG IN / OUT </string>
+        <string name = "tabLogin"> Login </string>
+        <string name = "tabLogout"> Abmelden </string>
         <string name = "tabLists"> LISTEN </string>
         <string name = "tabAbout"> ÜBER </string>
 
 
 
-        <string name = "selected_configuration"> layout </string>
+
 
        
         <string name = "list_name_label"> Listenname </string>

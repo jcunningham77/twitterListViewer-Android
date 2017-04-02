@@ -9,13 +9,14 @@
         <string name = "pleaseLoginMessage"> l\'accesso a Twitter per visualizzare gli elenchi </string>
 
      
-        <string name = "tabLogin"> LOG IN / OUT </string>
+        <string name = "tabLogin"> Login </string>
+        <string name = "tabLogout"> Esci </string>
         <string name = "tabLists"> tablists LISTE </string>
         <string name = "tabAbout"> su </string>
 
 
 
-        <string name = "selected_configuration"> Layout </string>
+
 
        
         <string name = "list_name_label"> Lista Nome </string>
