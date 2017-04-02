@@ -19,11 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jeffcunningham.lv4t_android.lists.ListsActivity"></activity>
-        <activity android:name="com.jeffcunningham.lv4t_android.list.TwitterListActivity"
-            android:configChanges="orientation|screenSize">
-
-        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4a50f82908491f822b89af419e412c6f77887924"

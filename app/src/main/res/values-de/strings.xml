@@ -1,0 +1,29 @@
+<resources>
+      <string name = "app_name"> Standard-Listenansicht </ string>
+        <string name = "email_address"> E-Mail-Adresse </ string>
+        <string name = "password"> Passwort </ string>
+        <string name = "please_login"> Bitte Login </ string>
+        <string name = "submit"> Submit </ string>
+        <string name = "retrieveListsError"> Sorry, es gab ein Problem, das die Listen für diesen Twitter-Benutzer abruft. Bitte versuchen Sie es später noch einmal. </ string>
+        <string name = "noListsOwned"> Haben Sie Listen für diesen Twitter Account erstellt? Wir haben nichts gefunden. Bitte schaffe etwas und komm bald zurück! </ string>
+        <string name = "pleaseLoginMessage"> Bitte melden Sie sich bei Twitter an, um Listen anzuzeigen </ string>
+
+     
+        <string name = "tabLogin"> LOG IN / OUT </ string>
+        <string name = "tabLists"> LISTEN </ string>
+        <string name = "tabAbout"> ÜBER </ string>
+
+
+
+        <string name = "selected_configuration"> layout </ string>
+
+       
+        <string name = "list_name_label"> Listenname </ string>
+        <string name = "default_label"> Standard? </ string>
+
+        <string name = "no_default_list_persisted"> Keine Standardliste auf Aufnahme </ string>
+
+        <string name = "logout"> LOGOUT </ string>
+        <string name = "aboutLabel"> Über </ string>
+
+</resources>

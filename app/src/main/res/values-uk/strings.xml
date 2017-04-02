@@ -1,0 +1,29 @@
+<resources>
+    <string name = "app_name"> Default List View </ string>
+    <string name = "email_address"> Адреса електронної пошти </ string>
+    <string name = "пароль"> Пароль </ string>
+    <string name = "please_login"> Будь ласка, увійдіть </ string>
+    <string name = "submit"> Надіслати </ string>
+    <string name = "retrieveListsError"> На жаль, існує проблема отримання списків для цього користувача Twitter. Будь ласка, спробуйте ще раз пізніше. </ string>
+    <string name = "noListsOwned"> Ви створили якісь списки для цього облікового запису Twitter? Ми Чекаємо \ 'т знайти. Будь ласка, придумайте і повернутися найближчим часом! </ string>
+    <string name = "pleaseLoginMessage"> Будь ласка, увійдіть в Twitter, щоб переглядати списки </ string>
+
+ 
+    <string name = "tabLogin"> LOG IN / OUT </ string>
+    <string name = "tabLists"> СПИСКИ </ string>
+    <string name = "tabAbout"> Про </ string>
+
+
+
+    <string name = "selected_configuration"> макет </ string>
+
+   
+    <string name = "list_name_label"> Ім\'я </ string>
+    <string name = "default_label"> За замовчуванням </ string>
+
+    <string name = "no_default_list_persisted"> Відсутній список за замовчуванням On Record </ string>
+
+    <string name = "Вихід"> Вихід</ string>
+    <string name = "aboutLabel"> Про </ string>
+
+</resources>

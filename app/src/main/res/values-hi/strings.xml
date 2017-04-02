@@ -1,0 +1,29 @@
+<resources>
+     <string name = "app_name"> डिफ़ॉल्ट सूची देखें </ string>
+        <string name = "email_address"> ईमेल पता </ string>
+        <string name = "password"> पासवर्ड </ string>
+        <string name = "please_login"> कृपया लॉगिन करें </ string>
+        <string name = "submit"> सबमिट करें </ string>
+        <string name = "retrieveListsError"> क्षमा करें, इस ट्विटर उपयोगकर्ता के लिए सूचियों को पुनः प्राप्त करने में एक समस्या थी कृपया बाद में फिर से प्रयास करें। </ string>
+        <string name = "noListsOwned"> आपने इस ट्विटर अकाउंट के लिए कोई सूचियां बनाई हैं? हमें कोई नहीं मिला कृपया कुछ बनाएं और जल्द ही वापस आ जाएं! </ string>
+        <string name = "pleaseLoginMessage"> कृपया सूची देखने के लिए ट्विटर पर लॉगिन करें </ string>
+
+     
+        <string name = "tabLogin"> लॉग इन / आउट </ string>
+        <string name = "tabLists"> सूची </ string>
+        <string name = "tabAbout"> के बारे में </ string>
+
+
+
+        <string name = "selected_configuration"> लेआउट </ string>
+
+       
+        <string name = "list_name_label"> सूची नाम </ string>
+        <string name = "default_label"> डिफ़ॉल्ट? </ string>
+
+        <string name = "no_default_list_persisted"> रिकॉर्ड पर कोई डिफ़ॉल्ट सूची नहीं </ string>
+
+        <string name = "logout"> लॉगआउट </ string>
+        <string name = "aboutLabel"> के बारे में </ string>
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+      <string name = "app_name"> Просмотр списка по умолчанию </ string>
+        <string name = "email_address"> адрес электронной почты </ string>
+        <string name = "password"> Password </ string>
+        <string name = "please_login">> Пожалуйста, Войти </ string>
+        <string name = "submit"> Отправить </ string>
+        <string name = "retrieveListsError"> К сожалению, возникла проблема с получением списков для этого пользователя Twitter. Повторите попытку позже. </ string>
+        <string name = "noListsOwned"> Были ли созданы списки для этой учетной записи Twitter? Мы их не нашли. Пожалуйста, создайте их и скоро вернитесь! </ string>
+        <string name = "pleaseLoginMessage"> Войдите в Twitter, чтобы просмотреть списки </ string>
+
+     
+        <string name = "tabLogin"> LOG IN / OUT </ string>
+        <string name = "tabLists"> LISTS </ string>
+        <string name = "tabAbout"> О </ string>
+
+
+
+        <string name = "selected_configuration"> layout </ string>
+
+       
+        <string name = "list_name_label"> Имя списка </ string>
+        <string name = "default_label"> По умолчанию? </ string>
+
+        <string name = "no_default_list_persisted"> Нет списка по умолчанию для записи </ string>
+
+        <string name = "logout"> LOGOUT </ string>
+        <string name = "aboutLabel"> About </ string>
+
+</resources>

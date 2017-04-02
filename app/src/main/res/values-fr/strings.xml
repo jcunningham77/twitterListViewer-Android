@@ -1,0 +1,29 @@
+<resources>
+      <string name = "app_name"> Vue par défaut de la liste </ string>
+        <string name = "email_address"> Adresse e-mail </ string>
+        <string name  = "password"> mot de passe </ string>
+        <string name = "please_login"> Connectez-vous </ string>
+        <string name = "submit"> Envoyer </ string>
+        <string name = "retrieveListsError"> Désolé, il y avait un problème pour récupérer les listes pour cet utilisateur Twitter. Réessayez plus tard. </ string>
+        <string name = "noListsOwned"> Avez-vous créé des listes pour ce compte Twitter? Nous n\'avons trouvé aucun. Créez certains et revenez bientôt! </ string>
+        <string name = "pleaseLoginMessage"> Connectez-vous à Twitter pour afficher les listes </ string>
+
+     
+        <string name = "tabLogin"> LOG IN / OUT </ string>
+        <string name = "tabLists"> LISTES </ string>
+        <string name  = "tabAbout"> A PROPOS </ string>
+
+
+
+        <string name = "selected_configuration"> layout </ string>
+
+       
+        <string name = "list_name_label"> Nom de la liste </ string>
+        <string name = "default_label"> Par défaut? </ string>
+
+        <string name  = "no_default_list_persisted"> Aucune liste par défaut sur l\'enregistrement </ string>
+
+        <string name  = "logout">déconnexion </ string>
+        <string name = "aboutLabel"> À propos de </ string>
+
+</resources>
