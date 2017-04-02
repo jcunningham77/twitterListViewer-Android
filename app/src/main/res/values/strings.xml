@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Twitter List Viewer</string>
+    <string name="app_name">Default List View</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="please_login">Please Login</string>
@@ -8,17 +8,21 @@
     <string name="noListsOwned">Have you created any Lists for this Twitter account? We didn\'t find any. Please create some and come back soon!</string>
     <string name="pleaseLoginMessage">Please login to Twitter to view lists</string>
 
+    <!--tab labels -->
+    <string name="tabLogin">LOG IN/OUT</string>
+    <string name="tabLists">LISTS</string>
+    <string name="tabAbout">ABOUT</string>
+
+
 
     <string name="selected_configuration">layout</string>
 
     <!-- list_header_view-->
     <string name="list_name_label">List Name</string>
-    <string name="sign_out_label">Sign Out</string>
     <string name="default_label">Default?</string>
 
     <string name="no_default_list_persisted">No Default List On Record</string>
 
-    <string name="about_label">About This App</string>
     <string name="logout">LOGOUT</string>
     <string name="aboutLabel">About</string>
 

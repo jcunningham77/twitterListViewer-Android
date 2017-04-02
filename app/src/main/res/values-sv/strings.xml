@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+      <string name = "APP_NAME"> Standard Listvy </ string>
+        <string name = "EMAIL_ADDRESS"> E-postadress </ string>
+        <string name = "password"> Lösenord </ string>
+        <string name = "please_login"> Vänligen Logga in </ string>
+        <string name = "submit"> Skicka </ string>
+        <string name = "retrieveListsError"> Tyvärr, det var ett problem att hämta listorna för Twitter-användare. Försök igen senare. </ string>
+        <string name = "noListsOwned"> Har du skapat några listor för Twitter-konto? Vi gjorde \ 't hitta någon. Skapa lite och komma tillbaka snart! </ string>
+        <string name = "pleaseLoginMessage"> Logga in för att Twitter för att se listor </ string>
+
+     
+        <string name = "tabLogin"> Logga in / ut </ string>
+        <string name = "tabLists"> listor </ string>
+        <string name = "tabAbout"> OM </ string>
+
+
+
+        <string name = "selected_configuration"> layout </ string>
+
+       
+        <string name = "list_name_label"> listnamn </ string>
+        <string name = "default_label"> Standard? </ string>
+
+        <string name = "no_default_list_persisted"> No standardlista på skiva </ string>
+
+        <string name = "logout"> Logga </ string>
+        <string name = "aboutLabel"> Om </ string>
+
+</resources>

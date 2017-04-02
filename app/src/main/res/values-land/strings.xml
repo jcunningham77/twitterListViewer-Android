@@ -2,10 +2,5 @@
 <resources>
     <string name="selected_configuration">layout-land</string>
 
-    <!-- list_header_view-->
-    <string name="list_name_label">List</string>
-    <string name="default_label">Default?</string>
-    <string name="logout">LOGOUT</string>
-    <string name="aboutLabel">About</string>
 
 </resources>
