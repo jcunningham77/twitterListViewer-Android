@@ -19,7 +19,7 @@
             android:padding="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="TextView"
+            android:text="@string/retrieveListsError"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="14sp"
@@ -29,7 +29,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Sorry, there was a problem retrieving the lists for this Twitter user. Please try again later."
+            tools:text="@string/retrieveListsError"
             tools:visibility="gone" />
 
         <ImageView
@@ -43,6 +43,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/error"
+            tools:ignore="ContentDescription"
             tools:src="@drawable/maxthumbnail"
             android:layout_marginTop="2dp"
             app:layout_constraintBottom_toTopOf="@+id/view"
@@ -115,7 +116,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Sign Out"
+                    android:text="@string/logout"
                     android:textColor="@color/tw__composer_blue"
                     android:theme="@style/FlatButton"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -131,7 +132,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="About"
+                    android:text="@string/aboutLabel"
                     android:textColor="@color/tw__composer_blue"
                     android:theme="@style/FlatButton"
                     app:layout_constraintLeft_toRightOf="@+id/btnSignOut"

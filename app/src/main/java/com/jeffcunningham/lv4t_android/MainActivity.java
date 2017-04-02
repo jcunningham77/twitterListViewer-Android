@@ -326,17 +326,15 @@ public class MainActivity extends AppCompatActivity {
         accountDrawable = DrawableCompat.wrap(accountDrawable);
         listsDrawable = DrawableCompat.wrap(listsDrawable);
         aboutDrawable = DrawableCompat.wrap(aboutDrawable);
-        int color = Color.parseColor("#1DA1F2");
+        int color = ContextCompat.getColor(this, R.color.twitterLogoBlue);
         DrawableCompat.setTint(accountDrawable, color);
         DrawableCompat.setTint(listsDrawable, color);
         DrawableCompat.setTint(aboutDrawable, color);
 
-
-
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Sign In/Out").setIcon(R.drawable.ic_account_box_white_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("Lists").setIcon(R.drawable.ic_toc_white_24dp));
-        tabLayout.addTab(tabLayout.newTab().setText("About").setIcon(R.drawable.ic_info_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLogin).setIcon(R.drawable.ic_account_box_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLists).setIcon(R.drawable.ic_toc_white_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabAbout).setIcon(R.drawable.ic_info_white_24dp));
         tabLayout.addOnTabSelectedListener(listener);
 
         tabLayout.setTabTextColors(
