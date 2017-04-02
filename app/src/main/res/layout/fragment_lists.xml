@@ -79,9 +79,9 @@
         android:orientation="vertical">
 
         <include layout="@layout/lists_header_view"
-            >
+            />
 
-        </include>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listsRecyclerView"

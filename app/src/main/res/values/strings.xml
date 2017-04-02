@@ -14,11 +14,13 @@
     <!-- list_header_view-->
     <string name="list_name_label">List Name</string>
     <string name="sign_out_label">Sign Out</string>
-    <string name="default_label">Default List?</string>
+    <string name="default_label">Default?</string>
 
     <string name="no_default_list_persisted">No Default List On Record</string>
 
     <string name="about_label">About This App</string>
+    <string name="logout">LOGOUT</string>
+    <string name="aboutLabel">About</string>
 
 
 </resources>
