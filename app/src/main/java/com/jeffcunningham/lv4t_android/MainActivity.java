@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         accountDrawable = DrawableCompat.wrap(accountDrawable);
         listsDrawable = DrawableCompat.wrap(listsDrawable);
         aboutDrawable = DrawableCompat.wrap(aboutDrawable);
-        int color = Color.parseColor("#607D8B");
+        int color = Color.parseColor("#1DA1F2");
         DrawableCompat.setTint(accountDrawable, color);
         DrawableCompat.setTint(listsDrawable, color);
         DrawableCompat.setTint(aboutDrawable, color);
