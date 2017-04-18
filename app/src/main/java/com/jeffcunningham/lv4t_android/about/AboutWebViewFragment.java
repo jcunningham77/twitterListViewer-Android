@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.jeffcunningham.lv4t_android.R;
@@ -24,7 +25,14 @@ public class AboutWebViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
 
         mWebView = (WebView) view.findViewById(R.id.webview);
-        mWebView.loadUrl("http://twitterlistviewer-215api.rhcloud.com/assets/about.html");
+
+        WebSettings ws = mWebView.getSettings();
+
+        ws.setJavaScriptEnabled(true);
+        ws.setAllowFileAccess(true);
+
+
+        mWebView.loadUrl("http://twitterlistviewer-215api.rhcloud.com/assets/#/About");
 
 
 
