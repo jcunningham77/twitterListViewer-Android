@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name = "app_name"> Twitter Λίστα προβολής </ string>
+    <string name = "email_address"> Διεύθυνση ηλεκτρονικού ταχυδρομείου </ string>
+    <string name = "password"> Κωδικός πρόσβασης </ string>
+    <string name = "please_login"> Παρακαλώ Σύνδεση </ string>
+    <string name = "submit"> Υποβολή </ string>
+    <string name = "retrieveListsError"> Δυστυχώς, υπήρχε ένα πρόβλημα, την ανάκτηση των λιστών για αυτό χρήστης του Twitter. Παρακαλώ δοκιμάστε ξανά αργότερα. </ String>
+    <string name = "noListsOwned"> Έχετε δημιουργήσει λίστες για αυτόν το λογαριασμό twitter; τοποθετήστε εμείς didn \ «t υπάρχουν. Παρακαλείστε να δημιουργήσει μερικά και να επανέλθουμε σύντομα! </ String>
+    <string name = "pleaseLoginMessage"> Παρακαλώ συνδεθείτε στο Twitter για να δείτε τις λίστες </ string>
+
+
+    <string name= "tabLogin"> ΕΙΣΟΔΟΣ </ string>
+    <string name= "tabLogout"> Αποσύνδεση </ string>
+    <string name= "tablists"> ΛΙΣΤΕΣ </ string>
+    <string name= "tabAbout"> ΓΙΑ </ string>
+
+
+
+
+
+
+    <string name= "list_name_label"> Όνομα λίστας </ string>
+    <string name= "default_label"> Προεπιλογή; </ String>
+
+    <string name= "no_default_list_persisted"> Δεν Προεπιλογή Λίστα On Record </ string>
+
+    <string name= "logout"> Αποσύνδεση </ string>
+    <string name= "aboutLabel"> Σχετικά με </ string>
+
+
+</resources>
