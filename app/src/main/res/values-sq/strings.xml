@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name = "app_name"> Twitter List Viewer </ string>
-    <string name = "email_address"> Adresa Email </ string>
-    <string name = "password"> Password </ string>
-    <string name = "please_login"> Ju lutem Identifikohu </ string>
-    <string name = "submit"> Submit </ string>
-    <string name = "retrieveListsError"> Na vjen keq, ka pasur një problem-retrieving listat për këtë përdorues Twitter. Ju lutemi të provoni përsëri më vonë. </ String>
-    <string name = "noListsOwned"> A keni krijuar ndonjë lista për këtë llogari Twitter? vendosni ne didn \ 't ndonjë. Ju lutem të krijuar disa dhe të vijnë përsëri së shpejti! </ String>
-    <string name = "pleaseLoginMessage"> Ju lutem identifikohuni për Twitter për të parë listat </ string>
+<string name = "app_name"> Twitter List Viewer </string>
+    <string name = "email_address"> Adresa Email </string>
+    <string name = "password"> Password </string>
+    <string name = "please_login"> Ju lutem Identifikohu </string>
+    <string name = "submit"> Submit </string>
+    <string name = "retrieveListsError"> Na vjen keq, ka pasur një problem-retrieving listat për këtë përdorues Twitter. Ju lutemi të provoni përsëri më vonë. </string>
+    <string name = "noListsOwned"> A keni krijuar ndonjë lista për këtë llogari Twitter? vendosni ne didn \'t ndonjë. Ju lutem të krijuar disa dhe të vijnë përsëri së shpejti! </string>
+    <string name = "pleaseLoginMessage"> Ju lutem identifikohuni për Twitter për të parë listat </string>
 
 
-    <string name = "tabLogin"> LOGIN </ string>
-    <string name = "tabLogout"> Logout </ string>
-    <string name = "tablists"> LISTAT </ string>
-    <string name = "tabAbout"> RRETH </ string>
-
-
-
+    <string name = "tabLogin"> LOGIN </string>
+    <string name = "tabLogout"> Logout </string>
+    <string name = "tablists"> LISTAT </string>
+    <string name = "tabAbout"> RRETH </string>
 
 
 
-    <string name = "list_name_label"> Emri List </ string>
-    <string name = "default_label"> Default? </ String>
 
-    <string name = "no_default_list_persisted"> No Default Lista në arkiv </ string>
 
-    <string name = "logout"> Logout </ string>
-    <string name = "aboutLabel"> Rreth </ string>
+
+    <string name = "list_name_label"> Emri List </string>
+    <string name = "default_label"> Default? </string>
+
+    <string name = "no_default_list_persisted"> No Default Lista në arkiv </string>
+
+    <string name = "logout"> Logout </string>
+    <string name = "aboutLabel"> Rreth </string>
 </resources>
