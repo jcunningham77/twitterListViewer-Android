@@ -174,8 +174,10 @@ public class LoginFragment extends Fragment {
                                                         logger.info(TAG, "onClick: logging user " + twitterSession.getUserName() + "out of Twitter");
                                                         loginPresenter.logoutOfTwitter();
                                                         loginPresenter.clearSharedPreferencesData();
-                                                        TabLayout.Tab tab = tabLayout.getTabAt(0);
-                                                        tab.setText(R.string.tabLogin);
+                                                        if (selectedConfiguration.equalsIgnoreCase("layout")){
+                                                            TabLayout.Tab tab = tabLayout.getTabAt(0);
+                                                            tab.setText(R.string.tabLogin);
+                                                        }
                                                         showLoginButton();
                                                     }
                                                 }
