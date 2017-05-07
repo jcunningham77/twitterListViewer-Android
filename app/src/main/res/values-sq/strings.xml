@@ -2,7 +2,7 @@
 <resources>
 <string name = "app_name"> Twitter List Viewer </string>
     <string name = "email_address"> Adresa Email </string>
-    <string name = "password"> Password </string>
+    <string name = "password"> Fjalëkalim </string>
     <string name = "please_login"> Ju lutem Identifikohu </string>
     <string name = "submit"> Submit </string>
     <string name = "retrieveListsError"> Na vjen keq, ka pasur një problem-retrieving listat për këtë përdorues Twitter. Ju lutemi të provoni përsëri më vonë. </string>
@@ -10,8 +10,8 @@
     <string name = "pleaseLoginMessage"> Ju lutem identifikohuni për Twitter për të parë listat </string>
 
 
-    <string name = "tabLogin"> LOGIN </string>
-    <string name = "tabLogout"> Logout </string>
+    <string name = "tabLogin"> Hyrje </string>
+    <string name = "tabLogout"> Shkyç </string>
     <string name = "tablists"> LISTAT </string>
     <string name = "tabAbout"> RRETH </string>
 
@@ -25,6 +25,6 @@
 
     <string name = "no_default_list_persisted"> No Default Lista në arkiv </string>
 
-    <string name = "logout"> Logout </string>
+    <string name = "logout"> Shkyç </string>
     <string name = "aboutLabel"> Rreth </string>
 </resources>

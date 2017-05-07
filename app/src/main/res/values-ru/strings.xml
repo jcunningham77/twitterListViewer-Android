@@ -12,7 +12,7 @@
         <string name = "pleaseLoginMessage"> Войдите в Twitter, чтобы просмотреть списки </string>
 
      
-        <string name = "tabLogin"> Login </string>
+        <string name = "tabLogin"> Авторизоваться </string>
         <string name = "tabLogout"> Выход из системы </string>
         <string name = "tabLists"> СПИСКИ </string>
         <string name = "tabAbout"> ОКОЛО </string>

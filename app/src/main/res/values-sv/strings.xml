@@ -2,7 +2,7 @@
 <resources>
 
 
-      <string name = "app_name"> Standard Listvy </string>
+      <string name = "app_name"> Twitter List Viewer </string>
         <string name = "email_address"> E-postadress </string>
         <string name = "password"> Lösenord </string>
         <string name = "please_login"> Vänligen Logga in </string>

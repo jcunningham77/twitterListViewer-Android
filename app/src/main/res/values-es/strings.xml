@@ -1,5 +1,5 @@
 <resources>
-     <string name = "app_name">Lista de vista predeterminada</string>
+        <string name = "app_name">Lista de vista predeterminada</string>
         <string name = "email_address"> Dirección de correo electrónico </string>
         <string name = "password"> Contraseña </string>
         <string name = "please_login"> Por favor Inicie sesión </string>
@@ -11,19 +11,15 @@
         <!-- etiquetas de pestaña -->
         <string name = "tabLogin"> Inicio de sesión </string>
         <string name = "tabLogout"> Cerrar sesión </string>
+        <string name = "tabLists"> Liza </string>
         <string name = "tabAbout"> ACERCA </string>
-
-
-
 
 
         <!-- list_header_view -->
         <string name = "list_name_label"> Nombre</string>
         <string name = "default_label"> ¿Por defecto? </string>
-
         <string name = "no_default_list_persisted"> Ninguna lista predeterminada en registro </string>
-
-        <string name = "logout"> LOGOUT </string>
+        <string name = "logout"> Cerrar sesión </string>
         <string name = "aboutLabel"> Acerca de </string>
 
 </resources>

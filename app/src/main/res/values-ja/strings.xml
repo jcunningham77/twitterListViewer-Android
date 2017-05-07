@@ -9,10 +9,10 @@
         <string name = "pleaseLoginMessage">リストを表示するにはTwitterにログインしてください</string>
 
      
-        <string name = "tabLogin">ログイン</string>
-        <string name = "tabLogout">ログアウト</string>
-        <string name = "tabLists"> LISTS </string>
-        <string name = "tabAbout"> ABOUT </string>
+        <string name = "tabLogin">グイン</string>
+        <string name = "tabLogout">グアウト</string>
+        <string name = "tabLists"> リスト </string>
+        <string name = "tabAbout"> 約 </string>
 
 
        
@@ -21,7 +21,7 @@
 
         <string name = "no_default_list_persisted">レコードの既定のリストがありません</string>
 
-        <string name = "logout">ログアウト</string>
+        <string name = "logout">グアウト</string>
         <string name = "aboutLabel">について</string>
 
 </resources>

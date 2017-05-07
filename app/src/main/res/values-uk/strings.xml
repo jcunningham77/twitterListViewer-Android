@@ -1,5 +1,5 @@
 <resources>
-    <string name = "app_name"> Default List View </string>
+    <string name = "app_name"> Twitter List Viewer </string>
     <string name = "email_address"> Адреса електронної пошти </string>
     <string name = "password"> Пароль </string>
     <string name = "please_login"> Будь ласка, увійдіть </string>
