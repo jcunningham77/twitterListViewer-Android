@@ -13,8 +13,8 @@ android {
         applicationId "com.jeffcunningham.lv4t_android"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 3
-        versionName "Alpha 3"
+        versionCode 4
+        versionName "Beta 1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
