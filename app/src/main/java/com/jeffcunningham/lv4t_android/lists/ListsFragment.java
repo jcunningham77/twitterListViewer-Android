@@ -226,7 +226,7 @@ public class ListsFragment extends Fragment {
             bundle.putString("slug",event.getSlug());
             bundle.putString("listName",event.getListName());
             twitterListFragment.setArguments(bundle);
-            ft.replace(R.id.fragment_container, twitterListFragment,"TwitterListFragment");
+            ft.replace(R.id.fragment_container, twitterListFragment,Constants.TwitterListFragmentTag);
             ft.addToBackStack(null);
             ft.commit();
         }

@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
-        ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+        ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
         ft.commit();
     }
 
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
-        ft.replace(R.id.twitter_list_fragment_container,aboutWebViewFragment,"AboutWebviewFragment");
+        ft.replace(R.id.twitter_list_fragment_container,aboutWebViewFragment,Constants.AboutWebviewFragmentTag);
         ft.commit();
 
     }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         if (!selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft;
-            TwitterListFragment twitterListFragment = (TwitterListFragment) fm.findFragmentByTag("twitterListFragment");
+            TwitterListFragment twitterListFragment = (TwitterListFragment) fm.findFragmentByTag(Constants.TwitterListFragmentTag);
             if (twitterListFragment == null) {
                 logger.info(TAG, "onMessageEvent: ViewListEvent - twitterListFragment is null, instantiate a new one and add to it's container");
                 twitterListFragment = new TwitterListFragment();
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("listName",event.getListName());
                 twitterListFragment.setArguments(bundle);
                 ft = fm.beginTransaction();
-                ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
+                ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,Constants.TwitterListFragmentTag);
                 ft.commit();
             }
         }
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             logger.info(TAG, "initializeLandscapeOrLargeLayout: session!=null - setContentView to activity_lists layout");
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag("ListsFragment");
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag(Constants.ListsFragmentTag);
 
             if(listsFragment==null){
 
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             listsFragment.setRetainInstance(false);
 
             if(!listsFragment.isAdded()) {
-                ft.replace(R.id.lists_fragment_container, listsFragment, "ListsFragment");
+                ft.replace(R.id.lists_fragment_container, listsFragment, Constants.ListsFragmentTag);
                 ft.commit();
             } else {//this listFragment had been added already, probably to the "fragment_container" from the portrait layout
                 //so lets remove that fragment and re-add it - since it is changing containers
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
             TwitterListFragment twitterListFragment = new TwitterListFragment();
             ft = fm.beginTransaction();
-            ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,"TwitterListFragment");
+            ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,Constants.TwitterListFragmentTag);
 
             ft.commit();
         } else {
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             LoginFragment loginFragment = new LoginFragment();
-            ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+            ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
             ft.commit();
         }
 
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             TwitterListFragment twitterListFragment = new TwitterListFragment();
-            ft.replace(R.id.fragment_container, twitterListFragment, "twitterListFragment");
+            ft.replace(R.id.fragment_container, twitterListFragment, Constants.TwitterListFragmentTag);
             ft.commit();
 
         } else if (session!=null){
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             LoginFragment loginFragment = new LoginFragment();
-            ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+            ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
             ft.commit();
         }
     }
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         FragmentManager fm = getFragmentManager();
         if (fm != null) {
-            fm.findFragmentByTag("LoginFragment").onActivityResult(requestCode, resultCode, data);
+            fm.findFragmentByTag(Constants.LoginFragmentTag).onActivityResult(requestCode, resultCode, data);
 
         }
         else logger.debug("Twitter", "fragment is null");
@@ -263,13 +263,13 @@ public class MainActivity extends AppCompatActivity {
             switch (tab.getPosition()){
                 case 0:
                     LoginFragment loginFragment = new LoginFragment();
-                    ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+                    ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
                     ft.commit();
                     break;
                 case 1:
                     if (Twitter.getSessionManager().getActiveSession()!=null) {
                         ListsFragment listsFragment = new ListsFragment();
-                        ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+                        ft.replace(R.id.fragment_container, listsFragment, Constants.ListsFragmentTag);
                         ft.commit();
                     } else {
                         Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2:
                     AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
-                    ft.replace(R.id.fragment_container, aboutWebViewFragment, "LoginFragment");
+                    ft.replace(R.id.fragment_container, aboutWebViewFragment, Constants.LoginFragmentTag);
                     ft.addToBackStack(null);
                     ft.commit();
                     break;
@@ -302,13 +302,13 @@ public class MainActivity extends AppCompatActivity {
             switch (tab.getPosition()){
                 case 0:
                     LoginFragment loginFragment = new LoginFragment();
-                    ft.replace(R.id.fragment_container, loginFragment, "LoginFragment");
+                    ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
                     ft.commit();
                     break;
                 case 1:
                     if (Twitter.getSessionManager().getActiveSession()!=null) {
                         ListsFragment listsFragment = new ListsFragment();
-                        ft.replace(R.id.fragment_container, listsFragment, "ListsFragment");
+                        ft.replace(R.id.fragment_container, listsFragment, Constants.ListsFragmentTag);
                         ft.commit();
                     } else {
                         Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2:
                     AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
-                    ft.replace(R.id.fragment_container, aboutWebViewFragment, "AboutWebviewFragment");
+                    ft.replace(R.id.fragment_container, aboutWebViewFragment, Constants.AboutWebviewFragmentTag);
                     ft.addToBackStack(null);
                     ft.commit();
                     break;
