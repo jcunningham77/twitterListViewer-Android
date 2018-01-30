@@ -32,7 +32,7 @@ public class AboutWebViewFragment extends Fragment {
         ws.setAllowFileAccess(true);
 
 
-        mWebView.loadUrl("http://twitterlistviewer-215api.rhcloud.com/assets/#/About");
+        mWebView.loadUrl("http://twitterlistviewer.herokuapp.com/#/About");
 
 
 

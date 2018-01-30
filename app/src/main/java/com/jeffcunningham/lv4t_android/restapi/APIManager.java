@@ -36,7 +36,7 @@ public class APIManager {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://twitterlistviewer-215api.rhcloud.com/" )
+                .baseUrl("http://twitterlistviewer.herokuapp.com/" )
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
