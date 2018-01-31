@@ -10,6 +10,7 @@ import com.jeffcunningham.lv4t_android.util.ListsStorage;
 import com.jeffcunningham.lv4t_android.util.ListsStorageImpl;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.LoggerImpl;
+import com.jeffcunningham.lv4t_android.util.RemoteConfigUtil;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepositoryImpl;
 
@@ -50,6 +51,12 @@ public class ApplicationModule {
     @ApplicationContext
     public Context provideApplicationContext(){
         return context;
+    }
+
+    @Provides
+    @Singleton
+    RemoteConfigUtil provideRemoteConfigBuilder(RemoteConfigUtil impl){
+        return impl;
     }
 
 

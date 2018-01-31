@@ -8,7 +8,14 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
+import com.jeffcunningham.lv4t_android.util.RemoteConfigUtil;
+
+import javax.inject.Inject;
+
+import static com.jeffcunningham.lv4t_android.util.Constants.API_URL;
 
 /**
  * Created by jeffcunningham on 3/15/17.
@@ -18,9 +25,18 @@ public class AboutWebViewFragment extends Fragment {
 
     public WebView mWebView;
 
+    private static FirebaseRemoteConfig firebaseRemoteConfig;
+
+    @Inject
+    RemoteConfigUtil remoteConfigUtil;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ((MainActivity) getActivity()).component().inject(this);
 
         View view = inflater.inflate(R.layout.fragment_about, container, false);
 
@@ -31,8 +47,10 @@ public class AboutWebViewFragment extends Fragment {
         ws.setJavaScriptEnabled(true);
         ws.setAllowFileAccess(true);
 
+        firebaseRemoteConfig = remoteConfigUtil.initializeFirebaseRemoteConfig();
 
-        mWebView.loadUrl("http://twitterlistviewer.herokuapp.com/#/About");
+
+        mWebView.loadUrl(firebaseRemoteConfig.getString(API_URL)+"#/About");
 
 
 

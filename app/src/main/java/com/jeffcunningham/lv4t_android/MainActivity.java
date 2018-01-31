@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.jeffcunningham.lv4t_android.about.AboutWebViewFragment;
 import com.jeffcunningham.lv4t_android.di.DaggerMainComponent;
 import com.jeffcunningham.lv4t_android.di.MainComponent;
@@ -29,6 +30,7 @@ import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.login.LoginFragment;
 import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.Logger;
+import com.jeffcunningham.lv4t_android.util.RemoteConfigUtil;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     public TabLayout tabLayout;
     int color = Color.parseColor("#607D8B");
     private String selectedConfiguration;
+
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
+    @Inject
+    RemoteConfigUtil remoteConfigUtil;
 
     @Inject
     Logger logger;
@@ -82,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         selectedConfiguration = getString(R.string.selected_configuration);
+
+        mFirebaseRemoteConfig = remoteConfigUtil.initializeFirebaseRemoteConfig();
 
         logger.info(TAG, "onCreate: selectedConfiguration = " + selectedConfiguration);
 

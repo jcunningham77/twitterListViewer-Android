@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "555356502681",
+    "firebase_url": "https://twitterlistviewer-android.firebaseio.com",
+    "project_id": "twitterlistviewer-android",
+    "storage_bucket": "twitterlistviewer-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555356502681:android:13a419967ad7e164",
+        "android_client_info": {
+          "package_name": "com.jeffcunningham.lv4t_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555356502681-2s845or1a3144kmeiriki9iqreroc6tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jeffcunningham.lv4t_android",
+            "certificate_hash": "aaf8444ad82e452b0098a130e13bb6aa0c16fd4e"
+          }
+        },
+        {
+          "client_id": "555356502681-tjnc359klrj56he125r410198c0r18lc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbzJnGoE8zwxmrwc1JuAbyTWTb1VgHHXM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555356502681-tjnc359klrj56he125r410198c0r18lc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

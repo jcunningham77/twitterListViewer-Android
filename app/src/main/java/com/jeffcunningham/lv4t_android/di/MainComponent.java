@@ -1,5 +1,6 @@
 package com.jeffcunningham.lv4t_android.di;
 
+import com.jeffcunningham.lv4t_android.about.AboutWebViewFragment;
 import com.jeffcunningham.lv4t_android.di.annotations.PerActivity;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
@@ -20,4 +21,5 @@ public interface MainComponent {
     void inject(LoginFragment fragment);
     void inject(ListsFragment fragment);
     void inject(TwitterListFragment fragment);
+    void inject(AboutWebViewFragment fragment);
 }
