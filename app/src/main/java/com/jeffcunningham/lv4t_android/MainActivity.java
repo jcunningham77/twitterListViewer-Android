@@ -199,9 +199,10 @@ public class MainActivity extends AppCompatActivity {
         } else logger.debug("Twitter", "fragment is null");
     }
 
+    /*
+    *   Initialize tab layout listener
+     */
     TabLayout.OnTabSelectedListener listener = new TabLayout.OnTabSelectedListener() {
-
-
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             Log.i(TAG, "onTabSelected: ");
@@ -275,6 +276,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     *  Private methods to initialize layouts
+     */
     private void initializeLandscapeOrLargeLayout() {
         logger.info(TAG, "initializeLandscapeOrLargeLayout: ");
 
@@ -289,7 +293,6 @@ public class MainActivity extends AppCompatActivity {
             ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag(Constants.ListsFragmentTag);
 
             if (listsFragment == null) {
-
                 listsFragment = new ListsFragment();
             }
             listsFragment.setRetainInstance(false);
@@ -312,7 +315,6 @@ public class MainActivity extends AppCompatActivity {
             TwitterListFragment twitterListFragment = new TwitterListFragment();
             ft = fm.beginTransaction();
             ft.replace(R.id.twitter_list_fragment_container, twitterListFragment, Constants.TwitterListFragmentTag);
-
             ft.commit();
         } else {
             //show the login fragment
@@ -348,7 +350,6 @@ public class MainActivity extends AppCompatActivity {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
         } else {
-
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             LoginFragment loginFragment = new LoginFragment();
@@ -387,8 +388,5 @@ public class MainActivity extends AppCompatActivity {
         );
 
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
-
     }
-
-
 }

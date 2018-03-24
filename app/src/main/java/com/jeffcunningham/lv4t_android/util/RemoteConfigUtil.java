@@ -6,60 +6,47 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.jeffcunningham.lv4t_android.BuildConfig;
 import com.jeffcunningham.lv4t_android.R;
 
 import javax.inject.Inject;
-
-import static com.jeffcunningham.lv4t_android.util.Constants.ABOUT_WEBVIEW_URL;
-import static com.jeffcunningham.lv4t_android.util.Constants.API_URL;
 
 /**
  * Created by jeffcunningham on 1/30/18.
  */
 
 public class RemoteConfigUtil {
-    
+
     private Logger logger;
 
     private static final String TAG = "RemoteConfigUtil";
+
     @Inject
     public RemoteConfigUtil(Logger logger) {
         this.logger = logger;
     }
 
-    public FirebaseRemoteConfig initializeFirebaseRemoteConfig(){
-
-
+    public FirebaseRemoteConfig initializeFirebaseRemoteConfig() {
 
         final FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(true)
+                .setDeveloperModeEnabled(BuildConfig.REMOTE_CONFIG_DEV_MODE)
                 .build();
         firebaseRemoteConfig.setConfigSettings(configSettings);
-
         firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
 
-        long cacheExpiration = 0; // 1 hour in seconds.
-
-        logger.info(TAG, "before fetch: firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL) );
-        logger.info(TAG, "before fetch: firebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL) = " + firebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL) );
+        long cacheExpiration = 2400; // 1 hour in seconds.
         firebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                logger.info(TAG, "onComplete: fetch completed");
-                logger.info(TAG, "after fetch, before activation: firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL) );
-                logger.info(TAG, "after fetch, before activation: firebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL) = " + firebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL) );
-                if(firebaseRemoteConfig.activateFetched()){
+                if (firebaseRemoteConfig.activateFetched()) {
                     logger.info(TAG, "initializeFirebaseRemoteConfig: activation successful");
-                    logger.info(TAG, "after fetch, after activation: firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL) );
-                    logger.info(TAG, "after fetch, before activation: firebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL) = " + firebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL) );
                 } else {
                     logger.info(TAG, "initializeFirebaseRemoteConfig: activation unsuccessful");
                 }
             }
         });
-
 
         return firebaseRemoteConfig;
 

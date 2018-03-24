@@ -18,13 +18,24 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+
+        debug {
+
             minifyEnabled false
+            buildConfigField "boolean", "REMOTE_CONFIG_DEV_MODE", "true"
+
+        }
+
+        release {
+
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "REMOTE_CONFIG_DEV_MODE", "false"
 
         }
 
         buildTypes.each {
+
             it.buildConfigField 'String', 'TWITTER_KEY', TWITTER_KEY
             it.buildConfigField 'String', 'TWITTER_SECRET', TWITTER_SECRET
 
