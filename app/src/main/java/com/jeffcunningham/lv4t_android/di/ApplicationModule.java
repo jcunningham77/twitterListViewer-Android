@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jeffcunningham.lv4t_android.di.annotations.ApplicationContext;
+import com.jeffcunningham.lv4t_android.util.AppSettings;
+import com.jeffcunningham.lv4t_android.util.AppSettingsStorage;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.ImageLoaderImpl;
 import com.jeffcunningham.lv4t_android.util.ListsStorage;
@@ -13,6 +15,7 @@ import com.jeffcunningham.lv4t_android.util.LoggerImpl;
 import com.jeffcunningham.lv4t_android.util.RemoteConfigUtil;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepositoryImpl;
+import com.jeffcunningham.lv4t_android.util.Storage;
 
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +59,12 @@ public class ApplicationModule {
     @Provides
     @Singleton
     RemoteConfigUtil provideRemoteConfigBuilder(RemoteConfigUtil impl){
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    Storage<AppSettings> provideAppSettingsStorage(AppSettingsStorage impl){
         return impl;
     }
 

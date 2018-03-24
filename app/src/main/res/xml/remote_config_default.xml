@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap xmlns:android="http://schemas.android.com/apk/res/android">
     <entry>
-        <key>apiurl</key>
-        <value>http://twitterlistviewertest.herokuapp.com/</value>
+        <key>apiUrl</key>
+        <value>http://twitterlistviewer.herokuapp.com/</value>
+    </entry>
+    <entry>
+        <key>aboutWebViewUrl</key>
+        <value>http://twitterlistviewer.herokuapp.com/#/About</value>
     </entry>
 </defaultsMap>

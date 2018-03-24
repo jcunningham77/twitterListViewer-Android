@@ -3,10 +3,12 @@ package com.jeffcunningham.lv4t_android.di;
 import android.app.Application;
 
 import com.jeffcunningham.lv4t_android.BaseApplication;
+import com.jeffcunningham.lv4t_android.util.AppSettings;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
 import com.jeffcunningham.lv4t_android.util.ListsStorage;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
+import com.jeffcunningham.lv4t_android.util.Storage;
 
 import javax.inject.Singleton;
 
@@ -22,6 +24,8 @@ public interface ApplicationComponent {
     //seems like we need these available to use the @Inject at field level
     SharedPreferencesRepository sharedPreferencesRepository();
     Logger logger();
+
+    Storage<AppSettings> provideAppSettingsStorage();
 
     ImageLoader imageLoader();
 

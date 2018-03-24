@@ -14,7 +14,8 @@ public class Constants {
     public static final String AboutWebviewFragmentTag = "AboutWebviewFragment";
 
     //remote config tag for api
-    public static final String API_URL = "apiurl";
+    public static final String API_URL = "apiUrl";
+    public static final String ABOUT_WEBVIEW_URL = "aboutWebViewUrl";
 
 
 }

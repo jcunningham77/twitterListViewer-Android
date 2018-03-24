@@ -28,10 +28,12 @@ import com.jeffcunningham.lv4t_android.events.ViewListEvent;
 import com.jeffcunningham.lv4t_android.list.TwitterListFragment;
 import com.jeffcunningham.lv4t_android.lists.ListsFragment;
 import com.jeffcunningham.lv4t_android.login.LoginFragment;
+import com.jeffcunningham.lv4t_android.util.AppSettings;
 import com.jeffcunningham.lv4t_android.util.Constants;
 import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.RemoteConfigUtil;
 import com.jeffcunningham.lv4t_android.util.SharedPreferencesRepository;
+import com.jeffcunningham.lv4t_android.util.Storage;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterSession;
 
@@ -44,6 +46,9 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
+import static com.jeffcunningham.lv4t_android.util.Constants.ABOUT_WEBVIEW_URL;
+import static com.jeffcunningham.lv4t_android.util.Constants.API_URL;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -53,10 +58,12 @@ public class MainActivity extends AppCompatActivity {
     int color = Color.parseColor("#607D8B");
     private String selectedConfiguration;
 
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Inject
     RemoteConfigUtil remoteConfigUtil;
+
+    @Inject
+    Storage<AppSettings> appSettingsStorage;
 
     @Inject
     Logger logger;
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferencesRepository sharedPreferencesRepository;
 
+    /** Build dagger component */
     public MainComponent component() {
         if (component == null) {
             component = DaggerMainComponent.builder()
@@ -74,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         return component;
     }
 
+
+    /** Activity Lifecycle Method
+     * Inject dependencies
+     * Load Application Settings from Firebase Remote Config
+     * Call layout initializers depending on current orientation
+     * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,54 +95,32 @@ public class MainActivity extends AppCompatActivity {
 
         //dagger inject fields
         component().inject(this);
-        logger.info(TAG,"onCreate: ");
+        logger.info(TAG, "onCreate: ");
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-//        initializeRemoteConfig();
 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         selectedConfiguration = getString(R.string.selected_configuration);
 
-        mFirebaseRemoteConfig = remoteConfigUtil.initializeFirebaseRemoteConfig();
+        FirebaseRemoteConfig mFirebaseRemoteConfig = remoteConfigUtil.initializeFirebaseRemoteConfig();
+
+        AppSettings appSettings = new AppSettings();
+        appSettings.API_URL = mFirebaseRemoteConfig.getString(API_URL);
+        appSettings.ABOUT_WEBVIEW_URL = mFirebaseRemoteConfig.getString(ABOUT_WEBVIEW_URL);
+        appSettingsStorage.update(appSettings);
 
         logger.info(TAG, "onCreate: selectedConfiguration = " + selectedConfiguration);
 
-        if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)){
+        if (selectedConfiguration.equalsIgnoreCase(Constants.LAYOUT)) {
             initializeNormalLayout();
         } else {
             initializeLandscapeOrLargeLayout();
         }
 
     }
-
-//    private void initializeRemoteConfig(){
-//        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-//
-//        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-//                .setDeveloperModeEnabled(true)
-//                .build();
-//        firebaseRemoteConfig.setConfigSettings(configSettings);
-//
-////        firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
-//
-//        long cacheExpiration = 0; // 1 hour in seconds.
-//        firebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                logger.info(TAG, "onComplete: fetch completed");
-//            }
-//        });
-//        if(firebaseRemoteConfig.activateFetched()){
-//            logger.info(TAG, "initializeFirebaseRemoteConfig: activation successful");
-//            logger.info(TAG, "firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL) );
-//        } else {
-//            logger.info(TAG, "initializeFirebaseRemoteConfig: activation unsuccessful");
-//        }
-//
-//    }
 
 
     @Override
@@ -137,8 +129,12 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * Below block is Event Subscription Handling methods to load different fragments depending on posted events
+     *
+     * */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ShowSignOutSignInScreenEvent event){
+    public void onMessageEvent(ShowSignOutSignInScreenEvent event) {
         setContentView(R.layout.activity_login);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -148,23 +144,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ShowAboutWebViewFragmentLandscapeEvent event){
+    public void onMessageEvent(ShowAboutWebViewFragmentLandscapeEvent event) {
         logger.info(TAG, "onMessageEvent: ShowAboutWebViewFragmentLandscapeEvent");
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         AboutWebViewFragment aboutWebViewFragment = new AboutWebViewFragment();
-        ft.replace(R.id.twitter_list_fragment_container,aboutWebViewFragment,Constants.AboutWebviewFragmentTag);
+        ft.replace(R.id.twitter_list_fragment_container, aboutWebViewFragment, Constants.AboutWebviewFragmentTag);
         ft.commit();
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LoginSucccessEventFromLandscape event){
+    public void onMessageEvent(LoginSucccessEventFromLandscape event) {
         initializeLandscapeOrLargeLayout();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ViewListEvent event){
+    public void onMessageEvent(ViewListEvent event) {
         logger.info(TAG, "onMessageEvent: ViewListEvent, selectedConfiguration = " + selectedConfiguration);
         //its possible that, in landscape or large device orientation, the "About this app" webview will be shown
         //in the space usually occupied by the TwitterListFragment (i.e. activity_lists.twitter_list_fragment_container)
@@ -179,102 +175,19 @@ public class MainActivity extends AppCompatActivity {
                 logger.info(TAG, "onMessageEvent: ViewListEvent - twitterListFragment is null, instantiate a new one and add to it's container");
                 twitterListFragment = new TwitterListFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("slug",event.getSlug());
-                bundle.putString("listName",event.getListName());
+                bundle.putString("slug", event.getSlug());
+                bundle.putString("listName", event.getListName());
                 twitterListFragment.setArguments(bundle);
                 ft = fm.beginTransaction();
-                ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,Constants.TwitterListFragmentTag);
+                ft.replace(R.id.twitter_list_fragment_container, twitterListFragment, Constants.TwitterListFragmentTag);
                 ft.commit();
             }
         }
-
-        
     }
 
-    private void initializeLandscapeOrLargeLayout(){
-        logger.info(TAG, "initializeLandscapeOrLargeLayout: ");
-
-
-        session = Twitter.getSessionManager().getActiveSession();
-
-        if (session!=null){
-            setContentView(R.layout.activity_lists);
-            logger.info(TAG, "initializeLandscapeOrLargeLayout: session!=null - setContentView to activity_lists layout");
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag(Constants.ListsFragmentTag);
-
-            if(listsFragment==null){
-
-                listsFragment = new ListsFragment();
-            }
-            listsFragment.setRetainInstance(false);
-
-            if(!listsFragment.isAdded()) {
-                ft.replace(R.id.lists_fragment_container, listsFragment, Constants.ListsFragmentTag);
-                ft.commit();
-            } else {//this listFragment had been added already, probably to the "fragment_container" from the portrait layout
-                //so lets remove that fragment and re-add it - since it is changing containers
-                ft = fm.beginTransaction();
-                ft.remove(listsFragment);
-                ft.commit();
-                fm.executePendingTransactions();
-                ft = fm.beginTransaction();
-                ft.add(R.id.lists_fragment_container, listsFragment);
-                ft.commit();
-
-            }
-
-            TwitterListFragment twitterListFragment = new TwitterListFragment();
-            ft = fm.beginTransaction();
-            ft.replace(R.id.twitter_list_fragment_container,twitterListFragment,Constants.TwitterListFragmentTag);
-
-            ft.commit();
-        } else {
-            //show the login fragment
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            LoginFragment loginFragment = new LoginFragment();
-            ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
-            ft.commit();
-        }
 
 
 
-    }
-
-    private void initializeNormalLayout() {
-
-        initializeTabLayout();
-
-
-
-        //we have a default list set - load the TwitterListFragment
-        if (!StringUtils.isBlank(sharedPreferencesRepository.getDefaultListSlug())){
-
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            TwitterListFragment twitterListFragment = new TwitterListFragment();
-            ft.replace(R.id.fragment_container, twitterListFragment, Constants.TwitterListFragmentTag);
-            ft.commit();
-
-        } else if (session!=null){
-            logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
-
-            Crashlytics.setUserName(session.getUserName());
-            logger.info(TAG, "onCreate: forwarding direct to Lists page");
-
-            TabLayout.Tab tab = tabLayout.getTabAt(1);
-            tab.select();
-        } else {
-
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            LoginFragment loginFragment = new LoginFragment();
-            ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
-            ft.commit();
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -283,8 +196,7 @@ public class MainActivity extends AppCompatActivity {
         if (fm != null) {
             fm.findFragmentByTag(Constants.LoginFragmentTag).onActivityResult(requestCode, resultCode, data);
 
-        }
-        else logger.debug("Twitter", "fragment is null");
+        } else logger.debug("Twitter", "fragment is null");
     }
 
     TabLayout.OnTabSelectedListener listener = new TabLayout.OnTabSelectedListener() {
@@ -297,19 +209,19 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction ft = fm.beginTransaction();
 
             tabLayout.setSelectedTabIndicatorColor(color);
-            switch (tab.getPosition()){
+            switch (tab.getPosition()) {
                 case 0:
                     LoginFragment loginFragment = new LoginFragment();
                     ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
                     ft.commit();
                     break;
                 case 1:
-                    if (Twitter.getSessionManager().getActiveSession()!=null) {
+                    if (Twitter.getSessionManager().getActiveSession() != null) {
                         ListsFragment listsFragment = new ListsFragment();
                         ft.replace(R.id.fragment_container, listsFragment, Constants.ListsFragmentTag);
                         ft.commit();
                     } else {
-                        Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.pleaseLoginMessage, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case 2:
@@ -336,19 +248,19 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             tabLayout.setSelectedTabIndicatorColor(color);
-            switch (tab.getPosition()){
+            switch (tab.getPosition()) {
                 case 0:
                     LoginFragment loginFragment = new LoginFragment();
                     ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
                     ft.commit();
                     break;
                 case 1:
-                    if (Twitter.getSessionManager().getActiveSession()!=null) {
+                    if (Twitter.getSessionManager().getActiveSession() != null) {
                         ListsFragment listsFragment = new ListsFragment();
                         ft.replace(R.id.fragment_container, listsFragment, Constants.ListsFragmentTag);
                         ft.commit();
                     } else {
-                        Toast.makeText(getApplicationContext(),R.string.pleaseLoginMessage,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.pleaseLoginMessage, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case 2:
@@ -363,8 +275,89 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private void initializeLandscapeOrLargeLayout() {
+        logger.info(TAG, "initializeLandscapeOrLargeLayout: ");
 
-    private void initializeTabLayout(){
+
+        session = Twitter.getSessionManager().getActiveSession();
+
+        if (session != null) {
+            setContentView(R.layout.activity_lists);
+            logger.info(TAG, "initializeLandscapeOrLargeLayout: session!=null - setContentView to activity_lists layout");
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ListsFragment listsFragment = (ListsFragment) fm.findFragmentByTag(Constants.ListsFragmentTag);
+
+            if (listsFragment == null) {
+
+                listsFragment = new ListsFragment();
+            }
+            listsFragment.setRetainInstance(false);
+
+            if (!listsFragment.isAdded()) {
+                ft.replace(R.id.lists_fragment_container, listsFragment, Constants.ListsFragmentTag);
+                ft.commit();
+            } else {//this listFragment had been added already, probably to the "fragment_container" from the portrait layout
+                //so lets remove that fragment and re-add it - since it is changing containers
+                ft = fm.beginTransaction();
+                ft.remove(listsFragment);
+                ft.commit();
+                fm.executePendingTransactions();
+                ft = fm.beginTransaction();
+                ft.add(R.id.lists_fragment_container, listsFragment);
+                ft.commit();
+
+            }
+
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+            ft = fm.beginTransaction();
+            ft.replace(R.id.twitter_list_fragment_container, twitterListFragment, Constants.TwitterListFragmentTag);
+
+            ft.commit();
+        } else {
+            //show the login fragment
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            LoginFragment loginFragment = new LoginFragment();
+            ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
+            ft.commit();
+        }
+
+
+    }
+
+    private void initializeNormalLayout() {
+
+        initializeTabLayout();
+
+        //we have a default list set - load the TwitterListFragment
+        if (!StringUtils.isBlank(sharedPreferencesRepository.getDefaultListSlug())) {
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            TwitterListFragment twitterListFragment = new TwitterListFragment();
+            ft.replace(R.id.fragment_container, twitterListFragment, Constants.TwitterListFragmentTag);
+            ft.commit();
+
+        } else if (session != null) {
+            logger.info(TAG, "onCreate: TwitterSession is not null - there is an active session open for " + session.getUserName());
+
+            Crashlytics.setUserName(session.getUserName());
+            logger.info(TAG, "onCreate: forwarding direct to Lists page");
+
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            tab.select();
+        } else {
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            LoginFragment loginFragment = new LoginFragment();
+            ft.replace(R.id.fragment_container, loginFragment, Constants.LoginFragmentTag);
+            ft.commit();
+        }
+    }
+
+    private void initializeTabLayout() {
 
         Drawable accountDrawable = ContextCompat.getDrawable(this, R.drawable.ic_account_box_white_24dp);
         Drawable listsDrawable = ContextCompat.getDrawable(this, R.drawable.ic_toc_white_24dp);
@@ -377,8 +370,8 @@ public class MainActivity extends AppCompatActivity {
         DrawableCompat.setTint(listsDrawable, color);
         DrawableCompat.setTint(aboutDrawable, color);
 
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        if (session!=null){
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        if (session != null) {
             tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLogout).setIcon(R.drawable.ic_account_box_white_24dp));
         } else {
             tabLayout.addTab(tabLayout.newTab().setText(R.string.tabLogout).setIcon(R.drawable.ic_account_box_white_24dp));
@@ -396,7 +389,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setSelectedTabIndicatorColor(Color.TRANSPARENT);
 
     }
-
 
 
 }
