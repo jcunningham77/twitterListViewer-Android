@@ -1,9 +1,14 @@
 package com.jeffcunningham.lv4t_android.restapi;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.jeffcunningham.lv4t_android.BuildConfig;
 import com.jeffcunningham.lv4t_android.R;
+import com.jeffcunningham.lv4t_android.util.Logger;
+import com.jeffcunningham.lv4t_android.util.LoggerImpl;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,9 +31,11 @@ public class APIManager {
     private static final int TIMEOUT_CONNECT = 1000;
     private static final int TIMEOUT_READ = 1000;
     private static final ConnectionPool CONNECTION_POOL = new ConnectionPool();
-    private static FirebaseRemoteConfig firebaseRemoteConfig;
+    
+    private static Logger logger = new LoggerImpl();
 
 
+    private static final String TAG = "APIManager";
 
 
     static {
@@ -47,14 +54,24 @@ public class APIManager {
 
 
         //todo - use the builder - figure out how to use that from a static context, or another solution
-        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        final FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .setDeveloperModeEnabled(true)
                 .build();
         firebaseRemoteConfig.setConfigSettings(configSettings);
         firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
-        long cacheExpiration = 60; // 1 hour in seconds.
-        firebaseRemoteConfig.fetch(cacheExpiration);
+        long cacheExpiration = 0; // 1 hour in seconds.
+        firebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                logger.info(TAG, "onComplete: fetch completed");
+            }
+        });
+        if (firebaseRemoteConfig.activateFetched()){
+            logger.info(TAG,"success activated fetched config, firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL));
+        } else {
+            logger.info(TAG,"failed activated fetched config");
+        }
 
 
         retrofit = new Retrofit.Builder()

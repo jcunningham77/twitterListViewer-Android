@@ -2,6 +2,6 @@
 <defaultsMap xmlns:android="http://schemas.android.com/apk/res/android">
     <entry>
         <key>apiurl</key>
-        <value>http://twitterlistviewer.herokuapp.com/</value>
+        <value>http://twitterlistviewertest.herokuapp.com/</value>
     </entry>
 </defaultsMap>

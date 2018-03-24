@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
+//        initializeRemoteConfig();
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -101,6 +103,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+//    private void initializeRemoteConfig(){
+//        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+//
+//        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+//                .setDeveloperModeEnabled(true)
+//                .build();
+//        firebaseRemoteConfig.setConfigSettings(configSettings);
+//
+////        firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
+//
+//        long cacheExpiration = 0; // 1 hour in seconds.
+//        firebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                logger.info(TAG, "onComplete: fetch completed");
+//            }
+//        });
+//        if(firebaseRemoteConfig.activateFetched()){
+//            logger.info(TAG, "initializeFirebaseRemoteConfig: activation successful");
+//            logger.info(TAG, "firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL) );
+//        } else {
+//            logger.info(TAG, "initializeFirebaseRemoteConfig: activation unsuccessful");
+//        }
+//
+//    }
 
 
     @Override

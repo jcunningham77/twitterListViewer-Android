@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.jeffcunningham.lv4t_android.MainActivity;
 import com.jeffcunningham.lv4t_android.R;
+import com.jeffcunningham.lv4t_android.util.Logger;
 import com.jeffcunningham.lv4t_android.util.RemoteConfigUtil;
 
 import javax.inject.Inject;
@@ -30,6 +31,10 @@ public class AboutWebViewFragment extends Fragment {
     @Inject
     RemoteConfigUtil remoteConfigUtil;
 
+    @Inject
+    Logger logger;
+
+    private static final String TAG = "AboutWebViewFragment";
 
 
     @Override
@@ -50,6 +55,7 @@ public class AboutWebViewFragment extends Fragment {
         firebaseRemoteConfig = remoteConfigUtil.initializeFirebaseRemoteConfig();
 
 
+        logger.info(TAG, "onCreateView: firebaseRemoteConfig.getString(API_URL) = " + firebaseRemoteConfig.getString(API_URL) );
         mWebView.loadUrl(firebaseRemoteConfig.getString(API_URL)+"#/About");
 
 
