@@ -50,9 +50,9 @@ public class ListsPresenterImpl implements ListsPresenter {
     private Logger logger;
     private ListsStorage listsStorage;
     private OkHttpClient client;
+    private APIManager apiManager;
 
     //these dependencies are not injected by Dagger
-    private APIManager apiManager;
     private TwitterSession twitterSession;
     Call<List<TwitterList>> listMembership;
     Call<List<User>> userLookup;
@@ -62,12 +62,13 @@ public class ListsPresenterImpl implements ListsPresenter {
 
 
     @Inject
-    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository, Logger logger, ListsStorage listsStorage, OkHttpClient client) {
+    public ListsPresenterImpl(SharedPreferencesRepository sharedPreferencesRepository, Logger logger, ListsStorage listsStorage, OkHttpClient client, APIManager apiManager) {
 
         this.sharedPreferencesRepository = sharedPreferencesRepository;
         this.logger = logger;
         this.listsStorage = listsStorage;
         this.client = client;
+        this.apiManager = apiManager;
     }
 
     @Override

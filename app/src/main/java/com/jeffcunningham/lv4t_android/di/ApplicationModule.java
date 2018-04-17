@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jeffcunningham.lv4t_android.di.annotations.ApplicationContext;
+import com.jeffcunningham.lv4t_android.restapi.APIManager;
 import com.jeffcunningham.lv4t_android.util.AppSettings;
 import com.jeffcunningham.lv4t_android.util.AppSettingsStorage;
 import com.jeffcunningham.lv4t_android.util.ImageLoader;
@@ -67,6 +68,10 @@ public class ApplicationModule {
     Storage<AppSettings> provideAppSettingsStorage(AppSettingsStorage impl){
         return impl;
     }
+
+    @Provides
+    @Singleton
+    APIManager provideAPIManager(APIManager impl){ return impl;}
 
 
     @Provides
